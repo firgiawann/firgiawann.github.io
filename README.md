@@ -1,4 +1,4 @@
-<img src="avatar.png" width="120" height="120" align="left">
+<img src="https://raw.githubusercontent.com/firgiawann/firgiawann/main/avatar.png" width="120" height="120" align="left">
 <center>
 <a href="https://Instagram.com/firgiawan.id"><img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="alt text" width="20" height="20"></a> 
 <a href="https://wa.me/6285173118500?text=Asalamualaikum+bang"><img src="https://github.com/Yayan-XD/Yayan-XD/blob/master/img/whatsapp.png" alt="alt text" width="20" height="20"></a>
