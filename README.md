@@ -1,14 +1,15 @@
 <img src="https://raw.githubusercontent.com/firgiawann/firgiawann/main/avatar.png" width="120" height="120" align="left">
 <center>
-<a href="https://Instagram.com/firgiawan.id"><img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="alt text" width="20" height="20"></a> 
-<a href="https://wa.me/6285173118500?text=Asalamualaikum+bang"><img src="https://github.com/Yayan-XD/Yayan-XD/blob/master/img/whatsapp.png" alt="alt text" width="20" height="20"></a>
-<a href="https://www.facebook.com/firgi.awan.927758"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="alt text" width="20" height="20"></a>
+<a href="https://Instagram.com/firgiawan.id"><img src="Instagram.svg" alt="alt text" width="20" height="20"></a> 
+<a href="https://wa.me/6285173118500?text=Asalamualaikum+bang"><img src="whatsapp.png" alt="alt text" width="20" height="20"></a>
+<a href="https://www.facebook.com/firgi.awan.927758"><img src="Facebook.svg" alt="alt text" width="20" height="20"></a>
 &nbsp;&nbsp;     &nbsp;&nbsp;    &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;
 
 ___
 _Nothing is impossible to do_
 ___
 
+<br></br>
 </p>
 <p align="center"><img src="https://profile-counter.glitch.me/{firgiawann}/count.svg" alt="dr4xen :: Visitor's Count" /></p>
 
