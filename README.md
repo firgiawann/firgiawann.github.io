@@ -5,12 +5,10 @@
 <a href="https://www.facebook.com/firgi.awan.927758"><img src="Facebook.svg" alt="alt text" width="20" height="20"></a>
 &nbsp;&nbsp;     &nbsp;&nbsp;    &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;
 
-___
 _Nothing is impossible to do_
-___
 
 &nbsp;&nbsp;     &nbsp;&nbsp;    &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;
-</p>
+
 <p align="center"><img src="https://profile-counter.glitch.me/{firgiawann}/count.svg" alt="dr4xen :: Visitor's Count" /></p>
 
 <a href="https://github-readme-stats.vercel.app/api?username=firgiawann&show_icons=true&theme=dark"><img title="Github Stats" src="https://github-readme-stats.vercel.app/api?username=firgiawann&show_icons=true&theme=dark"></a>
