@@ -12,8 +12,7 @@ ___
 </p>
 <p align="center"><img src="https://profile-counter.glitch.me/{firgiawann}/count.svg" alt="dr4xen :: Visitor's Count" /></p>
 
-![github stats](https://github-readme-stats.vercel.app/api?username=firgiawann&show_icons=true&theme=dark)
-
+<a href="https://github-readme-stats.vercel.app/api?username=firgiawann&show_icons=true&theme=dark"><img title="Github Stats" src="https://github-readme-stats.vercel.app/api?username=firgiawann&show_icons=true&theme=dark"></a>
 <a href="https://github.com/firgiawann/firgiawann.github.io"><img title="My Website Github *(In Development)" src="https://github-readme-stats.vercel.app/api/pin/?username=firgiawann&repo=firgiawann.github.io&theme=dark"></a>
 <a href="https://github.com/firgiawann/xyz"><img title="xyz" src="https://github-readme-stats.vercel.app/api/pin/?username=firgiawann&repo=xyz&theme=dark"></a>
 <a href="https://github.com/firgiawann/firgiawann"><img title="firgiawann" src="https://github-readme-stats.vercel.app/api/pin/?username=firgiawann&repo=firgiawann&theme=dark"></a>
