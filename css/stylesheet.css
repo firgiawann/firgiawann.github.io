@@ -3,7 +3,7 @@ body {
 }
 
 .background {
-  position: fixed; /* Atau absolute jika ingin background mengikuti scrolling */
+  position: absolute; /* Atau absolute jika ingin background mengikuti scrolling */
   top: 0;
   left: 0;
   width: 100%;
