@@ -119,6 +119,7 @@ body {
     animation-delay: 10s;
 }
 .elemen {
-    width: auto;
-    height: auto;
+    width: 200px;
+    height: 100px;
+    margin: 0 auto;
 }
