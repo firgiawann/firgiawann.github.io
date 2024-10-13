@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Pribadi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* INLINE CSS */
         body {
@@ -61,8 +65,12 @@
             height: 140px;
             border-radius: 50%;
             margin: 20px auto;
-            border: 3px solid #fff;
+            border: 2px solid #92e2f8d4;
             animation: zoomIn 1.5s ease-in-out;
+        }
+        .profile-pic:hover {
+           transform: scale(1.1);
+           box-shadow: 0 0 20px #1adddfca;
         }
 
         @keyframes zoomIn {
@@ -89,14 +97,22 @@
         .social-icons a {
             text-decoration: none;
             color: white;
-            margin: 0 10px;
+            margin: 0 5px;
             font-size: 1.5em;
             transition: transform 0.3s, color 0.3s;
+            display: inline-block; 
+            width: 15px;
+            height: 15px;
+            line-height: 40px; /* Pusatkan ikon secara vertikal */
+            border-radius: 50%; 
+            text-align: center;
         }
 
         .social-icons a:hover {
-            color: #f39c12;
-            transform: scale(1.2);
+            color: #44e2dd;
+            transform: scale(1.2)
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
         }
 
         footer {
@@ -109,19 +125,24 @@
 
 <body>
     <div class="container">
-        <img class="profile-pic" src="https://raw.githubusercontent.com/firgiawann/firgiawann/main/avatar.png" alt="Foto Profil">
+        <img class="profile-pic" src="https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png" alt="Foto Profil">
         <h1>Firgi awan</h1>
         <p class="bio">Mahasiswa Teknik Informatika yang menyukai pengembangan web, teknologi, dan tantangan baru.</p>
-        <p class="bio">Minat: Back-End Development, Mendengarkan Musik, dan Membaca Novel.</p>
+        <p class="bio">Minat: Back-End Development, Mendengarkan musik, dan Membaca Novel.</p>
 
         <div class="social-icons">
-            <a href="https://instagram.com/firgiawan.id" target="_blank">Instagram</a>
-            <a href="https://linkedin.com/in/firgiawann" target="_blank">LinkedIn</a>
-            <a href="https://github.com/firgiawann" target="_blank">GitHub</a>
+            <a href="https://www.facebook.com/firgi.awan.927758" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com/firgiawan.id" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/6285173118500?=Hai" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://x.com/iiniawann" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://discordapp.com/users/716959396755931166" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://linkedin.com/in/firgiawann" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/firgiawann" target="_blank"><i class="fab fa-github"></i></a>
         </div>
 
+
         <footer>
-            <p>&copy; ©2024 Firgi awan. All Rights Reserved.</p>
+            <p>&copy; 2024 Nama Kamu. All Rights Reserved.</p>
         </footer>
     </div>
 </body>
