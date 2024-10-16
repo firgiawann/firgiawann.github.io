@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Konversi Bilangan</title>
+</head>
+<body>
+  <h1>Konversi Bilangan</h1>
+  <div>
+    <label for="dari">Dari:</label>
+    <select id="dari">
+      <option value="desimal">Desimal</option>
+      <option value="biner">Biner</option>
+      <option value="oktal">Oktal</option>
+      <option value="heksadesimal">Heksadesimal</option>
+    </select>
+  </div>
+  <div>
+    <label for="ke">Ke:</label>
+    <select id="ke">
+      <option value="desimal">Desimal</option>
+      <option value="biner">Biner</option>
+      <option value="oktal">Oktal</option>
+      <option value="heksadesimal">Heksadesimal</option>
+    </select>
+  </div>
+  <div>
+    <label for="input">Input:</label>
+    <input type="text" id="input">
+  </div>
+  <button onclick="konversiBilangan()">Konversi</button>
+  <div>
+    <h2>Output:</h2>
+    <p id="output"></p>
+  </div>
+  <div>
+    <h2>Penyelesaian:</h2>
+    <p id="penyelesaian"></p>
+  </div>
+  <script src="script.js"></script> </body>
+</html>
