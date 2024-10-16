@@ -4,6 +4,7 @@ body {
   /*background: linear-gradient(135deg, #c4a1d3, #3498db);*/
   background: linear-gradient(to top left, #b744ef, #3e97f7);
   background-size: 500% 100%;
+  animation: gradient 15s ease infinite;
   font-family: 'Poppins', sans-serif;
   color: #fff;
   display: flex;
