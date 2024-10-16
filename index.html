@@ -14,7 +14,8 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #8e44ad, #3498db);
+            background: linear-gradient(to top left, #8e44ad, #3498db);
+            background-size: 500% 100%;
             font-family: 'Poppins', sans-serif;
             color: #fff;
             display: flex;
@@ -22,6 +23,17 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+        }
+        @keyframes gradient {
+            0% {
+              background-position: 0% 50%;
+               }
+            50% {
+              background-position: 100% 50%;
+               }
+            100% {
+              background-position: 0% 50%;
+               }
         }
 
         .container {
