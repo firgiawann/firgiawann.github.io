@@ -83,17 +83,22 @@
         }
 
         .payment-methods {
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .payment-methods img {
-            width: 50px;
+            width: 250px;
             margin: 10px;
             transition: transform 0.3s ease;
         }
         /* Add scaling animation to payment icons */
         .payment-methods img:hover {
             transform: scale(1.2);
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.8em;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -103,6 +108,11 @@
     <h1>Paket Kuota Akrab XL Official</h1>
     <p>Masa aktif 30 hari, Garansi terjamin aman 100%</p>
 
+    <div class="package" onclick="openWhatsApp('MINI')">
+        <h2>MINI 59GB</h2>
+        <p>Rp65.000,-</p>
+    </div>
+    
     <div class="package" onclick="openWhatsApp('BIG')">
         <h2>BIG 73GB</h2>
         <p>Rp70.000,-</p>
@@ -121,22 +131,21 @@
     <div class="contact-info">
         <p>Contact Person: <br>Kota Makassar, Sulawesi Selatan<br> WhatsApp: +62 851-7311-8500</p>
     </div>
-
+    
     <div class="payment-methods">
-        <p>Menerima pembayaran melalui:</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/DANA_logo.png" alt="DANA">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/OVO_Logo.png" alt="OVO">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Gopay-logo.png" alt="GoPay">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Shopee_logo.png" alt="Shopee Pay">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Seabank_logo.png" alt="SeaBank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/QRIS.png" alt="QRIS">
+        <img src="Payment.png" alt="Payment">
     </div>
+     <footer>
+        <p>&copy; 2024 Firgi awan. All Rights Reserved.</p>
+     </footer>
 </div>
 
 <script>
     function openWhatsApp(packageType) {
         let message = '';
-        if (packageType === 'BIG') {
+        if (packageType === 'MINI') {
+            message = 'Halo, saya ingin membeli paket MINI 59GB seharga Rp65.000,-';
+        } else if (packageType === 'BIG') {
             message = 'Halo, saya ingin membeli paket BIG 73GB seharga Rp70.000,-';
         } else if (packageType === 'SUPER') {
             message = 'Halo, saya ingin membeli paket SUPER 90GB seharga Rp75.000,-';
@@ -144,11 +153,11 @@
             message = 'Halo, saya ingin membeli paket JUMBO 123GB seharga Rp100.000,-';
         }
 
-        const phoneNumber = '+6285173118500';
+        const phoneNumber = '6285173118500';
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     }
 </script>
 
 </body>
-  </html>
+</html>
