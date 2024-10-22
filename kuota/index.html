@@ -81,7 +81,46 @@
             margin-top: 30px;
             color: #555;
         }
-
+   /* WhatsApp Button Style */
+        .whatsapp-button {
+            display: inline-block;
+            background-color: #25D366;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+       }
+    
+        .whatsapp-button:hover {
+            background-color: #22b859;
+        }        
+   /* Instagram Button Style */
+        .instagram-button {
+            display: inline-block;
+            background-color: #E4405F; /* Instagram pink color */
+            color: #fff;
+            padding: 8px 15px; /* Small padding for compact size */
+            border-radius: 20px; /* Rounded button */
+            font-size: 14px; /* Small text size */
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slight shadow */
+        }
+    
+        .instagram-button:hover {
+            background-color: #D83654; /* Darker pink on hover */
+        }
+    
+       .instagram-button img {
+            width: 16px; /* Small Instagram icon */
+            vertical-align: middle;
+            margin-left: 8px;
+        }
         .payment-methods {
             margin-top: 10px;
         }
@@ -95,12 +134,6 @@
         .payment-methods img:hover {
             transform: scale(1.2);
         }
-        footer {
-            margin-top: 30px;
-            font-size: 0.8em;
-            opacity: 0.7;
-        }
-        /* Style untuk tombol */
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -116,6 +149,11 @@
 
         .button:hover {
             background-color: #45a049; /* Warna hijau yang lebih gelap saat dihover */
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.8em;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -145,14 +183,22 @@
         <p>Rp100.000,-</p>
     </div>
 
-    <div class="contact-info">
-        <p>Contact Person: <br>Kota Makassar, Sulawesi Selatan<br> WhatsApp: +62 851-7311-8500</p>
-    </div>
     
     <div class="payment-methods">
         <img src="Payment.png" alt="Payment">
     </div>
+    <div class="contact-info">
+    <p>Contact Person: <br>Jl. Mamoa VB No.19, Mangasa</p>
+    <!-- WhatsApp Chat Button -->
+    <a href="https://wa.me/6285173118500" target="_blank" class="whatsapp-button">
+        START CHAT <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; vertical-align: middle; margin-left: 10px;">
+          <!-- Instagram Chat Button -->
+    <a href="https://instagram.com/firgiawan.id" target="_blank" class="instagram-button">
+        INSTAGRAM <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width: 20px; vertical-align: middle; margin-left: 10px;">
+    </a></br>
     <a href="https://firgiawann.github.io" class="button">About Me</a>
+    </a>
+</div>
      <footer>
         <p>&copy; 2024 Firgi awan. All Rights Reserved.</p>
      </footer>
