@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Kuota Akrab XL</title>
+    <style>
+        /* Adding the moving gradient background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            background-size: 300% 300%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        /* Gradient animation */
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 450px;
+            margin: 20px;
+        }
+        h1 {
+            color: #0f5a93;
+            font-size: 24px;
+        }
+        p {
+            color: #555;
+        }
+        .package {
+            background-color: #f7f9fc;
+            color: #333;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        /* Animating the hover effect with scaling and shadow */
+        .package:hover {
+            background-color: #dff0ff;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .package h2 {
+            margin: 0;
+            color: #0f5a93;
+            font-size: 20px;
+        }
+
+        .package p {
+            margin: 10px 0 0 0;
+            font-weight: bold;
+            color: #0f5a93;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            color: #555;
+        }
+
+        .payment-methods {
+            margin-top: 20px;
+        }
+
+        .payment-methods img {
+            width: 50px;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        /* Add scaling animation to payment icons */
+        .payment-methods img:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Paket Kuota Akrab XL Official</h1>
+    <p>Masa aktif 30 hari, Garansi terjamin aman 100%</p>
+
+    <div class="package" onclick="openWhatsApp('BIG')">
+        <h2>BIG 73GB</h2>
+        <p>Rp70.000,-</p>
+    </div>
+
+    <div class="package" onclick="openWhatsApp('SUPER')">
+        <h2>SUPER 90GB</h2>
+        <p>Rp75.000,-</p>
+    </div>
+
+    <div class="package" onclick="openWhatsApp('JUMBO')">
+        <h2>JUMBO 123GB</h2>
+        <p>Rp100.000,-</p>
+    </div>
+
+    <div class="contact-info">
+        <p>Contact Person: <br>Jl. Mamoa VB No.19, Mangasa<br> WhatsApp: +62 851-7311-8500</p>
+    </div>
+
+    <div class="payment-methods">
+        <p>Menerima pembayaran melalui:</p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/DANA_logo.png" alt="DANA">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/OVO_Logo.png" alt="OVO">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Gopay-logo.png" alt="GoPay">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Shopee_logo.png" alt="Shopee Pay">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Seabank_logo.png" alt="SeaBank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/QRIS.png" alt="QRIS">
+    </div>
+</div>
+
+<script>
+    function openWhatsApp(packageType) {
+        let message = '';
+        if (packageType === 'BIG') {
+            message = 'Halo, saya ingin membeli paket BIG 73GB seharga Rp70.000,-';
+        } else if (packageType === 'SUPER') {
+            message = 'Halo, saya ingin membeli paket SUPER 90GB seharga Rp75.000,-';
+        } else if (packageType === 'JUMBO') {
+            message = 'Halo, saya ingin membeli paket JUMBO 123GB seharga Rp100.000,-';
+        }
+
+        const phoneNumber = '+6285173118500';
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
+
+</body>
+  </html>
