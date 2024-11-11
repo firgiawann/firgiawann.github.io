@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paket Kuota Akrab XL</title>
-    <style>
-        /* Adding the moving gradient background */
+    <style>        /* Adding the moving gradient background */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -81,7 +80,7 @@
             margin-top: 30px;
             color: #555;
         }
-   /* WhatsApp Button Style */
+        /* WhatsApp Button Style */
         .whatsapp-button {
             display: inline-block;
             background-color: #25D366;
@@ -98,8 +97,8 @@
         .whatsapp-button:hover {
             background-color: #22b859;
         }        
-   /* Instagram Button Style */
-        .instagram-button {
+       /* Instagram Button Style */
+       .instagram-button {
             display: inline-block;
             background-color: #E4405F; /* Instagram pink color */
             color: #fff;
@@ -155,6 +154,29 @@
             font-size: 0.8em;
             opacity: 0.7;
         }
+
+        .expandable {
+            display: none;
+            padding: 10px;
+            background-color: #f0f8ff;
+            color: #333;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .button-buy {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .button-buy:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -163,27 +185,65 @@
     <h1>Paket Kuota Akrab XL Official</h1>
     <p>Masa aktif 30 hari, Garansi terjamin aman 100%</p>
 
-    <div class="package" onclick="openWhatsApp('MINI')">
-        <h2>MINI 59GB</h2>
-        <p>Rp65.000,-</p>
-    </div>
-    
-    <div class="package" onclick="openWhatsApp('BIG')">
+    <div class="package" onclick="toggleDetails('big-details')">
         <h2>BIG 73GB</h2>
         <p>Rp70.000,-</p>
+        <div id="big-details" class="expandable">
+            <p><strong>Nama Kuota:</strong> AKRAB BIG </p>
+            <p><strong>Detail Kuota:</strong></p>
+            <li>Area 1 = 33GB</li>
+            <li>Area 2 = 35GB</li>
+            <li>Area 3 = 47GB</li>
+            <li>Area 4 = 73GB</li>
+            <p></p>
+            <button class="button-buy" onclick="openWhatsApp('BIG)">Beli</button>
+        </div>
     </div>
-
-    <div class="package" onclick="openWhatsApp('SUPER')">
-        <h2>SUPER 90GB</h2>
-        <p>Rp75.000,-</p>
-    </div>
-
-    <div class="package" onclick="openWhatsApp('JUMBO')">
-        <h2>JUMBO 123GB</h2>
-        <p>Rp100.000,-</p>
-    </div>
-
     
+    <div class="package" onclick="toggleDetails('super-details')">
+        <h2>SUPER 90GB</h2>
+        <p>Rp70.000,-</p>
+        <div id="super-details" class="expandable">
+            <p><strong>Nama Kuota:</strong> AKRAB SUPER </p>
+            <p><strong>Detail Kuota:</strong></p>
+            <li>Area 1 = 32GB</li>
+            <li>Area 2 = 37GB</li>
+            <li>Area 3 = 50GB</li>
+            <li>Area 4 = 90GB</li>
+            <p></p>
+            <button class="button-buy" onclick="openWhatsApp('SUPER')">Beli</button>
+        </div>
+    </div>
+
+    <div class="package" onclick="toggleDetails('plus-details')">
+        <h2>PLUS 100GB</h2>
+        <p>Rp75.000,-</p>
+        <div id="plus-details" class="expandable">
+            <p><strong>Nama Kuota:</strong> AKRAB PLUS </p>
+            <p><strong>Detail Kuota:</strong></p>
+            <li>Area 1 = 33GB - 35GB</li>
+            <li>Area 2 = 39GB - 42GB</li>
+            <li>Area 3 = 55GB - 60GB</li>
+            <li>Area 4 = 100GB - 1006GB</li>
+            <p></p>
+            <button class="button-buy" onclick="openWhatsApp('PLUS')">Beli</button>
+        </div>
+    </div>
+
+    <div class="package" onclick="toggleDetails('jumbo-details')">
+        <h2>JUMBO 123GB</h2>
+        <p>Rp90.000,-</p>
+        <div id="jumbo-details" class="expandable">
+            <p><strong>Nama Kuota:</strong> AKRAB JUMBO </p>
+            <p><strong>Detail Kuota:</strong></p>
+            <li>Area 1 = 65GB</li>
+            <li>Area 2 = 70GB</li>
+            <li>Area 3 = 83GB</li>
+            <li>Area 4 = 123GB</li>
+            <p></p>
+            <button class="button-buy" onclick="openWhatsApp('JUMBO')">Beli</button>
+        </div>
+    </div>
     <div class="payment-methods">
         <img src="Payment.png" alt="Payment">
     </div>
@@ -206,20 +266,34 @@
 
 <script>
     function openWhatsApp(packageType) {
+        event.stopPropagation(); // Prevent click event from toggling details
         let message = '';
-        if (packageType === 'MINI') {
-            message = 'Halo, saya ingin membeli paket MINI 59GB seharga Rp65.000,-';
-        } else if (packageType === 'BIG') {
-            message = 'Halo, saya ingin membeli paket BIG 73GB seharga Rp70.000,-';
+        if (packageType === 'BIG') {
+            message = 'Halo, saya ingin membeli paket AKRAB BIG seharga Rp70.000,-';
         } else if (packageType === 'SUPER') {
-            message = 'Halo, saya ingin membeli paket SUPER 90GB seharga Rp75.000,-';
+            message = 'Halo, saya ingin membeli paket AKRAB SUPER seharga Rp70.000,-';
+        } else if (packageType === 'SUPER') {
+            message = 'Halo, saya ingin membeli paket SUPER seharga Rp75.000,-';
         } else if (packageType === 'JUMBO') {
-            message = 'Halo, saya ingin membeli paket JUMBO 123GB seharga Rp100.000,-';
+            message = 'Halo, saya ingin membeli paket JUMBO 123GB seharga Rp90.000,-';
         }
 
         const phoneNumber = '6285173118500';
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
+    }
+
+    function toggleDetails(id) {
+        const details = document.getElementById(id);
+        const isVisible = details.style.display === 'block';
+        
+        // Close all open details
+        document.querySelectorAll('.expandable').forEach(element => {
+            element.style.display = 'none';
+        });
+        
+        // Toggle the clicked one
+        details.style.display = isVisible ? 'none' : 'block';
     }
 </script>
 
