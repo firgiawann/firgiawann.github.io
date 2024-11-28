@@ -184,19 +184,34 @@
 <div class="container">
     <h1>Paket Kuota Akrab XL Official</h1>
     <p>Masa aktif 30 hari, Garansi terjamin aman 100%</p>
-
+    
     <div class="package" onclick="toggleDetails('mini-details')">
-        <h2>MINI 59GB</h2>
-        <p>Rp65.000,-</p>
+        <h2>MINI 54GB</h2>
+        <p>Rp55.000,-</p>
         <div id="mini-details" class="expandable">
-            <p><strong>Nama Kuota:</strong> AKRAB MINI </p>
+            <p><strong>Nama Kuota:</strong> AKRAB MINI+ </p>
             <p><strong>Detail Kuota:</strong></p>
-            <li>Area 1 = 21.5GB</li>
-            <li>Area 2 = 24.5GB</li>
-            <li>Area 3 = 35GB</li>
-            <li>Area 4 = 59GB</li>
+            <li>Area 1 = 14.5 - 16.5GB</li>
+            <li>Area 2 = 17.5 - 19.5GB</li>
+            <li>Area 3 = 28 - 30GB</li>
+            <li>Area 4 = 52 - 54GB</li>
             <p></p>
             <button class="button-buy" onclick="openWhatsApp('MINI')">Beli</button>
+        </div>
+    </div>
+    
+    <div class="package" onclick="toggleDetails('mini1-details')">
+        <h2>MINI+ 70GB</h2>
+        <p>Rp70.000,-</p>
+        <div id="mini1-details" class="expandable">
+            <p><strong>Nama Kuota:</strong> AKRAB MINI+ </p>
+            <p><strong>Detail Kuota:</strong></p>
+            <li>Area 1 = 30 - 32.5GB</li>
+            <li>Area 2 = 33 - 35.5GB</li>
+            <li>Area 3 = 44 - 46GB</li>
+            <li>Area 4 = 68 - 70GB</li>
+            <p></p>
+            <button class="button-buy" onclick="openWhatsApp('MINI1')">Beli</button>
         </div>
     </div>
     
@@ -215,6 +230,21 @@
         </div>
     </div>
     
+    <div class="package" onclick="toggleDetails('super-details')">
+        <h2>SUPER 85GB</h2>
+        <p>Rp75.000,-</p>
+        <div id="super-details" class="expandable">
+            <p><strong>Nama Kuota:</strong> AKRAB SUPER </p>
+            <p><strong>Detail Kuota:</strong></p>
+            <li>Area 1 = 25 - 27GB</li>
+            <li>Area 2 = 30 - 32GB</li>
+            <li>Area 3 = 45 - 55GB</li>
+            <li>Area 4 = 83 - 85GB</li>
+            <p></p>
+            <button class="button-buy" onclick="openWhatsApp('SUPER')">Beli</button>
+        </div>
+    </div>
+
     <div class="package" onclick="toggleDetails('jumbo-details')">
         <h2>JUMBO 123GB</h2>
         <p>Rp90.000,-</p>
@@ -223,7 +253,7 @@
             <p><strong>Detail Kuota:</strong></p>
             <li>Area 1 = 65GB</li>
             <li>Area 2 = 70GB</li>
-            <li>Area 3 = 83GB</li>
+            <li>Area 3 = 85GB</li>
             <li>Area 4 = 123GB</li>
             <p></p>
             <button class="button-buy" onclick="openWhatsApp('JUMBO')">Beli</button>
@@ -234,7 +264,7 @@
         <h2>JUMBO+ 131GB</h2>
         <p>Rp95.000,-</p>
         <div id="jumbo1-details" class="expandable">
-            <p><strong>Nama Kuota:</strong> AKRAB JUMBO+ </p>
+            <p><strong>Nama Kuota:</strong> AKRAB JUMBO </p>
             <p><strong>Detail Kuota:</strong></p>
             <li>Area 1 = 93,5GB</li>
             <li>Area 2 = 96,5GB</li>
@@ -271,11 +301,15 @@
         event.stopPropagation(); // Prevent click event from toggling details
         let message = '';
         if (packageType === 'MINI') {
-            message = 'Halo, saya ingin membeli paket AKRAB MINI seharga Rp65.000,-';
+            message = 'Halo, saya ingin membeli paket AKRAB SUPERMINI seharga Rp55.000,-';
+        } else if (packageType === 'MINI1') {
+            message = 'Halo, saya ingin membeli paket AKRAB MINI+ seharga Rp70.000,-';
         } else if (packageType === 'BIG') {
             message = 'Halo, saya ingin membeli paket AKRAB BIG seharga Rp70.000,-';
+        } else if (packageType === 'SUPER') {
+            message = 'Halo, saya ingin membeli paket AKRAB SUPER seharga Rp75.000,-';
         } else if (packageType === 'JUMBO') {
-            message = 'Halo, saya ingin membeli paket JUMBO seharga Rp90.000,-';
+            message = 'Halo, saya ingin membeli paket AKRAB JUMBO seharga Rp90.000,-';
         } else if (packageType === 'JUMBO1') {
             message = 'Halo, saya ingin membeli paket JUMBO+ seharga Rp95.000,-';
         }
