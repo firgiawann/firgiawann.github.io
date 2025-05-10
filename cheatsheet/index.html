@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheatsheet SQL Lengkap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/monokai-sublime.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1300px;
+            padding: 30px;
+        }
+        .section {
+            background-color: #fff;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .example {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .mistake {
+            background-color: #fce4e4;
+            padding: 15px;
+            border-left: 5px solid #e74c3c;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .nav-pills .nav-link {
+            font-weight: 600;
+            color: #2980b9;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+        pre {
+            background-color: #2d2d2d;
+            padding: 15px;
+            border-radius: 5px;
+            color: #f8f8f2;
+        }
+        table {
+            margin-top: 20px;
+        }
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+        .table-responsive {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-5">
+            <h1 class="display-4">Cheatsheet SQL Lengkap</h1>
+            <p class="lead">Panduan lengkap dan praktis untuk menguasai SQL dalam bahasa Indonesia</p>
+        </header>
+        <nav class="mb-5">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item"><a class="nav-link" href="#ddl">DDL</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dml">DML</a></li>
+                <li class="nav-item"><a class="nav-link" href="#aggregate">Fungsi Agregat</a></li>
+                <li class="nav-item"><a class="nav-link" href="#join">JOIN</a></li>
+                <li class="nav-item"><a class="nav-link" href="#view">VIEW</a></li>
+            </ul>
+        </nav>
+
+        <!-- DDL Section -->
+        <section id="ddl" class="section">
+            <h2>DDL (Data Definition Language)</h2>
+            <p>DDL digunakan untuk mendefinisikan dan mengelola struktur database seperti tabel, indeks, dan skema. Perintah ini bersifat permanen dan sering digunakan saat merancang database.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Perintah</th>
+                            <th>Sintaks</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CREATE DATABASE</td>
+                            <td><code>CREATE DATABASE nama_database;</code></td>
+                            <td>Membuat database baru.</td>
+                        </tr>
+                        <tr>
+                            <td>CREATE TABLE</td>
+                            <td><code>CREATE TABLE nama_tabel (kolom1 tipe_data CONSTRAINT, ...);</code></td>
+                            <td>Membuat tabel dengan kolom dan batasan tertentu.</td>
+                        </tr>
+                        <tr>
+                            <td>ALTER TABLE</td>
+                            <td><code>ALTER TABLE nama_tabel ADD/MODIFY/DROP kolom tipe_data;</code></td>
+                            <td>Mengubah struktur tabel (menambah, mengubah, atau menghapus kolom).</td>
+                        </tr>
+                        <tr>
+                            <td>DROP TABLE</td>
+                            <td><code>DROP TABLE nama_tabel [CASCADE];</code></td>
+                            <td>Menghapus tabel beserta data dan ketergantungannya jika CASCADE digunakan.</td>
+                        </tr>
+                        <tr>
+                            <td>CREATE INDEX</td>
+                            <td><code>CREATE INDEX nama_indeks ON nama_tabel (kolom);</code></td>
+                            <td>Meningkatkan performa pencarian dengan indeks.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="example">
+                <h3>Contoh: Membuat dan Mengubah Tabel</h3>
+                <pre><code class="sql">
+-- Membuat tabel
+CREATE TABLE karyawan (
+    id_karyawan INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(100) NOT NULL,
+    gaji DECIMAL(10,2),
+    tanggal_masuk DATE
+);
+
+-- Menambahkan kolom baru
+ALTER TABLE karyawan ADD jabatan VARCHAR(50);
+
+-- Menghapus tabel
+DROP TABLE karyawan;
+                </code></pre>
+                <p>Contoh ini menunjukkan pembuatan tabel "karyawan", penambahan kolom "jabatan", dan penghapusan tabel.</p>
+            </div>
+            <div class="mistake">
+                <h3>Kesalahan Umum</h3>
+                <ul>
+                    <li>Lupa menentukan tipe data atau batasan seperti <code>NOT NULL</code> saat membuat kolom.</li>
+                    <li>Mencoba menghapus tabel yang memiliki relasi foreign key tanpa opsi <code>CASCADE</code>.</li>
+                    <li>Menggunakan tipe data yang tidak sesuai (misalnya, <code>VARCHAR(10)</code> untuk teks panjang).</li>
+                    <li>Tidak memeriksa apakah nama tabel sudah ada sebelum membuatnya.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- DML Section -->
+        <section id="dml" class="section">
+            <h2>DML (Data Manipulation Language)</h2>
+            <p>DML digunakan untuk memanipulasi data dalam tabel. Perintah ini bersifat sementara sampai di-<code>COMMIT</code> dan dapat dibatalkan dengan <code>ROLLBACK</code>.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Perintah</th>
+                            <th>Sintaks</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SELECT</td>
+                            <td><code>SELECT kolom FROM tabel [WHERE kondisi] [ORDER BY kolom];</code></td>
+                            <td>Mengambil data dengan filter dan pengurutan opsional.</td>
+                        </tr>
+                        <tr>
+                            <td>INSERT</td>
+                            <td><code>INSERT INTO tabel (kolom1, ...) VALUES (nilai1, ...);</code></td>
+                            <td>Menambahkan data baru.</td>
+                        </tr>
+                        <tr>
+                            <td>UPDATE</td>
+                            <td><code>UPDATE tabel SET kolom = nilai [WHERE kondisi];</code></td>
+                            <td>Mengubah data yang ada.</td>
+                        </tr>
+                        <tr>
+                            <td>DELETE</td>
+                            <td><code>DELETE FROM tabel [WHERE kondisi];</code></td>
+                            <td>Menghapus data tertentu.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="example">
+                <h3>Contoh: Manipulasi Data</h3>
+                <pre><code class="sql">
+-- Menambahkan data
+INSERT INTO karyawan (nama, gaji, tanggal_masuk) 
+VALUES ('Budi', 5000000.00, '2023-01-15');
+
+-- Mengambil data
+SELECT nama, gaji FROM karyawan WHERE gaji > 4000000 ORDER BY gaji DESC;
+
+-- Mengubah data
+UPDATE karyawan SET gaji = 5500000.00 WHERE nama = 'Budi';
+
+-- Menghapus data
+DELETE FROM karyawan WHERE tanggal_masuk < '2023-01-01';
+                </code></pre>
+                <p>Contoh ini mencakup penambahan, pengambilan, pengubahan, dan penghapusan data karyawan.</p>
+            </div>
+            <div class="mistake">
+                <h3>Kesalahan Umum</h3>
+                <ul>
+                    <li>Melupakan <code>WHERE</code> pada <code>UPDATE</code> atau <code>DELETE</code>, menyebabkan perubahan pada semua baris.</li>
+                    <li>Memasukkan nilai yang tidak sesuai dengan tipe data kolom (misalnya, teks ke kolom <code>INT</code>).</li>
+                    <li>Tidak menggunakan <code>ORDER BY</code> saat urutan hasil penting.</li>
+                    <li>Mengabaikan batasan <code>NOT NULL</code> saat <code>INSERT</code>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Aggregate Functions Section -->
+        <section id="aggregate" class="section">
+            <h2>Fungsi Agregat</h2>
+            <p>Fungsi agregat mengolah sekumpulan data untuk menghasilkan satu nilai ringkasan, sering digunakan dengan <code>GROUP BY</code> dan <code>HAVING</code>.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Fungsi</th>
+                            <th>Sintaks</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>COUNT</td>
+                            <td><code>COUNT(kolom | *)</code></td>
+                            <td>Menghitung jumlah baris atau nilai non-NULL.</td>
+                        </tr>
+                        <tr>
+                            <td>SUM</td>
+                            <td><code>SUM(kolom)</code></td>
+                            <td>Menjumlahkan nilai numerik.</td>
+                        </tr>
+                        <tr>
+                            <td>AVG</td>
+                            <td><code>AVG(kolom)</code></td>
+                            <td>Menghitung rata-rata.</td>
+                        </tr>
+                        <tr>
+                            <td>MIN</td>
+                            <td><code>MIN(kolom)</code></td>
+                            <td>Mencari nilai terkecil.</td>
+                        </tr>
+                        <tr>
+                            <td>MAX</td>
+                            <td><code>MAX(kolom)</code></td>
+                            <td>Mencari nilai terbesar.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="example">
+                <h3>Contoh: Analisis Data</h3>
+                <pre><code class="sql">
+SELECT 
+    jabatan,
+    COUNT(*) AS jumlah_karyawan,
+    AVG(gaji) AS rata_rata_gaji,
+    MAX(gaji) AS gaji_tertinggi
+FROM karyawan
+GROUP BY jabatan
+HAVING COUNT(*) > 5;
+                </code></pre>
+                <p>Query ini menghitung jumlah karyawan, rata-rata gaji, dan gaji tertinggi per jabatan, hanya menampilkan jabatan dengan lebih dari 5 karyawan.</p>
+            </div>
+            <div class="mistake">
+                <h3>Kesalahan Umum</h3>
+                <ul>
+                    <li>Menggunakan fungsi agregat tanpa <code>GROUP BY</code> saat mengelompokkan data diperlukan.</li>
+                    <li>Mencoba <code>SUM</code> atau <code>AVG</code> pada kolom non-numerik.</li>
+                    <li>Melupakan <code>HAVING</code> untuk memfilter hasil agregat (tidak bisa pakai <code>WHERE</code>).</li>
+                    <li>Tidak menangani nilai <code>NULL</code> yang dapat memengaruhi hasil.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- JOIN Section -->
+        <section id="join" class="section">
+            <h2>JOIN</h2>
+            <p>JOIN menggabungkan data dari beberapa tabel berdasarkan kolom terkait, penting untuk analisis relasional.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tipe JOIN</th>
+                            <th>Sintaks</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>INNER JOIN</td>
+                            <td><code>tabel1 INNER JOIN tabel2 ON kondisi</code></td>
+                            <td>Data yang cocok di kedua tabel.</td>
+                        </tr>
+                        <tr>
+                            <td>LEFT JOIN</td>
+                            <td><code>tabel1 LEFT JOIN tabel2 ON kondisi</code></td>
+                            <td>Semua data dari tabel kiri, cocok atau <code>NULL</code> dari kanan.</td>
+                        </tr>
+                        <tr>
+                            <td>RIGHT JOIN</td>
+                            <td><code>tabel1 RIGHT JOIN tabel2 ON kondisi</code></td>
+                            <td>Semua data dari tabel kanan, cocok atau <code>NULL</code> dari kiri.</td>
+                        </tr>
+                        <tr>
+                            <td>FULL JOIN</td>
+                            <td><code>tabel1 FULL JOIN tabel2 ON kondisi</code></td>
+                            <td>Semua data dari kedua tabel, cocok atau <code>NULL</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="example">
+                <h3>Contoh: Menggabungkan Tabel</h3>
+                <pre><code class="sql">
+SELECT k.nama, d.nama_departemen
+FROM karyawan k
+LEFT JOIN departemen d ON k.id_departemen = d.id_departemen;
+                </code></pre>
+                <p>Query ini mengambil nama karyawan dan nama departemennya, termasuk karyawan tanpa departemen.</p>
+            </div>
+            <div class="mistake">
+                <h3>Kesalahan Umum</h3>
+                <ul>
+                    <li>Melupakan <code>ON</code>, menyebabkan hasil gabungan yang tidak diinginkan (Cartesian product).</li>
+                    <li>Salah memilih tipe JOIN, misalnya menggunakan <code>INNER</code> saat <code>LEFT</code> dibutuhkan.</li>
+                    <li>Tidak memeriksa duplikat kolom saat JOIN beberapa tabel.</li>
+                    <li>Mengabaikan performa saat JOIN tabel besar tanpa indeks.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- VIEW Section -->
+        <section id="view" class="section">
+            <h2>VIEW</h2>
+            <p>VIEW adalah tabel virtual yang menyimpan hasil query, berguna untuk keamanan, efisiensi, dan penyederhanaan.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Perintah</th>
+                            <th>Sintaks</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CREATE VIEW</td>
+                            <td><code>CREATE [OR REPLACE] VIEW nama AS SELECT ...;</code></td>
+                            <td>Membuat atau mengganti view.</td>
+                        </tr>
+                        <tr>
+                            <td>DROP VIEW</td>
+                            <td><code>DROP VIEW nama [IF EXISTS];</code></td>
+                            <td>Menghapus view dengan opsi keamanan.</td>
+                        </tr>
+                        <tr>
+                            <td>SELECT dari VIEW</td>
+                            <td><code>SELECT * FROM nama_view;</code></td>
+                            <td>Menggunakan view seperti tabel.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="example">
+                <h3>Contoh: Membuat dan Menggunakan VIEW</h3>
+                <pre><code class="sql">
+CREATE VIEW v_karyawan_gaji AS
+SELECT nama, gaji, jabatan
+FROM karyawan
+WHERE gaji > 5000000;
+
+-- Mengambil data dari VIEW
+SELECT * FROM v_karyawan_gaji WHERE jabatan = 'Manajer';
+                </code></pre>
+                <p>VIEW ini menyimpan data karyawan dengan gaji di atas 5 juta, kemudian digunakan untuk filter lebih lanjut.</p>
+            </div>
+            <div class="mistake">
+                <h3>Kesalahan Umum</h3>
+                <ul>
+                    <li>Mencoba <code>INSERT</code>/<code>UPDATE</code> pada VIEW yang tidak mendukungnya (misalnya, dengan JOIN).</li>
+                    <li>Melupakan bahwa VIEW mencerminkan perubahan data tabel asli secara real-time.</li>
+                    <li>Tidak menggunakan <code>OR REPLACE</code> saat ingin memperbarui VIEW yang sudah ada.</li>
+                    <li>Membuat VIEW terlalu kompleks sehingga performa menurun.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
