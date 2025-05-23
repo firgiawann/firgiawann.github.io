@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacak Siklus Haid - BloomCycle</title>
+    <!-- Bootstrap 5 -->
+    <link 
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
+rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-pastel: #ffb6c1;
+            --purple-pastel: #d8bfd8;
+            --mint-pastel: #98fb98;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #fff5f5 0%, #f8f4ff 100%);
+            min-height: 100vh;
+            transition: background 0.3s;
+        }
+        .dark-mode {
+            background: #2c2c2c;
+            color: #f1f1f1;
+        }
+        .header-title {
+            font-family: 'Comic Neue', cursive;
+            color: #ff69b4;
+            text-shadow: 2px 2px 0px white;
+        }
+        .decor-cloud {
+            position: fixed;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: -1;
+        }
+        #cycleProgress {
+            height: 12px;
+            border-radius: 20px;
+            background: rgba(255,182,193,0.3);
+            transition: width 0.5s ease;
+        }
+        .table-phase:hover {
+            transform: translateX(5px);
+            transition: transform 0.3s ease;
+        }
+        .btn-pastel {
+            background: linear-gradient(45deg, var(--pink-pastel), var(--purple-pastel));
+            color: white !important;
+            border: none;
+        }
+        .phase-modal-header {
+            color: white;
+            border-radius: 0.3rem 0.3rem 0 0;
+        }
+        .list-unstyled li { padding: 5px 0; display: flex; align-items: baseline; }
+        .bi-dot { font-size: 1.5rem; color: #ff69b4; }
+        .bi-check2-circle { color: #28a745; }
+        @media (max-width: 768px) {
+            .header-title { font-size: 2rem; }
+            .table-phase td { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <svg class="decor-cloud" width="200" height="200" viewBox="0 0 200 200" style="top:10%; left:5%">
+        <path fill="currentColor" d="M50 100c0-27.6 22.4-50 50-50s50 22.4 50 50h50c0-55.2-44.8-100-100-100S0 44.8 0 100s44.8 100 100 100v-50c-27.6 0-50-22.4-50-50z"/>
+    </svg>
+    <div class="container py-5">
+        <header class="d-flex justify-content-between align-items-center mb-5">
+            <h1 class="header-title display-4 mb-0"><i class="bi bi-flower1"></i> BloomCycle</h1>
+            <button id="themeToggle" class="btn btn-sm btn-pastel"><i class="bi bi-moon-stars"></i> Mode Gelap</button>
+        </header>
+        <!-- Form Input -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm bg-white rounded-lg mb-4">
+                    <div class="card-body">
+                        <form id="cycleForm">
+                            <div class="mb-3">
+                                <label class="form-label">Hari Pertama Haid Terakhir</label>
+                                <input type="date" class="form-control" id="startDate" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Panjang Siklus (hari)</label>
+                                <select class="form-select" id="cycleLength" required></select>
+                            </div>
+                            <button type="submit" class="btn btn-pastel btn-lg w-100">
+                                <i class="bi bi-calculator me-2"></i> Hitung Jadwal
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Tombol unduh dan simpan -->
+                <div id="resultsActions" class="text-center" style="display: none;">
+                    <button id="saveBtn" class="btn btn-pastel me-2"><i class="bi bi-save me-2"></i> Simpan</button>
+                    <button id="downloadBtn" class="btn btn-pastel"><i class="bi bi-download me-2"></i> Unduh Jadwal</button>
+                </div>
+            </div>
+        </div>
+        <!-- Hasil Perhitungan -->
+        <div id="resultsSection" class="mt-4" style="display: none;">
+            <h4 class="mb-4"><i class="bi bi-calendar-heart me-2"></i> Jadwal Siklus</h4>
+            <div class="progress mb-4">
+                <div id="cycleProgress" class="progress-bar bg-success" role="progressbar"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr><th>Fase</th><th>Periode</th><th>Aksi</th></tr>
+                    </thead>
+                    <tbody id="phaseTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-light mt-5 py-3 text-center">
+        <div class="container">
+            <a href="#tentang" class="text-secondary me-3">Tentang</a>
+            <a href="#kontak" class="text-secondary">Kontak</a>
+        </div>
+    </footer>
+    <!-- Modal Detail Fase -->
+    <div class="modal fade" id="phaseModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header phase-modal-header">
+                    <h5 class="modal-title"><i class="bi bi-info-circle"></i> <span id="phaseTitle"></span></h5>
+                </div>
+                <div class="modal-body">
+                    <h6><i class="bi bi-clock-history me-2"></i>Apa yang terjadi?</h6>
+                    <ul id="phaseDetails" class="list-unstyled"></ul>
+                    <h6 class="mt-3"><i class="bi bi-lightbulb me-2"></i>Cara Mendukung</h6>
+                    <ul id="phaseSuggestions" class="list-unstyled"></ul>
+                    <h6 class="mt-3"><i class="bi bi-quote me-2"></i>Kutipan & Afirmasi</h6>
+                    <ul id="phaseQuotes" class="list-unstyled"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Hasil -->
+    <div class="modal fade" id="resultModal" tabindex="-1">
+        <div class="modal-dialog"><div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-bell-heart"></i> Perkiraan Siklus</h5></div>
+            <div class="modal-body"></div>
+        </div></div>
+    </div>
+    <!-- Toast Simpan -->
+    <div class="toast align-items-center position-fixed bottom-0 end-0 m-3" id="saveToast">
+        <div class="d-flex bg-success text-white p-3 rounded">
+            <div class="toast-body">Data berhasil disimpan! <i class="bi bi-check2-circle"></i></div>
+        </div>
+    </div>
+    <script>
+        // Generate options siklus 21-35 hari
+        const cycleSelect = document.getElementById('cycleLength');
+        for (let i = 21; i <= 35; i++) {
+            const opt = document.createElement('option'); opt.value = i; opt.textContent = `${i} hari`;
+            if (i === 28) opt.selected = true;
+            cycleSelect.appendChild(opt);
+        }
+        // Data fase dengan detail, saran, dan kutipan
+        const phaseData = {
+            'Menstruasi': {
+                details: ['Emosinya sensitif: mudah marah atau menangis', 'Kram perut dan kelelahan fisik, energi rendah', 'Mungkin ia pendiam; butuh dukungan dan pengertian'],
+                suggestions: ['Tawarkan kenyamanan: kompres hangat, selimut, dan camilan hangat', 'Dengarkan ceritanya dengan sabar, jangan memaksa bicara', 'Hindari komentar negatif atau memarahi; ungkapkan bahwa kamu peduli', 'Ajak melakukan hal santai bersama, seperti menonton film ringan'],
+                quotes: ['Kekuatanmu terlihat dari caramu menghadapi hari-hari sulit ini.', 'Aku di sini untukmu; kita melewati ini bersama-sama.']
+            },
+            'Pasca-menstruasi': {
+                details: ['Hormon stabil dan energimu meningkat; mood positif dan optimis', 'Lebih percaya diri dan aktif merencanakan kegiatan bersama', 'Cenderung berbicara lebih antusias; ide-idenya kreatif'],
+                suggestions: ['Puji ide dan pencapaiannya; beri semangat pada rencananya', 'Ajak kegiatan seru bersama, seperti olahraga ringan atau menonton film', 'Tunjukkan antusiasme saat mendengarkan cerita atau rencananya', 'Hindari topik serius; nikmati kebersamaan penuh keceriaan'],
+                quotes: ['Energi positifmu menular; gunakan hari ini untuk hal-hal baik!', 'Kepercayaan dirimu tinggi; beranilah bermimpi besar.']
+            },
+            'Ovulasi': {
+                details: ['Hormon puncak; mood antusias dan penuh semangat', 'Lebih percaya diri, kreatif, dan bersemangat dalam aktivitas', 'Sensitif terhadap perhatian dan pujian; kamu ingin diperhatikan'],
+                suggestions: ['Tunjukkan dukungan ekstra: berikan pujian dan perhatian hangat', 'Ajak ia merencanakan kencan atau waktu berkualitas bersama', 'Luangkan waktu ngobrol santai dan menyenangkan', 'Hindari janji yang tidak ditepati; pastikan ia merasa dihargai'],
+                quotes: ['Keceriaanmu hari ini mempesona; bagikan energi positifmu dengan dunia.', 'Hari ini kamu bersinar terang; gunakan momen ini untuk mengejar impian.']
+            },
+            'Hari Tenang': {
+                details: ['Hormon relatif seimbang; mood stabil dan positif', 'Energi dan motivasi optimal; kamu tenang dan percaya diri', 'Mudah diajak bicara; siap mendengarkan dan berbagi cerita'],
+                suggestions: ['Nikmati momen tenang dengan kegiatan santai bersama, seperti piknik atau nonton film', 'Ajak ia berdiskusi atau melakukan hobi bersama untuk mempererat hubungan', 'Bagikan rencana dan impian kecil bersama; saling mendukung', 'Hindari topik berat atau stres; fokuslah pada kebersamaan yang nyaman'],
+                quotes: ['Keseimbangan hari ini adalah anugerah; manfaatkan momen ini sepenuhnya.', 'Tenang dan bahagia bersama adalah pencapaian tersendiri hari ini.']
+            },
+            'Pre-menstruasi': {
+                details: ['Hormon menurun; mood labil, mudah cemas atau marah', 'Sering overthinking atau merasa kewalahan; energi menurun kembali', 'Lebih sensitif; ia butuh kesabaran ekstra dan pengertianmu'],
+                suggestions: ['Tunjukkan kesabaran ekstra dan dengarkan keluhannya tanpa menghakimi', 'Bantu dia rileks: buatkan minuman hangat atau ajak menonton film ringan', 'Hindari kritik atau komentar menyakiti; katakan kamu mengerti perasaannya', 'Pastikan ia tahu kamu ada untuknya; beri ruang jika ia butuh sendiri'],
+                quotes: ['Setiap badai pasti berlalu; bersama kita melewati fase sulit ini.', 'Kesabaran dan pengertianmu membuat segalanya terasa lebih ringan.']
+            }
+        };
+        // Utility functions
+        function addDays(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+        function formatDate(d) {
+            const p = n => n.toString().padStart(2, '0');
+            return `${p(d.getDate())}-${p(d.getMonth()+1)}-${d.getFullYear()}`;
+        }
+        function calculatePhases(start, len) {
+            const ovIndex = len - 14;
+            return [
+                ['Menstruasi', 1, 5],
+                ['Pasca-menstruasi', 6, ovIndex - 1],
+                ['Ovulasi', ovIndex, ovIndex],
+                ['Hari Tenang', ovIndex + 1, ovIndex + 2],
+                ['Pre-menstruasi', ovIndex + 3, len]
+            ].map(p => ({ name: p[0], start: addDays(start, p[1]-1), end: addDays(start, p[2]-1) }));
+        }
+        function calculateFertile(start, len) {
+            const ov = addDays(start, len - 14);
+            return { start: addDays(ov, -3), end: addDays(ov, 2) };
+        }
+        function showPhaseDetails(name) {
+            const d = phaseData[name];
+            document.getElementById('phaseTitle').textContent = name;
+            document.getElementById('phaseDetails').innerHTML = d.details.map(i => `<li><i class="bi bi-dot me-2"></i>${i}</li>`).join('');
+            document.getElementById('phaseSuggestions').innerHTML = d.suggestions.map(s => `<li><i class="bi bi-check2-circle me-2"></i>${s}</li>`).join('');
+            if (d.quotes) {
+                document.getElementById('phaseQuotes').innerHTML = d.quotes.map(q => `<li><i class="bi bi-quote me-2"></i>${q}</li>`).join('');
+            } else {
+                document.getElementById('phaseQuotes').innerHTML = '';
+            }
+            const hdr = document.querySelector('.phase-modal-header');
+            hdr.className = `modal-header phase-modal-header ${name==='Ovulasi' ? 'bg-warning' : 'bg-primary'}`;
+            new bootstrap.Modal('#phaseModal').show();
+        }
+        function displayResults(phases, len) {
+            const today = new Date();
+            const passed = Math.floor((today - phases[0].start) / (1000*60*60*24));
+            document.getElementById('phaseTable').innerHTML = phases.map(p=>
+                `<tr class="table-phase ${p.name==='Ovulasi'?'table-warning':''}"><td>${p.name}</td><td>${formatDate(p.start)} – ${formatDate(p.end)}</td><td><button class="btn btn-sm btn-outline-primary" onclick="showPhaseDetails('${p.name}')"><i class="bi bi-info-circle"></i></button></td></tr>`
+            ).join('');
+            document.getElementById('resultsSection').style.display='block';
+            document.getElementById('resultsActions').style.display='block';
+            document.getElementById('cycleProgress').style.width=`${Math.min((passed/len)*100,100)}%`;
+            const fert = calculateFertile(phases[0].start, len);
+            document.querySelector('#resultModal .modal-body').innerHTML = `
+  <p><i class="bi bi-sun me-2"></i><strong>Catatan hangat untuk Awan:</strong></p>
+  <p>Di rentang <strong>${formatDate(fert.start)} – ${formatDate(fert.end)}</strong>, dia mungkin sedang merasa paling ceria, percaya diri, dan berenergi. Ini saat di mana dunianya terasa lebih ringan, dan senyumnya lebih mudah muncul.</p>
+  <div class="alert alert-warning mt-3">
+    <i class="bi bi-lightbulb-fill me-2"></i>
+    Ajak dia ngobrol santai, dengarkan ide-idenya, dan beri dukungan kecil seperti “Aku bangga sama kamu” atau “Kamu keren banget hari ini”. Terkadang, perhatian sederhana bisa jadi penguat besar untuknya.
+  </div>`;
+            new bootstrap.Modal('#resultModal').show();
+        }
+        // Event listeners
+        document.getElementById('cycleForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const sd = new Date(document.getElementById('startDate').value);
+            const len = parseInt(document.getElementById('cycleLength').value);
+            if (sd > new Date()) { alert('Tanggal tidak boleh di masa depan!'); return; }
+            displayResults(calculatePhases(sd,len), len);
+        });
+    </script>
+</body>
+</html>
