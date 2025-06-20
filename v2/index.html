@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teruntuk zizi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Dancing+Script:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+    <style>
+        /* Custom Fonts */
+        body { font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .font-dancing { font-family: 'Dancing Script', cursive; }
+        .font-caveat { font-family: 'Caveat', cursive; }
+
+        /* ===== ANIMASI & GAYA KUSTOM ===== */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in { animation: fadeIn 1.5s ease-in-out forwards; }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+        
+        @keyframes fadeOutDown { to { opacity: 0; transform: translateY(20px); } }
+        .fade-out-down { animation: fadeOutDown 1s ease-out forwards; }
+
+        /* Animasi Api Lilin */
+        @keyframes flame-flicker { 0%, 100% { transform: scaleY(1) rotate(0deg); opacity: 1; } 50% { transform: scaleY(1.05) rotate(1deg); opacity: 0.95; } }
+        #candle-flame { animation: flame-flicker 1.5s ease-in-out infinite; transition: all 0.5s ease; transform-origin: bottom center; }
+        
+        /* Desain Polaroid & Animasi */
+        .polaroid { background: white; padding: 0.75rem; padding-bottom: 2.5rem; border-radius: 0.25rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease; position: relative; opacity: 0; }
+        .polaroid-animated { animation: drop-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
+        .polaroid img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #e5e7eb; }
+        .polaroid::before { content: ''; position: absolute; top: -10px; left: calc(50% - 15px); width: 30px; height: 20px; background: #d2b48c; border-radius: 4px 4px 0 0; border-top: 2px solid #8c6a48; box-shadow: inset 0 1px 1px rgba(0,0,0,0.2); }
+        @keyframes drop-in { from { opacity: 0; transform: translateY(-50px) scale(0.8) var(--start-rotation); } to { opacity: 1; transform: translateY(0) scale(1) var(--end-rotation); } }
+        
+        /* Animasi Confetti & Dekorasi Emoji */
+        .confetti { position: absolute; font-size: 1.5rem; opacity: 0; animation: explode 3s ease-out forwards; }
+        @keyframes explode { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0) rotate(720deg); opacity: 0; } }
+        
+        /* Animasi Bunga Jatuh */
+        .petal { position: absolute; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌸</text></svg>'); background-size: contain; width: 30px; height: 30px; opacity: 0.8; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+        
+        /* Animasi Balon Terbang */
+        .flying-balloon { position: absolute; animation: fly-up 5s ease-in forwards; }
+        @keyframes fly-up { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }
+
+        /* Animasi Goyang (untuk PIN salah) */
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-sky-400 to-blue-600 overflow-hidden h-screen">
+
+    <div id="dark-overlay" class="fixed inset-0 bg-slate-900 opacity-0 transition-opacity duration-2000 pointer-events-none z-40"></div>
+    <audio id="birthdaySong" loop><source src="https://github.com/gemini-pro/gemini-pro.github.io/raw/main/semual-aku-dirayakan.mp3" type="audio/mpeg"></audio>
+
+    <!-- ===== 0. LAYAR HITUNG MUNDUR ===== -->
+    <div id="countdownScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-gradient-to-br from-sky-500 to-blue-700">
+        <h1 class="text-3xl font-bold mb-4 animate-fade-in">Sedang mempersiapkan kejutan...</h1>
+        <div id="timer-container" class="flex space-x-4 md:space-x-8 text-center mt-8 animate-fade-in" style="animation-delay: 0.5s;">
+            <div><span id="days" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Hari</span></div>
+            <div><span id="hours" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Jam</span></div>
+            <div><span id="minutes" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Menit</span></div>
+            <div><span id="seconds" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Detik</span></div>
+        </div>
+    </div>
+
+    <!-- ===== 1. LAYAR KUNCI ===== -->
+    <div id="lockScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1528819027818-a84a6a4b1638?q=80&w=1887&auto=format&fit=crop');">
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+        <div id="lock-content" class="z-10 flex flex-col h-full transition-opacity duration-500">
+            <div class="flex-grow flex flex-col justify-center items-center"><div id="time" class="text-7xl font-thin mb-2"></div><div id="date" class="text-xl"></div></div>
+            <div class="flex-grow flex flex-col justify-center items-center"><h2 class="text-lg mb-4">Masukkan Kode</h2><div id="pin-dots" class="flex space-x-4 mb-8"><div class="w-4 h-4 border-2 border-white rounded-full transition-all duration-300"></div><div class="w-4 h-4 border-2 border-white rounded-full transition-all duration-300"></div><div class="w-4 h-4 border-2 border-white rounded-full transition-all duration-300"></div><div class="w-4 h-4 border-2 border-white rounded-full transition-all duration-300"></div></div></div>
+            <div id="keypad" class="grid grid-cols-3 gap-6"></div>
+            <div class="flex-grow"></div>
+        </div>
+    </div>
+
+    <!-- ===== 2. LAYAR ERROR PALSU ===== -->
+    <div id="fakeErrorScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-center p-4 bg-gray-100"><div class="w-16 h-16 text-red-500 mb-4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg></div><h1 class="text-2xl font-bold text-gray-800 mb-2">Akses Ditolak</h1><p class="text-gray-600 mb-8">Maaf, terjadi kesalahan saat memuat halaman ini. Silakan coba lagi.</p><button id="proceedButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">Coba Lagi?</button></div>
+    
+    <!-- ===== 3. TRANSISI & UCAPAN PEMBUKA ===== -->
+    <div id="greetingScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white text-center p-8 relative">
+        <div id="boom-container" class="absolute inset-0 w-full h-full overflow-hidden"></div>
+        <p id="greetingText" class="z-10 text-3xl md:text-5xl font-bold opacity-0 transition-opacity duration-1000"></p>
+    </div>
+
+    <!-- ===== 4. KUE DAN MAKE A WISH ===== -->
+    <div id="cakeScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white p-4 overflow-hidden relative">
+        <div id="petal-container" class="absolute inset-0 w-full h-full pointer-events-none"></div>
+        <div id="balloon-release-container" class="absolute inset-0 w-full h-full pointer-events-none"></div>
+        <div class="z-10 text-center"><div id="wish-text-display" class="font-dancing text-4xl h-16 mb-4"></div>
+        <svg width="250" height="250" viewBox="0 0 100 100"><rect x="47.5" y="15" width="5" height="15" fill="#fefae0"></rect><polygon id="candle-flame" points="50,5 52,15 48,15" fill="#fca311"></polygon><path d="M25,50 Q50,30 75,50 V80 H25 Z" fill="#fbcfe8"></path><path d="M20,80 Q50,60 80,80 V95 H20 Z" fill="#a16207"></path><path d="M25,50 C35,60 40,55 50,60 C60,65 65,60 75,50" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"></path><path d="M25,50 Q50,42 75,50" fill="#fbcfe8"></path><ellipse cx="50" cy="50" rx="25" ry="8" fill="#fce7f3"></ellipse><circle cx="65" cy="45" r="4" fill="#dc2626"></circle><line x1="66" y1="44" x2="70" y2="40" stroke="#166534" stroke-width="1.5"></line></svg>
+        <form id="wish-form" class="mt-8"><h2 class="text-3xl font-bold mb-4">Make a Wish!</h2><input id="wish-input" type="text" class="w-full max-w-sm text-center bg-white/20 backdrop-blur-sm rounded-full py-3 px-4 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white" placeholder="Tulis harapanmu di sini..."><button type="submit" class="mt-4 bg-white/30 hover:bg-white/40 text-white font-bold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105">Tiup Lilinnya!</button></form></div>
+    </div>
+
+    <!-- ===== 5. GALERI FOTO ===== -->
+    <div id="galleryScreen" class="hidden w-full h-screen text-white p-4 md:p-8 overflow-y-auto relative"><div id="gallery-decorations" class="absolute inset-0 w-full h-full pointer-events-none"><div class="deco-item" style="top: 5%; left: 5%; --delay: 0.5s; transform: rotate(-15deg);"><svg width="80" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌸</text></svg></div><div class="deco-item" style="bottom: 10%; right: 5%; --delay: 0.8s; transform: rotate(20deg);"><svg width="100" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌻</text></svg></div><div class="deco-item" style="top: 20%; right: 10%; --delay: 1s;"><svg width="50" viewBox="0 0 100 100"><text y=".9em" font-size="90">✨</text></svg></div><div class="deco-item" style="bottom: 25%; left: 15%; --delay: 1.4s;"><svg width="60" viewBox="0 0 100 100"><text y=".9em" font-size="90">💖</text></svg></div></div>
+        <div class="relative z-10"><h2 class="text-center text-4xl font-bold mb-12 fade-in-up">Beberapa Fotomu yang Aku Suka</h2><div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12"><div class="polaroid" style="--start-rotation: rotate(-15deg); --end-rotation: rotate(-5deg);"><img src="https://placehold.co/600x800/3b82f6/ffffff?text=FOTO+KAMU" alt="Foto 1"></div><div class="polaroid" style="--start-rotation: rotate(15deg); --end-rotation: rotate(4deg);"><img src="https://placehold.co/600x600/60a5fa/ffffff?text=:) " alt="Foto 2"></div><div class="polaroid" style="--start-rotation: rotate(-10deg); --end-rotation: rotate(-3deg);"><img src="https://placehold.co/600x800/93c5fd/ffffff?text=YANG+INI+CANTIK" alt="Foto 3"></div><div class="polaroid" style="--start-rotation: rotate(12deg); --end-rotation: rotate(6deg);"><img src="https://placehold.co/600x800/3b82f6/ffffff?text=FAVORITKU" alt="Foto 4"></div><div class="polaroid" style="--start-rotation: rotate(-15deg); --end-rotation: rotate(-2deg);"><img src="https://placehold.co/600x600/60a5fa/ffffff?text=HEHE" alt="Foto 5"></div><div class="polaroid" style="--start-rotation: rotate(10deg); --end-rotation: rotate(5deg);"><img src="https://placehold.co/600x800/93c5fd/ffffff?text=CANDID" alt="Foto 6"></div></div>
+        <div class="text-center mt-12"><button id="toFinalMessage" class="bg-white/30 hover:bg-white/40 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">Terakhir, ada surat untukmu...</button></div></div>
+    </div>
+
+    <!-- ===== 6. SURAT CINTA & OUTRO ===== -->
+    <div id="finalMessageScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-gray-700 p-8 overflow-y-auto bg-gradient-to-br from-sky-200 to-blue-300">
+        <div id="countdown-timer" class="fixed top-4 right-4 bg-white/50 backdrop-blur-sm text-slate-800 font-bold py-2 px-4 rounded-full shadow-lg z-50 transition-opacity duration-500">00:45</div>
+        <div id="letter-content" class="w-full max-w-2xl bg-amber-50 rounded-lg shadow-2xl p-8 md:p-12 font-caveat text-2xl md:text-3xl relative fade-in-up transition-all duration-1000 z-20">
+            <div id="main-letter">
+                <p class="mb-8">Untuk Zizi tersayang,</p>
+                <p class="mb-8">Selamat ulang tahun ya. Hari ini, aku cuma mau kamu tahu kalau kehadiranmu itu lebih dari sekadar berarti... kamu adalah semesta kecil tempat aku pulang, meski kadang hanya lewat layar. 💖</p>
+                <p class="mb-8">Maaf ya, sayang... kalau caraku nunjukkinnya masih sering kikuk dan banyak kurangnya. Kadang, aku takut banget kalau apa yang aku usahain—lewat hal-hal kecil kayak gini—nggak pernah cukup buat ngejelasin besarnya rasa sayangku, atau nggak bisa 'sampai' dengan utuh ke kamu.</p>
+                <p class="mb-8">Tapi, terima kasih sudah jadi alasan aku untuk terus mencoba. Terima kasih sudah sabar dan jadi tempat ternyamanku. Melihat senyummu, meski dari jauh, adalah pengingat kalau semuanya akan baik-baik saja. ✨</p>
+                <p class="mb-12">Semoga kamu selalu sehat, semoga langkahmu selalu ringan, dan semoga hatimu selalu penuh dengan kebahagiaan. Terus jadi Zizi yang hebat, yang hangat, dan yang selalu punya hati yang luar biasa. Aku di sini, selalu.</p>
+            </div>
+        </div>
+        <div id="outro-container" class="fixed inset-0 flex flex-col justify-center items-center text-center p-8 text-white font-caveat opacity-0 z-50 pointer-events-none">
+            <p id="outro-text-1" class="text-4xl md:text-5xl opacity-0 transition-opacity duration-1000"></p><p id="outro-text-2" class="text-4xl md:text-5xl mt-6 opacity-0 transition-opacity duration-1000"></p><p id="outro-text-3" class="text-5xl md:text-6xl mt-16 opacity-0 transition-opacity duration-1000"></p><p id="outro-text-4" class="text-4xl md:text-5xl mt-4 opacity-0 transition-opacity duration-1000"></p>
+        </div>
+    </div>
+    
+    <div id="alert-box" class="hidden fixed top-5 left-1/2 -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50 animate-fade-in"></div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- KONFIGURASI ---
+        const TARGET_DATE = new Date('2025-06-04T00:00:00');
+        const CORRECT_PIN = "0407";
+        const LETTER_COUNTDOWN_DURATION = 45;
+        const TELEGRAM_CONFIG = {
+            botToken: '7591581627:AAEhdJZEf4iZb-gmFDN59vvb0itnOpJPsYU',
+            chatID: '2010496733'
+        };
+
+        // --- STATE ---
+        let pinInput = "";
+        let letterTimerInterval = null;
+
+        // --- ELEMEN ---
+        const allScreens = {
+            countdown: document.getElementById('countdownScreen'),
+            lock: document.getElementById('lockScreen'),
+            error: document.getElementById('fakeErrorScreen'),
+            greeting: document.getElementById('greetingScreen'),
+            cake: document.getElementById('cakeScreen'),
+            gallery: document.getElementById('galleryScreen'),
+            final: document.getElementById('finalMessageScreen'),
+        };
+        const song = document.getElementById('birthdaySong');
+
+        // --- FUNGSI UTAMA ---
+        function showScreen(screenEl) {
+            Object.values(allScreens).forEach(s => s && s.classList.add('hidden'));
+            if (screenEl) screenEl.classList.remove('hidden');
+        }
+
+        // --- TAHAP 0: GERBANG WAKTU ---
+        function checkDate() {
+            const now = new Date();
+            // Untuk testing, uncomment baris di bawah
+            // startMainApp(); return; 
+
+            if (now < TARGET_DATE) {
+                showScreen(allScreens.countdown);
+                startWebsiteCountdown();
+            } else {
+                startMainApp();
+            }
+        }
+
+        function startWebsiteCountdown() {
+            const timerEls = {
+                days: document.getElementById('days'),
+                hours: document.getElementById('hours'),
+                minutes: document.getElementById('minutes'),
+                seconds: document.getElementById('seconds'),
+            };
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = TARGET_DATE - now;
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    startMainApp();
+                    return;
+                }
+                timerEls.days.innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                timerEls.hours.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                timerEls.minutes.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                timerEls.seconds.innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        // --- TAHAP 1: INISIALISASI APLIKASI UTAMA ---
+        function startMainApp() {
+            showScreen(allScreens.lock);
+            initLockScreen();
+            registerEventListeners();
+        }
+
+        function registerEventListeners() {
+            document.getElementById('keypad').addEventListener('click', handleKeypadClick);
+            document.getElementById('proceedButton').addEventListener('click', handleProceedClick);
+            document.getElementById('wish-form').addEventListener('submit', handleWishSubmit);
+            document.getElementById('toFinalMessage').addEventListener('click', handleToFinalMessageClick);
+        }
+
+        // --- TAHAP 2: LAYAR KUNCI ---
+        function initLockScreen() {
+            allScreens.lock.classList.remove('hidden');
+            allScreens.lock.classList.add('animate-fade-in');
+            const timeEl = document.getElementById('time');
+            const dateEl = document.getElementById('date');
+            const keypadContainer = document.getElementById('keypad');
+            
+            const updateClock = () => {
+                const now = new Date();
+                if(timeEl) timeEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                if(dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            };
+            setInterval(updateClock, 1000);
+            updateClock();
+            
+            if (keypadContainer.innerHTML.trim() === "") {
+                for (let i = 1; i <= 9; i++) { keypadContainer.innerHTML += `<button class="keypad-btn text-4xl w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm">${i}</button>`; }
+                keypadContainer.innerHTML += `<button class="text-xl w-20 h-20 rounded-full"></button><button class="keypad-btn text-4xl w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm">0</button><button id="delete-btn" class="text-xl w-20 h-20 rounded-full flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg></button>`;
+            }
+        }
+
+        function handleKeypadClick(e) {
+            const target = e.target.closest('button');
+            if (!target) return;
+            if (target.classList.contains('keypad-btn')) {
+                if (pinInput.length < 4) { pinInput += target.textContent; updatePinDots(); checkPin(); }
+            } else if (target.id === 'delete-btn') {
+                pinInput = pinInput.slice(0, -1); updatePinDots();
+            }
+        }
+            
+        function updatePinDots() { document.querySelectorAll('#pin-dots div').forEach((dot, index) => dot.classList.toggle('bg-white', index < pinInput.length)); }
+
+        function checkPin() {
+            if (pinInput.length === 4) {
+                const lockContent = document.getElementById('lock-content');
+                if (pinInput === CORRECT_PIN) {
+                    if(lockContent) lockContent.classList.add('opacity-0');
+                    setTimeout(() => showScreen(allScreens.error), 600);
+                } else {
+                    const pinDotsEl = document.getElementById('pin-dots');
+                    if(pinDotsEl) pinDotsEl.classList.add('animate-shake');
+                    setTimeout(() => { 
+                        if(pinDotsEl) pinDotsEl.classList.remove('animate-shake'); 
+                        pinInput = ""; 
+                        updatePinDots(); 
+                    }, 500);
+                }
+            }
+        }
+        
+        // --- TAHAP 3: UCAPAN ---
+        function handleProceedClick() {
+            if(song) song.play().catch(e => console.error("Audio play failed:", e));
+            const greetingTextEl = document.getElementById('greetingText');
+            if(!greetingTextEl) return;
+            
+            greetingTextEl.textContent = "Mempersiapkan kejutan...";
+            showScreen(allScreens.greeting);
+            greetingTextEl.classList.remove('opacity-0');
+            greetingTextEl.classList.add('fade-in-up');
+
+            setTimeout(() => {
+                greetingTextEl.classList.remove('fade-in-up');
+                greetingTextEl.classList.add('opacity-0');
+                setTimeout(() => startGreetingSequence(), 500);
+            }, 2000);
+        }
+
+        async function startGreetingSequence() {
+            const greetingTextEl = document.getElementById('greetingText');
+            const greetings = [ { text: "Halo Zizi...", duration: 2500 }, { text: "Ada sesuatu untukmu...", duration: 2500 }, { text: "Pejamkan matamu sebentar...", duration: 3000 }, { text: "1...", duration: 1000 }, { text: "2...", duration: 1000 }, { text: "3...", duration: 1000, isCelebration: true }, { text: "Selamat Ulang Tahun yang ke-19!", duration: 4000 }, { text: "Semoga semua yang baik datang kepadamu.", duration: 4000 }, { text: "Karena hari ini, semua tentangmu...", duration: 3000 }, { text: "Semua Aku Dirayakan.", duration: 4000 } ];
+            for (const greeting of greetings) {
+                await new Promise(resolve => {
+                    greetingTextEl.textContent = greeting.text;
+                    greetingTextEl.classList.remove('opacity-0');
+                    if (greeting.isCelebration) createEmojiConfetti();
+                    setTimeout(() => {
+                        greetingTextEl.classList.add('opacity-0');
+                        setTimeout(resolve, 500);
+                    }, greeting.duration);
+                });
+            }
+            showScreen(allScreens.cake);
+            createFallingPetals();
+        }
+        
+        // --- TAHAP 4: KUE & TELEGRAM ---
+        function handleWishSubmit(e) {
+            e.preventDefault();
+            const wishForm = document.getElementById('wish-form');
+            const wishInput = document.getElementById('wish-input');
+            const submitButton = wishForm.querySelector('button[type="submit"]');
+
+            if (!wishInput || wishInput.value.trim() === "") return;
+            
+            const wishText = `Harapan baru dari Zizi ✨:\n\n"${wishInput.value}"`;
+            submitButton.textContent = 'Mengirim...';
+            submitButton.disabled = true;
+
+            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CONFIG.chatID, text: wishText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    showAlert('Harapanmu telah terkirim! ✨');
+                    document.getElementById('wish-text-display').textContent = `"${wishInput.value}"`;
+                    wishForm.classList.add('hidden');
+                    document.getElementById('candle-flame').style.transform = 'scale(0)';
+                    releaseBalloons();
+                    setTimeout(() => {
+                        showScreen(allScreens.gallery);
+                        document.querySelectorAll('.polaroid').forEach((p, i) => setTimeout(() => p.classList.add('polaroid-animated'), i * 200));
+                    }, 2000);
+                } else { throw new Error(data.description); }
+            })
+            .catch(error => {
+                console.error('FAILED...', error);
+                showAlert('Gagal mengirim harapan, coba lagi ya.');
+                submitButton.textContent = 'Tiup Lilinnya!';
+                submitButton.disabled = false;
+            });
+        }
+        
+        function showAlert(message) {
+            const alertBox = document.getElementById('alert-box');
+            if(!alertBox) return;
+            alertBox.textContent = message;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => alertBox.classList.add('hidden'), 3000);
+        }
+        
+        // --- TAHAP 5 & 6: GALERI & SURAT ---
+        function handleToFinalMessageClick() {
+            showScreen(allScreens.final);
+            startFinalSequence();
+        }
+
+        function startFinalSequence() {
+            const timerEl = document.getElementById('countdown-timer');
+            if(!timerEl) return;
+            let timeLeft = LETTER_COUNTDOWN_DURATION;
+            timerEl.textContent = `00:${timeLeft}`;
+            clearInterval(letterTimerInterval);
+            letterTimerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(letterTimerInterval);
+                    timerEl.classList.add('fade-out-down');
+                    startOutro();
+                    return;
+                }
+                timerEl.textContent = `00:${timeLeft.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function startOutro() {
+            const darkOverlay = document.getElementById('dark-overlay');
+            const letterContent = document.getElementById('letter-content');
+            const outroContainer = document.getElementById('outro-container');
+            if(!darkOverlay || !letterContent || !outroContainer) return;
+
+            darkOverlay.style.opacity = '0.85';
+            letterContent.classList.add('fade-out-down');
+
+            const outroTexts = [ { el: document.getElementById('outro-text-1'), text: "Kamu itu kuat, kamu itu hebat.", delay: 5000 }, { el: document.getElementById('outro-text-1'), text: "Jangan pernah biarkan siapapun bilang sebaliknya.", delay: 4500, newText: true }, { el: document.getElementById('outro-text-2'), text: "Sekali lagi ya, sayang... Selamat Ulang Tahun", delay: 7500 }, { el: document.getElementById('outro-text-1'), text: "Di antara milyaran manusia di bumi...", delay: 10000, newText: true }, { el: document.getElementById('outro-text-2'), text: "Aku bersyukur semesta mempertemukan kita.", delay: 13000, newText: true}, { el: document.getElementById('outro-text-3'), text: "Zizi 🤍", delay: 16000 }, { el: document.getElementById('outro-text-4'), text: "- awan", delay: 17000 } ];
+            setTimeout(() => {
+                letterContent.classList.add('hidden');
+                outroContainer.classList.remove('opacity-0');
+                outroTexts.forEach(item => {
+                    setTimeout(() => {
+                        if(!item.el) return;
+                        if (item.newText) {
+                            document.querySelectorAll('#outro-container p').forEach(p => { if (p.id !== item.el.id) p.style.opacity = '0'; });
+                        }
+                        item.el.textContent = item.text;
+                        item.el.style.opacity = '1';
+                    }, item.delay);
+                });
+            }, 1000);
+        }
+        
+        // --- HELPER FUNCTIONS ---
+        function createEmojiConfetti() { const c = document.getElementById('boom-container'); if(!c) return; c.innerHTML = ''; const e = ['🌸','💖','🧸','🌊','☀️','🎉','🎂','🎈','❤️','🧡','💛','💚','💙','💜','✨']; for(let i=0;i<120;i++){const t=document.createElement('div');t.className='confetti';t.textContent=e[Math.floor(Math.random()*e.length)];const o=(Math.random()-.5)*window.innerWidth*1.5,n=(Math.random()-.5)*window.innerHeight*1.5;t.style.cssText=`top:50%;left:50%;--x:${o}px;--y:${n}px;`;c.appendChild(t)}}
+        function createFallingPetals() { const c = document.getElementById('petal-container'); if(!c) return; c.innerHTML = ''; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.className = 'petal'; p.style.left = `${Math.random() * 100}vw`; p.style.animationDuration = `${Math.random() * 5 + 5}s`; p.style.animationDelay = `${Math.random() * 5}s`; c.appendChild(p);}}
+        function releaseBalloons() { const c = document.getElementById('balloon-release-container'); if(!c) return; c.innerHTML = ''; const o = ['#fca5a5','#fdba74','#fde047','#86efac','#67e8f9','#a78bfa']; for (let i = 0; i < 30; i++) { const b = document.createElement('div'); b.className = 'flying-balloon'; const s = Math.random() * 40 + 20; b.innerHTML = `<svg viewBox="0 0 100 120"><path d="M50 0 C10 10, 10 80, 50 120 C90 80, 90 10, 50 0 Z" fill="${o[Math.floor(Math.random() * o.length)]}"/></svg>`; b.style.cssText = `position: absolute; bottom: -100px; left: ${Math.random() * 100}vw; width: ${s}px; height: ${s*1.2}px; animation-delay: ${Math.random() * 2}s;`; c.appendChild(b);}}
+
+        // ===== MULAI APLIKASI =====
+        checkDate();
+    });
+    </script>
+</body>
+</html>
