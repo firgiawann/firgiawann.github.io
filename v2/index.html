@@ -60,12 +60,11 @@
 <body class="bg-gradient-to-br from-sky-400 to-blue-600 overflow-hidden h-screen">
 
     <div id="dark-overlay" class="fixed inset-0 bg-slate-900 opacity-0 transition-opacity duration-2000 pointer-events-none z-40"></div>
-    <audio id="birthdaySong" loop><source src="https://github.com/gemini-pro/gemini-pro.github.io/raw/main/semual-aku-dirayakan.mp3" type="audio/mpeg"></audio>
+    <audio id="birthdaySong" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
     <!-- ===== 0. LAYAR HITUNG MUNDUR (BARU) ===== -->
     <div id="countdownScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-gradient-to-br from-sky-500 to-blue-700">
-        <h1 class="text-3xl font-bold mb-4 animate-fade-in">The website is under construction...
-Mohon sabar menunggu ya, semuanya masih dalam tahap persiapan.</h1>
+        <h1 class="text-3xl font-bold mb-4 animate-fade-in">Sedang mempersiapkan kejutan...</h1>
         <div id="timer-container" class="flex space-x-4 md:space-x-8 text-center mt-8 animate-fade-in" style="animation-delay: 0.5s;">
             <div><span id="days" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Hari</span></div>
             <div><span id="hours" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Jam</span></div>
@@ -128,15 +127,23 @@ Mohon sabar menunggu ya, semuanya masih dalam tahap persiapan.</h1>
             <p id="outro-text-1" class="text-4xl md:text-5xl opacity-0 transition-opacity duration-1000"></p><p id="outro-text-2" class="text-4xl md:text-5xl mt-6 opacity-0 transition-opacity duration-1000"></p><p id="outro-text-3" class="text-5xl md:text-6xl mt-16 opacity-0 transition-opacity duration-1000"></p><p id="outro-text-4" class="text-4xl md:text-5xl mt-4 opacity-0 transition-opacity duration-1000"></p>
         </div>
     </div>
+    
+    <div id="alert-box" class="hidden fixed top-5 left-1/2 -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50 animate-fade-in">
+        Harapanmu telah terkirim! ✨
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const App = {
             // ... (Konfigurasi, State, dan Fungsi Pembantu seperti sebelumnya)
             config: {
-                targetDate: new Date('2025-07-04T00:00:00'),
+                targetDate: new Date('2025-06-04T00:00:00'),
                 correctPin: "0407",
                 countdownDuration: 45,
+                telegram: {
+                    botToken: '7591581627:AAEhdJZEf4iZb-gmFDN59vvb0itnOpJPsYU', // <-- KUNCI RAHASIA 1
+                    chatID: '2010496733'    // <-- KUNCI RAHASIA 2
+                }
             },
             state: {
                 pinInput: "",
@@ -332,16 +339,54 @@ Mohon sabar menunggu ya, semuanya masih dalam tahap persiapan.</h1>
 
             handleWishSubmit(e) {
                 e.preventDefault();
+                const wishForm = this.elements.wishForm;
                 const wishInput = document.getElementById('wish-input');
+                const submitButton = wishForm.querySelector('button[type="submit"]');
+
                 if (!wishInput || wishInput.value.trim() === "") return;
-                document.getElementById('wish-text-display').textContent = `"${wishInput.value}"`;
-                this.elements.wishForm.classList.add('hidden');
-                document.getElementById('candle-flame').style.transform = 'scale(0)';
-                this.releaseBalloons();
-                setTimeout(() => {
-                    this.showScreen('galleryScreen');
-                    document.querySelectorAll('.polaroid').forEach((p, i) => setTimeout(() => p.classList.add('polaroid-animated'), i * 200));
-                }, 2000);
+                
+                const wishText = `Harapan baru dari Zizi ✨:\n\n"${wishInput.value}"`;
+                submitButton.textContent = 'Mengirim...';
+                submitButton.disabled = true;
+
+                const { botToken, chatID } = this.config.telegram;
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatID, text: wishText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        this.showAlert('Harapanmu telah terkirim! ✨');
+                        document.getElementById('wish-text-display').textContent = `"${wishInput.value}"`;
+                        wishForm.classList.add('hidden');
+                        document.getElementById('candle-flame').style.transform = 'scale(0)';
+                        this.releaseBalloons();
+                        setTimeout(() => {
+                            this.showScreen(this.elements.gallery);
+                            document.querySelectorAll('.polaroid').forEach((p, i) => setTimeout(() => p.classList.add('polaroid-animated'), i * 200));
+                        }, 2000);
+                    } else {
+                        throw new Error(data.description);
+                    }
+                })
+                .catch(error => {
+                    console.error('FAILED...', error);
+                    this.showAlert('Gagal mengirim harapan, coba lagi ya.');
+                    submitButton.textContent = 'Tiup Lilinnya!';
+                    submitButton.disabled = false;
+                });
+            },
+
+            showAlert(message) {
+                const alertBox = this.elements.alertBox;
+                if(!alertBox) return;
+                alertBox.textContent = message;
+                alertBox.classList.remove('hidden');
+                setTimeout(() => alertBox.classList.add('hidden'), 3000);
             },
 
             handleToFinalMessageClick() {
