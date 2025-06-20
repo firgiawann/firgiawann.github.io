@@ -74,7 +74,7 @@
     </div>
 
     <!-- ===== 1. LAYAR KUNCI ===== -->
-    <div id="lockScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1528819027818-a84a6a4b1638?q=80&w=1887&auto=format&fit=crop');">
+    <div id="lockScreen" class="w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1528819027818-a84a6a4b1638?q=80&w=1887&auto=format&fit=crop');">
         <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
         <div id="lock-content" class="z-10 flex flex-col h-full transition-opacity duration-500">
             <div class="flex-grow flex flex-col justify-center items-center"><div id="time" class="text-7xl font-thin mb-2"></div><div id="date" class="text-xl"></div></div>
@@ -258,49 +258,53 @@
                     container.appendChild(balloon);
                 }
             },
-
-            initLockScreen() {
-                this.elements.screens.lock.classList.add('animate-fade-in');
-                const updateClock = () => {
+            function initLockScreen() {
+                if(!screens.lock) return;
+                screens.lock.classList.add('animate-fade-in');
+                function updateTime() {
                     const now = new Date();
                     const timeEl = document.getElementById('time');
                     const dateEl = document.getElementById('date');
                     if(timeEl) timeEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
                     if(dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                };
-                setInterval(updateClock, 1000); updateClock();
-            },
-
-            handleKeypadClick(e) {
-                const target = e.target.closest('button');
-                if (!target) return;
-                if (target.classList.contains('keypad-btn')) {
-                    if (this.state.pinInput.length < 4) { this.state.pinInput += target.textContent; this.updatePinDots(); this.checkPin(); }
-                } else if (target.id === 'delete-btn') {
-                    this.state.pinInput = this.state.pinInput.slice(0, -1); this.updatePinDots();
                 }
-            },
+                setInterval(updateTime, 1000); updateTime();
+            }
             
-            updatePinDots() { this.elements.pinDots.forEach((dot, index) => dot.classList.toggle('bg-white', index < this.state.pinInput.length)); },
-
-            checkPin() {
-                if (this.state.pinInput.length === 4) {
-                    const lockContent = document.getElementById('lock-content');
-                    if (this.state.pinInput === this.config.correctPin) {
+            function updatePinDots() {
+                document.querySelectorAll('#pin-dots div').forEach((dot, index) => dot.classList.toggle('bg-white', index < pinInput.length));
+            }
+    
+            function checkPin() {
+                if (pinInput.length === 4) {
+                    if (pinInput === correctPin) {
+                        const lockContent = document.getElementById('lock-content');
                         if(lockContent) lockContent.classList.add('opacity-0');
-                        setTimeout(() => this.showScreen('fakeErrorScreen'), 600);
+                        setTimeout(() => showScreen(screens.error), 600);
                     } else {
-                        const pinDotsEl = document.getElementById('pin-dots');
-                        if(pinDotsEl) pinDotsEl.classList.add('animate-shake');
-                        setTimeout(() => { 
-                            if(pinDotsEl) pinDotsEl.classList.remove('animate-shake'); 
-                            this.state.pinInput = ""; 
-                            this.updatePinDots(); 
+                        const pinDotsContainer = document.getElementById('pin-dots');
+                        if(pinDotsContainer) pinDotsContainer.classList.add('animate-shake');
+                        setTimeout(() => {
+                            if(pinDotsContainer) pinDotsContainer.classList.remove('animate-shake');
+                            pinInput = ""; updatePinDots();
                         }, 500);
                     }
                 }
-            },
-            
+            }
+    
+            if(keypadContainer) {
+                keypadContainer.addEventListener('click', (e) => {
+                    const target = e.target.closest('button');
+                    if (!target) return;
+                    if (target.classList.contains('keypad-btn')) {
+                        if (pinInput.length < 4) { pinInput += target.textContent; updatePinDots(); checkPin(); }
+                    } else if (target.id === 'delete-btn') {
+                        pinInput = pinInput.slice(0, -1); updatePinDots();
+                    }
+                });
+            }
+    
+
             handleProceedClick() {
                 if(this.elements.song) this.elements.song.play().catch(e => console.error("Audio play failed:", e));
                 const greetingTextEl = document.getElementById('greetingText');
