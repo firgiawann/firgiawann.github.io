@@ -62,6 +62,17 @@
     <div id="dark-overlay" class="fixed inset-0 bg-slate-900 opacity-0 transition-opacity duration-2000 pointer-events-none z-40"></div>
     <audio id="birthdaySong" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
+    <!-- ===== 0. LAYAR HITUNG MUNDUR ===== -->
+    <div id="countdownScreen" class="hidden w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-gradient-to-br from-sky-500 to-blue-700">
+        <h1 class="text-3xl font-bold mb-4 animate-fade-in">Sedang mempersiapkan kejutan...</h1>
+        <div id="timer-container" class="flex space-x-4 md:space-x-8 text-center mt-8 animate-fade-in" style="animation-delay: 0.5s;">
+            <div><span id="days" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Hari</span></div>
+            <div><span id="hours" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Jam</span></div>
+            <div><span id="minutes" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Menit</span></div>
+            <div><span id="seconds" class="text-5xl md:text-7xl font-bold">00</span><span class="block text-sm">Detik</span></div>
+        </div>
+    </div>
+    
     <!-- ===== 1. LAYAR KUNCI ===== -->
     <div id="lockScreen" class="w-full h-full flex flex-col justify-center items-center text-white text-center p-8 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1528819027818-a84a6a4b1638?q=80&w=1887&auto=format&fit=crop');">
         <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
@@ -118,14 +129,21 @@
             <p id="outro-text-1" class="text-4xl md:text-5xl opacity-0 transition-opacity duration-1000"></p><p id="outro-text-2" class="text-4xl md:text-5xl mt-6 opacity-0 transition-opacity duration-1000"></p><p id="outro-text-3" class="text-5xl md:text-6xl mt-16 opacity-0 transition-opacity duration-1000"></p><p id="outro-text-4" class="text-4xl md:text-5xl mt-4 opacity-0 transition-opacity duration-1000"></p>
         </div>
     </div>
-
+    
+    <div id="alert-box" class="hidden fixed top-5 left-1/2 -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50 animate-fade-in"></div>
+    
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // ===== PENGATURAN AWAL =====
+        const TARGET_DATE = new Date('2025-07-04T00:00:00');
         const correctPin = "0407";
         let pinInput = "";
         let timerInterval = null;
-
+        const telegram = {
+                    botToken: '7591581627:AAEhdJZEf4iZb-gmFDN59vvb0itnOpJPsYU', // <-- KUNCI RAHASIA 1
+                    chatID: '2010496733'    // <-- KUNCI RAHASIA 2
+                }
+        };
         // Ambil semua elemen penting sekali saja
         const screens = {
             lock: document.getElementById('lockScreen'),
@@ -184,7 +202,62 @@
                 container.appendChild(balloon);
             }
         }
+        // --- FUNGSI UTAMA ---
 
+        function showScreen(screenEl) {
+            Object.values(allScreens).forEach(s => s && s.classList.add('hidden'));
+            if (screenEl) screenEl.classList.remove('hidden');
+        }
+
+        // --- TAHAP 0: GERBANG WAKTU ---
+        function checkDate() {
+            const now = new Date();
+            // Untuk testing, uncomment baris di bawah
+            // startMainApp(); return; 
+
+            if (now < TARGET_DATE) {
+                showScreen(allScreens.countdown);
+                startWebsiteCountdown();
+            } else {
+                startMainApp();
+            }
+        }
+
+        function startWebsiteCountdown() {
+            const timerEls = {
+                days: document.getElementById('days'),
+                hours: document.getElementById('hours'),
+                minutes: document.getElementById('minutes'),
+                seconds: document.getElementById('seconds'),
+            };
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = TARGET_DATE - now;
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    startMainApp();
+                    return;
+                }
+                timerEls.days.innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                timerEls.hours.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                timerEls.minutes.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                timerEls.seconds.innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        // --- TAHAP 0: INISIALISASI APLIKASI UTAMA ---
+        function startMainApp() {
+            showScreen(allScreens.lock);
+            initLockScreen();
+            registerEventListeners();
+        }
+
+        function registerEventListeners() {
+            document.getElementById('keypad').addEventListener('click', handleKeypadClick);
+            document.getElementById('proceedButton').addEventListener('click', handleProceedClick);
+            document.getElementById('wish-form').addEventListener('submit', handleWishSubmit);
+            document.getElementById('toFinalMessage').addEventListener('click', handleToFinalMessageClick);
+        }
         // ===== TAHAP 1: LAYAR KUNCI =====
         function initLockScreen() {
             if(!screens.lock) return;
@@ -283,19 +356,66 @@
             wishForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const wishInput = document.getElementById('wish-input');
+                const submitButton = wishForm.querySelector('button[type="submit"]'); // Ambil tombolnya
+
                 if (!wishInput || wishInput.value.trim() === "") return;
-                const wishDisplay = document.getElementById('wish-text-display');
-                if(wishDisplay) wishDisplay.textContent = `"${wishInput.value}"`;
-                wishForm.classList.add('hidden');
-                const candleFlame = document.getElementById('candle-flame');
-                if(candleFlame) candleFlame.style.transform = 'scale(0)';
-                releaseBalloons();
-                setTimeout(() => {
-                    showScreen(screens.gallery);
-                    document.querySelectorAll('.polaroid').forEach((p, i) => setTimeout(() => p.classList.add('polaroid-animated'), i * 200));
-                }, 5000);
+                
+                // BAGIAN BARU: Ubah tombol menjadi mode "mengirim"
+                submitButton.textContent = 'Mengirim...';
+                submitButton.disabled = true;
+
+                // BAGIAN BARU: Format pesan yang akan dikirim
+                const wishText = `Harapan baru dari Zizi ✨:\n\n"${wishInput.value}"`;
+                const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
+
+                // BAGIAN BARU: Kirim pesan ke Telegram
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: TELEGRAM_CONFIG.chatID, text: wishText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        // Jika SUKSES, tampilkan notifikasi dan lanjutkan alur seperti biasa
+                        showAlert('Harapanmu telah terkirim! ✨');
+                        
+                        const wishDisplay = document.getElementById('wish-text-display');
+                        if(wishDisplay) wishDisplay.textContent = `"${wishInput.value}"`;
+                        wishForm.classList.add('hidden');
+                        
+                        const candleFlame = document.getElementById('candle-flame');
+                        if(candleFlame) candleFlame.style.transform = 'scale(0)';
+                        
+                        releaseBalloons(); // Fungsi ini harus sudah ada di kodemu
+                        
+                        setTimeout(() => {
+                            showScreen(screens.gallery); // Fungsi ini juga harus sudah ada
+                            document.querySelectorAll('.polaroid').forEach((p, i) => setTimeout(() => p.classList.add('polaroid-animated'), i * 200));
+                        }, 8000); // Jeda 2 detik setelah notifikasi muncul
+
+                    } else {
+                        // Jika GAGAL, beri tahu dan kembalikan tombol seperti semula
+                        throw new Error(data.description);
+                    }
+                })
+                .catch(error => {
+                    console.error('GAGAL MENGIRIM KE TELEGRAM:', error);
+                    showAlert('Gagal mengirim harapan, coba lagi ya.');
+                    submitButton.textContent = 'Tiup Lilinnya!';
+                    submitButton.disabled = false;
+                });
             });
         }
+        // BAGIAN BARU: Fungsi kecil untuk menampilkan notifikasi
+        function showAlert(message) {
+            const alertBox = document.getElementById('alert-box');
+            if(!alertBox) return;
+            alertBox.textContent = message;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => alertBox.classList.add('hidden'), 3000);
+        }
+
 
         const toFinalMessageButton = document.getElementById('toFinalMessage');
         if(toFinalMessageButton){
