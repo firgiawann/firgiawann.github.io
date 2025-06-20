@@ -157,14 +157,6 @@
         const keypadContainer = document.getElementById('keypad');
         const proceedButton = document.getElementById('proceedButton');
 
-        // ===== FUNGSI PEMBANTU =====
-        function showScreen(screen) {
-            Object.values(screens).forEach(s => {
-                if(s) s.classList.add('hidden');
-            });
-            if(screen) screen.classList.remove('hidden');
-        }
-
         function createEmojiConfetti() {
             const container = document.getElementById('boom-container'); 
             if(!container) return;
