@@ -292,7 +292,7 @@
 
         async function startGreetingSequence() {
             const greetingTextEl = document.getElementById('greetingText');
-            const greetings = [ { text: "Halo Zizi...", duration: 2500 }, { text: "Ada sesuatu untukmu...", duration: 2500 }, { text: "Tunggu sebentar ya...", duration: 3000 }, { text: "1...", duration: 1000 }, { text: "2...", duration: 1000 }, { text: "3...", duration: 1000, isCelebration: true }, { text: "Selamat Ulang Tahun yang ke-19!", duration: 4000 }, { text: "Semoga semua yang baik datang kepadamu.", duration: 4000 }, { text: "Karena hari ini, semua tentangmu...", duration: 3000 }, { text: "Semua Aku Dirayakan.", duration: 4000 } ];
+            const greetings = [ { text: "Halo Zizi...", duration: 2500 }, { text: "Ada sesuatu untukmu...", duration: 2500 }, { text: "Tunggu sebentar ya...", duration: 3000 }, { text: "1...", duration: 1000 }, { text: "2...", duration: 1000 }, { text: "3...", duration: 1000, isCelebration: true }, { text: "Selamat Ulang Tahun yang ke-19 yaa🥳🎂✨!", duration: 4000 }, { text: "Semoga semua yang baik datang kepadamu.", duration: 4000 }, { text: "Karena hari ini, semua tentangmu...", duration: 3000 }, { text: "Semua Zizi Dirayakan🤍", duration: 4000 } ];
             for (const greeting of greetings) {
                 await new Promise(resolve => {
                     greetingTextEl.textContent = greeting.text;
