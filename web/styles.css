@@ -1,0 +1,74 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9; /* abu terang */
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: #444;
+  margin-bottom: 20px;
+}
+
+table {
+  margin-top: 20px;
+  border-collapse: separate;
+  border-spacing: 20px;
+}
+
+td {
+  width: 240px;
+  border-radius: 10px;
+  text-align: center;
+  padding: 12px;
+  background: #fff; /* default, nanti dioverride per-kotak */
+}
+
+img {
+  display: block;
+  margin: 0 auto 10px;
+  border-radius: 6px;
+  width: 180px;
+  height: auto;
+}
+
+/* tombol umum */
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* tombol per-wisata */
+.btn-w1 { background-color: #ff6b6b; }
+.btn-w2 { background-color: #118ab2; }
+.btn-w3 { background-color: #06d6a0; }
+
+
+/* ==== Warna pastel berbeda untuk setiap box ==== */
+.w1 {
+  background-color: #ffe5ec; /* pink pastel */
+}
+.w1 .btn {
+  background-color: #ff6b6b;
+}
+ 
+.w2 {
+  background-color: #e0f7fa; /* biru pastel */
+}
+.w2 .btn {
+  background-color: #118ab2;
+}
+
+.w3 {
+  background-color: #f1f8e9; /* hijau pastel */
+}
+.w3 .btn {
+  background-color: #06d6a0;
+}
