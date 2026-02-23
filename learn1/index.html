@@ -116,6 +116,17 @@
             100%{transform:translateY(-10vh) translateX(40px);opacity:0}
         }
 
+        /* === RANK UP MODAL === */
+        @keyframes rankUpPulse{0%{transform:scale(.5);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+        .rank-up-anim{animation:rankUpPulse .6s cubic-bezier(.34,1.56,.64,1) forwards}
+        @keyframes rankShine{0%{background-position:-200% center}100%{background-position:200% center}}
+        .rank-shine{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.15) 50%,transparent 100%);background-size:200% 100%;animation:rankShine 2s linear infinite}
+        @keyframes starBurst{0%{transform:scale(0) rotate(0deg);opacity:1}100%{transform:scale(2) rotate(180deg);opacity:0}}
+        .star-burst{animation:starBurst 1s ease-out forwards}
+        .rank-card-glow{box-shadow:0 0 30px rgba(245,158,11,.15),inset 0 1px 0 rgba(255,255,255,.05)}
+        .nickname-input{background:rgba(15,23,42,.8);border:2px solid rgba(6,182,212,.3);outline:none;transition:all .3s ease}
+        .nickname-input:focus{border-color:rgba(6,182,212,.8);box-shadow:0 0 20px rgba(6,182,212,.2)}
+
         /* Responsive */
         @media(max-width:768px){
             .hide-mobile{display:none !important}
@@ -137,6 +148,13 @@
         <p class="text-sm text-cyan-300/60 mono mb-4">Interactive Learning Environment v2.0</p>
         <p class="text-slate-400 mb-6 text-sm leading-relaxed">Platform pembelajaran interaktif berbasis <strong class="text-white">gamifikasi</strong> untuk memahami Sistem Komputer. Lengkap dengan misi, level, nyawa, dan lencana!</p>
         
+        <!-- Nickname Input -->
+        <div class="mb-5">
+            <label class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-2 block text-left">🏷️ Masukkan Nickname Kamu</label>
+            <input id="nickname-input" type="text" maxlength="20" placeholder="Contoh: CyberNinja, TechMaster..." class="nickname-input w-full py-3 px-4 rounded-xl text-white font-bold text-center text-lg placeholder:text-slate-600 placeholder:font-normal placeholder:text-sm">
+            <p class="text-[10px] text-slate-500 mt-1.5 text-left">Nickname akan menjadi identitasmu sepanjang petualangan 🎮</p>
+        </div>
+
         <!-- Feature Preview -->
         <div class="grid grid-cols-4 gap-2 mb-6">
             <div class="bg-slate-800/80 p-2 rounded-lg text-center">
@@ -189,6 +207,15 @@
 
         <!-- Stats Bar -->
         <div class="flex items-center gap-3 md:gap-5">
+            <!-- Nickname & Rank -->
+            <div class="hide-mobile flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/50">
+                <span id="hud-rank-icon" class="text-sm">🌱</span>
+                <div class="leading-tight">
+                    <p id="hud-nickname" class="text-[10px] font-bold text-white truncate max-w-[80px]">Player</p>
+                    <p id="hud-rank-name" class="text-[8px] text-slate-400 mono">Pemula</p>
+                </div>
+            </div>
+
             <!-- Streak -->
             <div id="streak-display" class="hidden items-center gap-1 bg-orange-500/10 px-2 py-1 rounded-lg border border-orange-500/20">
                 <span class="fire-flicker text-sm">🔥</span>
@@ -264,6 +291,30 @@
             <p class="text-xl font-bold" id="stat-xp">0</p>
             <p class="text-[10px] text-slate-500 uppercase font-bold">Total XP</p>
         </div>
+    </div>
+
+    <!-- Rank Card -->
+    <div id="rank-card" class="glass rank-card-glow p-5 rounded-2xl mb-8 no-hover relative overflow-hidden">
+        <div class="flex items-center gap-4">
+            <div id="home-rank-icon" class="w-16 h-16 bg-amber-500/10 border-2 border-amber-500/30 rounded-2xl flex items-center justify-center text-4xl float">🌱</div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <p class="text-[9px] text-amber-400/60 uppercase font-bold tracking-widest mono">RANK SAAT INI</p>
+                </div>
+                <h3 id="home-rank-title" class="text-lg font-extrabold text-white">🌱 Pemula Baru</h3>
+                <p id="home-rank-desc" class="text-xs text-slate-400 mt-0.5">Perjalanan dimulai dari sini!</p>
+                <div class="mt-2">
+                    <div class="flex justify-between items-center mb-1">
+                        <p id="home-rank-next" class="text-[9px] text-slate-500">Rank selanjutnya: 🔰 Penjelajah Muda</p>
+                        <p id="home-rank-progress-text" class="text-[9px] text-amber-400 font-bold mono">0%</p>
+                    </div>
+                    <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div id="home-rank-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-400 rounded-full transition-all duration-700" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rank-shine absolute inset-0 rounded-2xl pointer-events-none"></div>
     </div>
 
     <!-- Main Menu Grid -->
@@ -377,6 +428,7 @@
 <div id="view-victory" class="hidden w-full text-center py-8 anim-view space-y-5">
     <div class="text-7xl md:text-8xl mb-2 float">🏆</div>
     <h2 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">SISTEM BERHASIL DIRESTORASI!</h2>
+    <p id="victory-nickname" class="text-amber-400 font-bold text-lg mt-1">👑 Grand Master Player</p>
     <p class="text-slate-400 text-base max-w-2xl mx-auto">Selamat! Anda telah menguasai konsep <strong class="text-white">Kesatuan Sistem Komputer</strong> — Hardware, Software, dan Brainware.</p>
     <div class="flex flex-wrap gap-3 justify-center mt-4" id="victory-badges"></div>
     <div class="glass p-5 rounded-2xl max-w-sm mx-auto no-hover mt-2">
@@ -388,6 +440,27 @@
 </div>
 
 </main>
+
+<!-- ============================================= -->
+<!-- RANK-UP MODAL                                 -->
+<!-- ============================================= -->
+<div id="rank-modal" class="fixed inset-0 z-[9990] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 hidden" onclick="closeRankModal()">
+    <div class="glass p-8 rounded-3xl max-w-sm w-full text-center border border-amber-500/30 rank-up-anim relative overflow-hidden" onclick="event.stopPropagation()">
+        <div class="absolute inset-0 bg-gradient-to-b from-amber-500/5 to-transparent pointer-events-none"></div>
+        <div class="rank-shine absolute inset-0 rounded-3xl pointer-events-none"></div>
+        <p class="text-[10px] text-amber-400 font-bold uppercase tracking-[.3em] mb-3 mono">⬆ RANK UP!</p>
+        <div id="rank-modal-icon" class="text-6xl mb-3 float">🔰</div>
+        <h3 id="rank-modal-title" class="text-2xl font-extrabold text-white mb-1">Penjelajah Muda</h3>
+        <p id="rank-modal-player" class="text-sm text-amber-400 font-bold mb-2">Player</p>
+        <p id="rank-modal-desc" class="text-xs text-slate-400 mb-4">Kamu mulai menjelajahi dunia sistem komputer!</p>
+        <div id="rank-modal-reward" class="bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-xl mb-5">
+            <p class="text-amber-400 font-bold text-sm">🎁 +50 XP Bonus!</p>
+        </div>
+        <button onclick="closeRankModal()" class="bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-black font-bold py-3 px-8 rounded-xl transition-all active:scale-95 text-sm w-full">
+            ✨ LANJUTKAN
+        </button>
+    </div>
+</div>
 
 <footer class="text-center py-3 text-[10px] text-slate-600 mono relative" style="z-index:1">EduSystem Lab &copy; 2026 — Teknologi Pembelajaran Interaktif</footer>
 
@@ -404,6 +477,8 @@ let uttId = 0;
 let currentView = 'view-home';
 
 const state = {
+    playerName: 'Player',
+    currentRank: 0,
     lives: 5,
     maxLives: 5,
     xp: 0,
@@ -419,6 +494,20 @@ const state = {
     collected: [],
     wrongCount: 0
 };
+
+// ==========================================
+// 1b. DATABASE — RANK SYSTEM (8 Pangkat)
+// ==========================================
+const dbRanks = [
+    { id:0, icon:'🌱', title:'Pemula Baru',       desc:'Perjalanan dimulai dari sini!',                 reward:0,   check:()=>true },
+    { id:1, icon:'🔰', title:'Penjelajah Muda',   desc:'Mulai menjelajahi dunia sistem komputer!',      reward:20,  check:()=>state.materiRead.size >= 1 },
+    { id:2, icon:'📚', title:'Murid Rajin',        desc:'Rajin membaca dan memahami materi!',            reward:50,  check:()=>state.materiRead.size >= 3 },
+    { id:3, icon:'⚡', title:'Calon Teknisi',      desc:'Membuktikan kemampuan di medan misi!',          reward:50,  check:()=>state.missionsComplete.size >= 1 },
+    { id:4, icon:'🛡️', title:'Teknisi Handal',     desc:'Sudah mahir menyelesaikan berbagai tantangan!', reward:80,  check:()=>state.missionsComplete.size >= 3 },
+    { id:5, icon:'🎖️', title:'Ahli Sistem',        desc:'Menguasai seluruh materi sistem komputer!',     reward:100, check:()=>state.materiRead.size >= 6 },
+    { id:6, icon:'👑', title:'Elite Engineer',     desc:'Semua misi terselesaikan dengan gemilang!',     reward:150, check:()=>state.missionsComplete.size >= 5 },
+    { id:7, icon:'🏆', title:'Grand Master',       desc:'Legenda sejati yang menguasai segalanya!',      reward:200, check:()=>state.materiRead.size >= 6 && state.missionsComplete.size >= 5 && state.badges.size >= 10 }
+];
 
 // ==========================================
 // 2. DATABASE — MATERI (6 Topik)
@@ -777,16 +866,23 @@ function initSystem() {
     // Force reload voices if not ready yet
     if (!voicesReady) loadVoices();
 
+    // Capture nickname
+    const nameInput = document.getElementById('nickname-input');
+    const rawName = (nameInput ? nameInput.value : '').trim();
+    state.playerName = rawName.length > 0 ? rawName : 'Player';
+
     document.getElementById('screen-init').classList.add('hidden');
     const hud = document.getElementById('hud');
     hud.classList.remove('hidden');
     hud.style.display = 'flex';
     sfx(440, 'sine', .2);
     switchView('view-home');
+    updateRankUI();
+    updateHomeStats();
 
     // Small delay to let the dummy utterance finish and voices to load
     setTimeout(() => {
-        speak("Selamat datang di EduSystem Lab! Platform pembelajaran interaktif sistem komputer. Pilih menu untuk memulai petualangan belajarmu.");
+        speak(`Selamat datang, ${state.playerName}! Kamu mendapat rank Pemula Baru. Pelajari materi dan selesaikan misi untuk naik pangkat!`);
     }, 300);
     earnBadge('b_welcome');
     spawnParticles();
@@ -911,6 +1007,110 @@ document.addEventListener('click', function resumeAudioOnClick() {
 });
 
 // ==========================================
+// 5b. RANK SYSTEM LOGIC
+// ==========================================
+function checkRankUp() {
+    let newRank = state.currentRank;
+    for (let i = dbRanks.length - 1; i > state.currentRank; i--) {
+        if (dbRanks[i].check()) { newRank = i; break; }
+    }
+    if (newRank > state.currentRank) {
+        const oldRank = state.currentRank;
+        state.currentRank = newRank;
+        const rank = dbRanks[newRank];
+        // Give reward XP (directly, no recursive rankup)
+        if (rank.reward > 0) {
+            state.xp += rank.reward;
+            while (state.xp >= state.xpToNext) {
+                state.xp -= state.xpToNext; state.level++;
+                state.xpToNext = Math.floor(state.xpToNext * 1.4);
+                sfxLevelUp();
+            }
+            updateXPUI();
+        }
+        updateRankUI();
+        showRankUpModal(rank);
+        return true;
+    }
+    return false;
+}
+
+function showRankUpModal(rank) {
+    const modal = document.getElementById('rank-modal');
+    document.getElementById('rank-modal-icon').innerText = rank.icon;
+    document.getElementById('rank-modal-title').innerText = rank.title;
+    document.getElementById('rank-modal-player').innerText = state.playerName;
+    document.getElementById('rank-modal-desc').innerText = rank.desc;
+    document.getElementById('rank-modal-reward').innerHTML = rank.reward > 0
+        ? `<p class="text-amber-400 font-bold text-sm">🎁 +${rank.reward} XP Bonus!</p>`
+        : `<p class="text-amber-400 font-bold text-sm">🎉 Rank awal unlocked!</p>`;
+    modal.classList.remove('hidden');
+    sfxBadge();
+    setTimeout(() => sfxLevelUp(), 300);
+    speak(`Selamat ${state.playerName}! Kamu naik pangkat menjadi ${rank.title}! ${rank.reward > 0 ? 'Bonus ' + rank.reward + ' XP!' : ''}`);
+}
+
+function closeRankModal() {
+    document.getElementById('rank-modal').classList.add('hidden');
+}
+
+function updateRankUI() {
+    const rank = dbRanks[state.currentRank];
+    const nextRank = dbRanks[state.currentRank + 1] || null;
+    // HUD
+    const hi = document.getElementById('hud-rank-icon');
+    const hn = document.getElementById('hud-nickname');
+    const hr = document.getElementById('hud-rank-name');
+    if (hi) hi.innerText = rank.icon;
+    if (hn) hn.innerText = state.playerName;
+    if (hr) hr.innerText = rank.title;
+    // Home rank card
+    const hri = document.getElementById('home-rank-icon');
+    const hrt = document.getElementById('home-rank-title');
+    const hrd = document.getElementById('home-rank-desc');
+    const hrn = document.getElementById('home-rank-next');
+    const hrb = document.getElementById('home-rank-bar');
+    const hrp = document.getElementById('home-rank-progress-text');
+    if (hri) hri.innerText = rank.icon;
+    if (hrt) hrt.innerText = `${rank.icon} ${rank.title}`;
+    if (hrd) hrd.innerText = rank.desc;
+    if (nextRank) {
+        // Calculate progress toward next rank
+        const progress = calcRankProgress(nextRank);
+        if (hrn) hrn.innerText = `Rank selanjutnya: ${nextRank.icon} ${nextRank.title}`;
+        if (hrb) hrb.style.width = progress + '%';
+        if (hrp) hrp.innerText = progress + '%';
+    } else {
+        if (hrn) hrn.innerText = '🏆 Rank tertinggi tercapai!';
+        if (hrb) hrb.style.width = '100%';
+        if (hrp) hrp.innerText = 'MAX';
+    }
+}
+
+function calcRankProgress(nextRank) {
+    // Estimate progress based on what the next rank requires
+    // Use materi + missions as metric
+    const totalMateri = 6, totalMisi = 5, totalBadge = 10;
+    let needed = 0, have = 0;
+    // Heuristic: check what next rank measures
+    const src = nextRank.check.toString();
+    if (src.includes('materiRead')) {
+        const match = src.match(/>= (\d+)/);
+        if (match) { needed += parseInt(match[1]); have += Math.min(state.materiRead.size, parseInt(match[1])); }
+    }
+    if (src.includes('missionsComplete')) {
+        const match = src.match(/missionsComplete[^>]*>= (\d+)/);
+        if (match) { needed += parseInt(match[1]); have += Math.min(state.missionsComplete.size, parseInt(match[1])); }
+    }
+    if (src.includes('badges')) {
+        const match = src.match(/badges[^>]*>= (\d+)/);
+        if (match) { needed += parseInt(match[1]); have += Math.min(state.badges.size, parseInt(match[1])); }
+    }
+    if (needed === 0) return 0;
+    return Math.min(100, Math.round((have / needed) * 100));
+}
+
+// ==========================================
 // 6. NAVIGATION
 // ==========================================
 const allViews=['view-home','view-materi','view-materi-detail','view-mission','view-arena','view-badges','view-gameover','view-victory'];
@@ -991,6 +1191,8 @@ function markMateriRead(id){
     if(state.materiRead.size>=3)earnBadge('b_reader');
     if(state.materiRead.size>=6)earnBadge('b_scholar');
     updateHomeStats();
+    // Check rank up after a delay so the XP notification shows first
+    setTimeout(()=>{ checkRankUp(); },800);
     setTimeout(()=>goTo('view-materi','Bagus! Lanjut pelajari materi berikutnya.'),1500);
 }
 
@@ -1105,11 +1307,13 @@ function finishMission(key){
     updateHomeStats();updateProgressCircle();
     if(state.missionsComplete.size>=5){
         earnBadge('b_master');
-        setTimeout(()=>showVictory(),800);
+        setTimeout(()=>{ checkRankUp(); },400);
+        setTimeout(()=>showVictory(),1200);
     }else{
         switchView('view-mission');renderMissionGrid();
         const nextKey=order[idx+1];const nextD=dbMission[nextKey];
         speak(`Misi selesai! Level ${nextD.title} sekarang terbuka. Lanjutkan!`);
+        setTimeout(()=>{ checkRankUp(); },800);
     }
 }
 
@@ -1207,6 +1411,7 @@ function updateHomeStats(){
     if(el('bar-misi'))el('bar-misi').style.width=(state.missionsComplete.size/5*100)+'%';
     if(el('bar-badge'))el('bar-badge').style.width=(state.badges.size/10*100)+'%';
     updateProgressCircle();
+    updateRankUI();
 }
 
 function getTotalXP(){
@@ -1277,8 +1482,10 @@ function showVictory(){
     document.getElementById('final-xp').innerText=getTotalXP()+' XP';
     document.getElementById('final-level').innerText=state.level;
     document.getElementById('final-badges').innerText=state.badges.size;
+    const finalRank = dbRanks[state.currentRank];
+    document.getElementById('victory-nickname').innerText=`${finalRank.icon} ${finalRank.title} ${state.playerName}`;
     switchView('view-victory');spawnConfetti();
-    speak("Luar biasa! Anda telah menguasai seluruh materi Kesatuan Sistem Komputer. Hardware, Software, dan Brainware. Selamat, Grand Master!");
+    speak(`Luar biasa, ${state.playerName}! Anda telah menguasai seluruh materi Kesatuan Sistem Komputer. Hardware, Software, dan Brainware. Selamat, ${finalRank.title}!`);
 }
 
 // === INIT ===
