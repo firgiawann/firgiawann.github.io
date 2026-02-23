@@ -180,6 +180,11 @@
         </button>
         <p class="text-[10px] text-slate-500 mt-4">Menggunakan audio narasi interaktif • Aktifkan speaker</p>
     </div>
+
+    <!-- About Button — outside glass, menonjol -->
+    <button onclick="openAboutFromInit()" class="mt-6 flex items-center gap-2 bg-slate-800/60 hover:bg-slate-700/80 border border-cyan-500/20 hover:border-cyan-500/50 text-cyan-400/80 hover:text-cyan-300 font-bold text-xs py-2.5 px-6 rounded-full transition-all backdrop-blur-sm shadow-lg hover:shadow-cyan-500/10 active:scale-95">
+        ℹ️ Tentang Aplikasi &amp; Pengembang
+    </button>
 </div>
 
 <!-- ============================================= -->
@@ -252,6 +257,11 @@
                     <circle id="progress-circle" cx="18" cy="18" r="15.5" fill="none" stroke="#06b6d4" stroke-width="3" stroke-dasharray="97.4" stroke-dashoffset="97.4" stroke-linecap="round"/>
                 </svg>
             </div>
+
+            <!-- Reset -->
+            <button onclick="confirmReset()" class="w-8 h-8 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg flex items-center justify-center text-base transition-colors tooltip" data-tip="Reset Progress">
+                🗑️
+            </button>
         </div>
     </div>
 </nav>
@@ -348,6 +358,19 @@
     <div class="glass p-4 rounded-xl text-center text-sm text-slate-400 no-hover border border-slate-700/50">
         💡 <strong class="text-slate-300">Tips:</strong> Pelajari materi dahulu sebelum misi. Jawaban salah mengurangi nyawa! ❤️
     </div>
+
+    <!-- About & Save -->
+    <div class="flex items-center justify-between mt-4 px-1">
+        <button onclick="goTo('view-about','Membuka halaman tentang aplikasi.')" class="text-[10px] text-cyan-400/60 hover:text-cyan-400 font-bold uppercase tracking-wider transition-colors flex items-center gap-1">
+            ℹ️ Tentang Aplikasi
+        </button>
+        <p class="text-[10px] text-slate-600 mono flex items-center gap-1.5">
+            💾 <span id="save-status">Progress tersimpan otomatis</span>
+        </p>
+        <button onclick="confirmReset()" class="text-[10px] text-red-400/60 hover:text-red-400 font-bold uppercase tracking-wider transition-colors flex items-center gap-1">
+            🗑️ Reset Semua
+        </button>
+    </div>
 </div>
 
 <!-- =================== VIEW: MATERI HUB =================== -->
@@ -439,7 +462,236 @@
     <button onclick="location.reload()" class="bg-white hover:bg-slate-200 text-black font-bold py-3 px-10 rounded-full transition-all mt-4 active:scale-95">🎓 SELESAIKAN KELAS</button>
 </div>
 
+<!-- =================== VIEW: ABOUT =================== -->
+<div id="view-about" class="hidden w-full anim-view space-y-6">
+    <button id="about-back-home" onclick="goHome()" class="text-slate-400 hover:text-white font-bold text-sm flex items-center gap-2 transition-colors">← KEMBALI</button>
+    <button id="about-back-init" onclick="backToInit()" class="hidden text-slate-400 hover:text-white font-bold text-sm flex items-center gap-2 transition-colors">← KEMBALI KE HALAMAN AWAL</button>
+    
+    <div class="text-center mb-2">
+        <div class="text-5xl mb-3 float">ℹ️</div>
+        <h2 class="text-2xl md:text-3xl font-extrabold">Tentang Aplikasi</h2>
+        <p class="text-slate-400 text-sm mt-1">Latar belakang, tujuan, dan informasi pengembang</p>
+    </div>
+
+    <!-- Hero Card -->
+    <div class="glass p-6 md:p-8 rounded-3xl no-hover relative overflow-hidden border border-cyan-500/20">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500"></div>
+        <div class="rank-shine absolute inset-0 rounded-3xl pointer-events-none"></div>
+        <div class="flex items-center gap-4 mb-5">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-cyan-500/20 float">🎮</div>
+            <div>
+                <h3 class="text-xl font-extrabold text-cyan-400">EduSystem Lab</h3>
+                <p class="text-xs text-slate-400 mono">Interactive Learning Environment v2.0</p>
+                <p class="text-[9px] text-slate-500 mt-0.5">Web Gamifikasi Interaktif • Multimedia Pembelajaran</p>
+            </div>
+        </div>
+        <p class="text-sm text-slate-300 leading-relaxed">
+            <strong class="text-white">EduSystem Lab</strong> adalah platform pembelajaran berbasis web yang dirancang dengan pendekatan <strong class="text-cyan-400">gamifikasi interaktif</strong> untuk memahami konsep <strong class="text-white">Kesatuan Sistem Komputer</strong> — meliputi Hardware, Software, dan Brainware. Platform ini mengintegrasikan <strong class="text-amber-400">3 indera pembelajaran</strong>:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+            <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl text-center anim-scale" style="animation-delay:.1s">
+                <div class="text-3xl mb-2">👁️</div>
+                <p class="text-xs font-bold text-blue-400 mb-1">MELIHAT (Visual)</p>
+                <p class="text-[10px] text-slate-400">Animasi interaktif, diagram visual, dan antarmuka gamifikasi yang menarik secara visual</p>
+            </div>
+            <div class="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl text-center anim-scale" style="animation-delay:.2s">
+                <div class="text-3xl mb-2">👂</div>
+                <p class="text-xs font-bold text-purple-400 mb-1">MENDENGAR (Audio)</p>
+                <p class="text-[10px] text-slate-400">Narasi audio TTS otomatis, efek suara interaktif, dan feedback audio saat bermain</p>
+            </div>
+            <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-center anim-scale" style="animation-delay:.3s">
+                <div class="text-3xl mb-2">🖐️</div>
+                <p class="text-xs font-bold text-emerald-400 mb-1">MERABA (Kinestetik)</p>
+                <p class="text-[10px] text-slate-400">Interaksi sentuh/klik, drag-pilih komponen misi, dan respons haptic melalui animasi aktif</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tujuan -->
+    <div class="glass p-6 rounded-2xl no-hover">
+        <h4 class="font-bold text-amber-400 mb-3 flex items-center gap-2">🎯 Tujuan Pengembangan</h4>
+        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            Web gamifikasi interaktif ini dibuat guna <strong class="text-white">memenuhi tugas Multimedia Pembelajaran</strong> terkait pemanfaatan <strong class="text-cyan-400">3 indera (Melihat, Mendengar, Meraba)</strong> pada mata kuliah <strong class="text-amber-400">Teknologi Multimedia</strong>. Platform ini menerapkan prinsip-prinsip desain multimedia dari <strong class="text-white">teori Mayer</strong> untuk mengoptimalkan proses belajar.
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-xl mb-1">📖</div>
+                <p class="text-xs font-bold text-slate-300">6 Materi</p>
+                <p class="text-[9px] text-slate-500">Interaktif</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-xl mb-1">🚀</div>
+                <p class="text-xs font-bold text-slate-300">5 Misi</p>
+                <p class="text-[9px] text-slate-500">Simulasi</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-xl mb-1">🎖️</div>
+                <p class="text-xs font-bold text-slate-300">8 Rank</p>
+                <p class="text-[9px] text-slate-500">Checkpoint</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-xl mb-1">🏅</div>
+                <p class="text-xs font-bold text-slate-300">10 Lencana</p>
+                <p class="text-[9px] text-slate-500">Achievement</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Pengembang -->
+    <div class="glass p-6 rounded-2xl no-hover relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-cyan-500"></div>
+        <h4 class="font-bold text-emerald-400 mb-4 flex items-center gap-2">👨‍💻 Informasi Pengembang</h4>
+        <div class="flex flex-col md:flex-row gap-5">
+            <div class="flex items-center gap-4">
+                <div class="w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border-2 border-emerald-500/30 rounded-2xl flex items-center justify-center text-4xl float shrink-0">👨‍🎓</div>
+                <div>
+                    <h5 class="text-lg font-extrabold text-white">Firgiawan Listianto</h5>
+                    <p class="text-xs text-slate-400 mono mt-0.5">NIM: 240209501100</p>
+                    <p class="text-xs text-slate-400 mt-1">Kelas <strong class="text-emerald-400">PTIK E 2024</strong></p>
+                    <div class="mt-2 inline-block bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-lg">
+                        <p class="text-[10px] text-emerald-400 font-bold">📚 Mahasiswa Pendidikan Teknik Informatika & Komputer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Mata Kuliah & Dosen -->
+    <div class="glass p-6 rounded-2xl no-hover relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+        <h4 class="font-bold text-purple-400 mb-4 flex items-center gap-2">🏛️ Informasi Mata Kuliah</h4>
+        <div class="space-y-4">
+            <div class="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+                <p class="text-[9px] text-purple-400/60 uppercase font-bold tracking-widest mb-1 mono">MATA KULIAH</p>
+                <h5 class="text-base font-bold text-white">Teknologi Multimedia</h5>
+                <p class="text-xs text-slate-400 mt-1">Tugas Multimedia Pembelajaran — Pemanfaatan 3 Indera</p>
+            </div>
+            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4">
+                <p class="text-[9px] text-slate-400/60 uppercase font-bold tracking-widest mb-2 mono">DOSEN PENGAMPU</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center text-2xl shrink-0">👨‍🏫</div>
+                    <div>
+                        <h5 class="text-sm font-bold text-white leading-snug">Dr. Ir. Abd. Muis Mappalotteng, S.Pd., M.Pd., M.T., IPM.</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="glass p-6 rounded-2xl no-hover">
+        <h4 class="font-bold text-cyan-400 mb-3 flex items-center gap-2">⚙️ Teknologi yang Digunakan</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-2xl mb-1">🌐</div>
+                <p class="text-xs font-bold text-slate-300">HTML5</p>
+                <p class="text-[9px] text-slate-500">Struktur Semantik</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-2xl mb-1">🎨</div>
+                <p class="text-xs font-bold text-slate-300">Tailwind CSS</p>
+                <p class="text-[9px] text-slate-500">Glassmorphism UI</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-2xl mb-1">⚡</div>
+                <p class="text-xs font-bold text-slate-300">JavaScript</p>
+                <p class="text-[9px] text-slate-500">Game Engine</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl text-center">
+                <div class="text-2xl mb-1">🔊</div>
+                <p class="text-xs font-bold text-slate-300">Web Speech API</p>
+                <p class="text-[9px] text-slate-500">TTS Narasi</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prinsip Multimedia -->
+    <div class="glass p-6 rounded-2xl no-hover">
+        <h4 class="font-bold text-pink-400 mb-3 flex items-center gap-2">🧠 Prinsip Multimedia Mayer yang Diterapkan</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-pink-500/5 border border-pink-500/10 p-3 rounded-xl flex items-start gap-3">
+                <div class="text-xl shrink-0 mt-0.5">🖼️</div>
+                <div>
+                    <p class="text-xs font-bold text-pink-400">Multimedia Principle</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Kombinasi teks + gambar + audio lebih efektif dari teks saja</p>
+                </div>
+            </div>
+            <div class="bg-pink-500/5 border border-pink-500/10 p-3 rounded-xl flex items-start gap-3">
+                <div class="text-xl shrink-0 mt-0.5">📐</div>
+                <div>
+                    <p class="text-xs font-bold text-pink-400">Contiguity Principle</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Informasi terkait disajikan berdekatan secara visual dan temporal</p>
+                </div>
+            </div>
+            <div class="bg-pink-500/5 border border-pink-500/10 p-3 rounded-xl flex items-start gap-3">
+                <div class="text-xl shrink-0 mt-0.5">🔦</div>
+                <div>
+                    <p class="text-xs font-bold text-pink-400">Signaling Principle</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Elemen visual penting diberi penekanan untuk memandu perhatian</p>
+                </div>
+            </div>
+            <div class="bg-pink-500/5 border border-pink-500/10 p-3 rounded-xl flex items-start gap-3">
+                <div class="text-xl shrink-0 mt-0.5">🧩</div>
+                <div>
+                    <p class="text-xs font-bold text-pink-400">Segmenting Principle</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Materi dipecah menjadi bagian-bagian kecil yang mudah dicerna</p>
+                </div>
+            </div>
+            <div class="bg-pink-500/5 border border-pink-500/10 p-3 rounded-xl flex items-start gap-3">
+                <div class="text-xl shrink-0 mt-0.5">💬</div>
+                <div>
+                    <p class="text-xs font-bold text-pink-400">Personalization Principle</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Narasi menggunakan gaya percakapan dan menyebut nama pemain</p>
+                </div>
+            </div>
+            <div class="bg-pink-500/5 border border-pink-500/10 p-3 rounded-xl flex items-start gap-3">
+                <div class="text-xl shrink-0 mt-0.5">✨</div>
+                <div>
+                    <p class="text-xs font-bold text-pink-400">Coherence Principle</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Elemen yang tidak relevan diminimalkan untuk menghindari cognitive overload</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center pt-2 pb-4 flex flex-col sm:flex-row gap-3 justify-center">
+        <button id="about-bottom-back-home" onclick="goHome()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-10 rounded-xl transition-all shadow-lg active:scale-95">
+            ← Kembali ke Beranda
+        </button>
+        <button id="about-bottom-back-init" onclick="backToInit()" class="hidden bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-10 rounded-xl transition-all active:scale-95">
+            ← Kembali ke Halaman Awal
+        </button>
+    </div>
+</div>
+
 </main>
+
+<!-- ============================================= -->
+<!-- RESET CONFIRMATION MODAL                      -->
+<!-- ============================================= -->
+<div id="reset-modal" class="fixed inset-0 z-[9995] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 hidden" onclick="closeResetModal()">
+    <div class="glass p-8 rounded-3xl max-w-sm w-full text-center border border-red-500/30 anim-scale relative" onclick="event.stopPropagation()">
+        <div class="text-5xl mb-4">⚠️</div>
+        <h3 class="text-xl font-extrabold text-red-400 mb-2">Reset Semua Progress?</h3>
+        <p class="text-sm text-slate-400 mb-2">Semua data akan dihapus permanen:</p>
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 mb-5 text-left">
+            <ul class="text-xs text-slate-400 space-y-1">
+                <li>❌ Nickname & Rank hilang</li>
+                <li>❌ XP, Level, Streak direset</li>
+                <li>❌ Semua Materi & Misi direset</li>
+                <li>❌ Lencana & Nyawa direset</li>
+            </ul>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="closeResetModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-5 rounded-xl transition-all active:scale-95 text-sm">
+                Batal
+            </button>
+            <button onclick="executeReset()" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-5 rounded-xl transition-all active:scale-95 text-sm">
+                🗑️ Ya, Reset!
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- ============================================= -->
 <!-- RANK-UP MODAL                                 -->
@@ -462,7 +714,10 @@
     </div>
 </div>
 
-<footer class="text-center py-3 text-[10px] text-slate-600 mono relative" style="z-index:1">EduSystem Lab &copy; 2026 — Teknologi Pembelajaran Interaktif</footer>
+<footer class="text-center py-5 relative border-t border-slate-800/50" style="z-index:1">
+    <p class="text-[11px] text-slate-500 font-medium">Made by <strong class="text-cyan-400/80">Firgiawan Listianto</strong> — PTIK E 2024</p>
+    <p class="text-[9px] text-slate-600 mono mt-1">EduSystem Lab &copy; 2026 — Teknologi Multimedia</p>
+</footer>
 
 <!-- ============================================= -->
 <!-- JAVASCRIPT ENGINE                             -->
@@ -508,6 +763,71 @@ const dbRanks = [
     { id:6, icon:'👑', title:'Elite Engineer',     desc:'Semua misi terselesaikan dengan gemilang!',     reward:150, check:()=>state.missionsComplete.size >= 5 },
     { id:7, icon:'🏆', title:'Grand Master',       desc:'Legenda sejati yang menguasai segalanya!',      reward:200, check:()=>state.materiRead.size >= 6 && state.missionsComplete.size >= 5 && state.badges.size >= 10 }
 ];
+
+// ==========================================
+// 1c. LOCAL STORAGE — SAVE / LOAD / RESET
+// ==========================================
+const SAVE_KEY = 'edusystemlab_save_v1';
+
+function saveState() {
+    try {
+        const data = {
+            playerName: state.playerName,
+            currentRank: state.currentRank,
+            lives: state.lives,
+            xp: state.xp,
+            level: state.level,
+            xpToNext: state.xpToNext,
+            streak: state.streak,
+            bestStreak: state.bestStreak,
+            materiRead: [...state.materiRead],
+            missionsComplete: [...state.missionsComplete],
+            badges: [...state.badges],
+            missionUnlocked: state.missionUnlocked,
+            savedAt: Date.now()
+        };
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+        const el = document.getElementById('save-status');
+        if (el) {
+            const t = new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'});
+            el.innerText = `Tersimpan ${t}`;
+        }
+    } catch(e) { console.warn('[Save] Error:', e); }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!data || !data.playerName) return false;
+        state.playerName = data.playerName || 'Player';
+        state.currentRank = data.currentRank || 0;
+        state.lives = data.lives ?? 5;
+        state.xp = data.xp || 0;
+        state.level = data.level || 1;
+        state.xpToNext = data.xpToNext || 100;
+        state.streak = data.streak || 0;
+        state.bestStreak = data.bestStreak || 0;
+        state.materiRead = new Set(data.materiRead || []);
+        state.missionsComplete = new Set(data.missionsComplete || []);
+        state.badges = new Set(data.badges || []);
+        state.missionUnlocked = data.missionUnlocked || { m1:true, m2:false, m3:false, m4:false, m5:false };
+        return true;
+    } catch(e) { console.warn('[Load] Error:', e); return false; }
+}
+
+function confirmReset() {
+    document.getElementById('reset-modal').classList.remove('hidden');
+}
+function closeResetModal() {
+    document.getElementById('reset-modal').classList.add('hidden');
+}
+function executeReset() {
+    closeResetModal();
+    try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+    location.reload();
+}
 
 // ==========================================
 // 2. DATABASE — MATERI (6 Topik)
@@ -866,10 +1186,13 @@ function initSystem() {
     // Force reload voices if not ready yet
     if (!voicesReady) loadVoices();
 
-    // Capture nickname
-    const nameInput = document.getElementById('nickname-input');
-    const rawName = (nameInput ? nameInput.value : '').trim();
-    state.playerName = rawName.length > 0 ? rawName : 'Player';
+    // Capture nickname (only if fresh start, not resume)
+    const isResume = arguments[0] === true;
+    if (!isResume) {
+        const nameInput = document.getElementById('nickname-input');
+        const rawName = (nameInput ? nameInput.value : '').trim();
+        state.playerName = rawName.length > 0 ? rawName : 'Player';
+    }
 
     document.getElementById('screen-init').classList.add('hidden');
     const hud = document.getElementById('hud');
@@ -877,14 +1200,23 @@ function initSystem() {
     hud.style.display = 'flex';
     sfx(440, 'sine', .2);
     switchView('view-home');
+    restoreLivesUI();
     updateRankUI();
+    updateXPUI();
+    updateStreakUI();
     updateHomeStats();
 
     // Small delay to let the dummy utterance finish and voices to load
     setTimeout(() => {
-        speak(`Selamat datang, ${state.playerName}! Kamu mendapat rank Pemula Baru. Pelajari materi dan selesaikan misi untuk naik pangkat!`);
+        if (isResume) {
+            const rank = dbRanks[state.currentRank];
+            speak(`Selamat datang kembali, ${state.playerName}! Rank kamu: ${rank.title}. Lanjutkan petualanganmu!`);
+        } else {
+            speak(`Selamat datang, ${state.playerName}! Kamu mendapat rank Pemula Baru. Pelajari materi dan selesaikan misi untuk naik pangkat!`);
+            earnBadge('b_welcome');
+        }
+        saveState();
     }, 300);
-    earnBadge('b_welcome');
     spawnParticles();
 }
 
@@ -1030,6 +1362,7 @@ function checkRankUp() {
         }
         updateRankUI();
         showRankUpModal(rank);
+        saveState();
         return true;
     }
     return false;
@@ -1113,7 +1446,28 @@ function calcRankProgress(nextRank) {
 // ==========================================
 // 6. NAVIGATION
 // ==========================================
-const allViews=['view-home','view-materi','view-materi-detail','view-mission','view-arena','view-badges','view-gameover','view-victory'];
+let cameFromInit = false;
+
+function openAboutFromInit() {
+    cameFromInit = true;
+    document.getElementById('screen-init').classList.add('hidden');
+    switchView('view-about');
+    document.getElementById('about-back-init').classList.remove('hidden');
+    document.getElementById('about-back-home').classList.add('hidden');
+    document.getElementById('about-bottom-back-init').classList.remove('hidden');
+    document.getElementById('about-bottom-back-home').classList.add('hidden');
+}
+
+function backToInit() {
+    cameFromInit = false;
+    document.getElementById('screen-init').classList.remove('hidden');
+    document.getElementById('about-back-init').classList.add('hidden');
+    document.getElementById('about-back-home').classList.remove('hidden');
+    document.getElementById('about-bottom-back-init').classList.add('hidden');
+    document.getElementById('about-bottom-back-home').classList.remove('hidden');
+    allViews.forEach(v => document.getElementById(v).classList.add('hidden'));
+}
+const allViews=['view-home','view-materi','view-materi-detail','view-mission','view-arena','view-badges','view-gameover','view-victory','view-about'];
 function switchView(id){
     allViews.forEach(v=>document.getElementById(v).classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
@@ -1194,6 +1548,7 @@ function markMateriRead(id){
     // Check rank up after a delay so the XP notification shows first
     setTimeout(()=>{ checkRankUp(); },800);
     setTimeout(()=>goTo('view-materi','Bagus! Lanjut pelajari materi berikutnya.'),1500);
+    saveState();
 }
 
 // ==========================================
@@ -1305,6 +1660,7 @@ function finishMission(key){
     const badgeMap={m1:'b_hw',m2:'b_sw',m3:'b_bw',m4:'b_integrate',m5:'b_troubleshoot'};
     earnBadge(badgeMap[key]);sfxLevelUp();addXP(100);
     updateHomeStats();updateProgressCircle();
+    saveState();
     if(state.missionsComplete.size>=5){
         earnBadge('b_master');
         setTimeout(()=>{ checkRankUp(); },400);
@@ -1328,6 +1684,7 @@ function loseLife(){
     const h=document.getElementById(`heart-${state.lives+1}`);
     h.classList.add('heart-break');
     setTimeout(()=>{h.innerText='🖤';h.classList.remove('heart-break')},500);
+    saveState();
 }
 
 function restoreLives(){
@@ -1335,6 +1692,15 @@ function restoreLives(){
     for(let i=1;i<=state.maxLives;i++){
         const h=document.getElementById(`heart-${i}`);h.innerText='❤️';
         h.classList.add('heart-beat');setTimeout(()=>h.classList.remove('heart-beat'),600);
+    }
+    saveState();
+}
+
+// Restore heart icons on reload (no animation)
+function restoreLivesUI(){
+    for(let i=1;i<=state.maxLives;i++){
+        const h=document.getElementById(`heart-${i}`);
+        if(h) h.innerText = i <= state.lives ? '❤️' : '🖤';
     }
 }
 
@@ -1380,6 +1746,7 @@ function earnBadge(id){
     const badge=dbBadges.find(b=>b.id===id);
     if(badge){sfxBadge();showNotification(`🏅 Lencana: ${badge.name}!`,'amber')}
     updateHomeStats();
+    saveState();
 }
 
 function renderBadgeGrid(){
@@ -1489,7 +1856,65 @@ function showVictory(){
 }
 
 // === INIT ===
-updateXPUI();updateStreakUI();
+// Check for saved game and auto-resume
+(function autoResume() {
+    const hasSave = loadState();
+    if (hasSave) {
+        // Show resume prompt on init screen
+        const initBox = document.querySelector('#screen-init .glass');
+        if (initBox) {
+            // Replace nickname input with resume info
+            const rank = dbRanks[state.currentRank];
+            const nickDiv = initBox.querySelector('.mb-5');
+            if (nickDiv) {
+                nickDiv.outerHTML = `
+                <div class="mb-5 bg-slate-800/80 border border-cyan-500/20 rounded-2xl p-5 text-left">
+                    <p class="text-[9px] text-cyan-400/60 uppercase font-bold tracking-widest mb-3 mono">💾 SAVE DATA DITEMUKAN</p>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center text-2xl">${rank.icon}</div>
+                        <div>
+                            <p class="font-bold text-white text-lg">${state.playerName}</p>
+                            <p class="text-xs text-slate-400">${rank.title} • Level ${state.level} • ${state.badges.size} Lencana</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex-1 bg-cyan-500/10 rounded-lg p-2 text-center">
+                            <p class="text-sm font-bold text-cyan-400">${state.materiRead.size}/6</p>
+                            <p class="text-[8px] text-slate-500">Materi</p>
+                        </div>
+                        <div class="flex-1 bg-emerald-500/10 rounded-lg p-2 text-center">
+                            <p class="text-sm font-bold text-emerald-400">${state.missionsComplete.size}/5</p>
+                            <p class="text-[8px] text-slate-500">Misi</p>
+                        </div>
+                        <div class="flex-1 bg-amber-500/10 rounded-lg p-2 text-center">
+                            <p class="text-sm font-bold text-amber-400">${state.badges.size}/10</p>
+                            <p class="text-[8px] text-slate-500">Lencana</p>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            // Replace button area
+            const startBtn = initBox.querySelector('button[onclick="initSystem()"]');
+            if (startBtn) {
+                startBtn.outerHTML = `
+                <div class="space-y-3 w-full">
+                    <button onclick="initSystem(true)" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(6,182,212,.4)] active:scale-95">
+                        ▶️ LANJUTKAN PETUALANGAN
+                    </button>
+                    <button onclick="executeReset()" class="w-full bg-slate-800 hover:bg-slate-700 text-red-400 font-bold py-3 px-8 rounded-xl transition-all border border-red-500/20 active:scale-95 text-sm">
+                        🗑️ Mulai Baru (Reset)
+                    </button>
+                </div>`;
+            }
+            // Update subtitle
+            const tip = initBox.querySelector('p:last-child');
+            if (tip && tip.classList.contains('text-[10px]')) {
+                tip.innerText = 'Progress tersimpan di browser • Klik Lanjutkan untuk melanjutkan';
+            }
+        }
+    }
+    updateXPUI(); updateStreakUI();
+})();
 </script>
 </body>
 </html>
