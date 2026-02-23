@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 EduSystem Lab — Laboratorium Sistem Komputer Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root {
+            --hw:#06b6d4; --sw:#a855f7; --bw:#10b981; --gold:#f59e0b;
+            --bg:#0f172a; --panel:rgba(30,41,59,.6);
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:#f8fafc;overflow-x:hidden;user-select:none;min-height:100vh}
+        .mono{font-family:'JetBrains Mono',monospace}
+
+        /* === GLASSMORPHISM === */
+        .glass{background:var(--panel);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.05);transition:all .3s ease}
+        .glass:hover:not(.locked):not(.no-hover){transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+
+        /* === ANIMATED BG === */
+        .bg-grid{background-image:radial-gradient(rgba(6,182,212,.08) 1px,transparent 1px);background-size:30px 30px}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        .float{animation:float 3s ease-in-out infinite}
+        @keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(5deg)}}
+        .float2{animation:float2 4s ease-in-out infinite}
+
+        /* === VIEW TRANSITIONS === */
+        @keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .anim-view{animation:fadeSlideUp .5s cubic-bezier(.4,0,.2,1) forwards}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .anim-fade{animation:fadeIn .4s ease forwards}
+        @keyframes scaleIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+        .anim-scale{animation:scaleIn .4s cubic-bezier(.34,1.56,.64,1) forwards}
+        @keyframes slideRight{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+        .anim-slide-r{animation:slideRight .5s ease forwards}
+
+        /* === HEARTS / LIVES === */
+        @keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.3)}30%{transform:scale(1)}}
+        .heart-beat{animation:heartBeat .6s ease}
+        @keyframes heartBreak{0%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}100%{transform:scale(0);opacity:0}}
+        .heart-break{animation:heartBreak .5s ease forwards}
+
+        /* === PULSE === */
+        @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(6,182,212,.6)}70%{box-shadow:0 0 0 12px rgba(6,182,212,0)}100%{box-shadow:0 0 0 0 rgba(6,182,212,0)}}
+        .pulse-ring{animation:pulseRing 2s infinite}
+
+        /* === SHAKE === */
+        @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+        .shake{animation:shake .4s ease}
+
+        /* === XP BAR === */
+        .xp-fill{transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+        /* === LOCKED CARD === */
+        .locked{filter:grayscale(1) opacity(.35);cursor:not-allowed;pointer-events:none}
+
+        /* === BADGE GLOW === */
+        @keyframes badgeGlow{0%,100%{box-shadow:0 0 8px rgba(245,158,11,.3)}50%{box-shadow:0 0 20px rgba(245,158,11,.7)}}
+        .badge-glow{animation:badgeGlow 2s ease-in-out infinite}
+
+        /* === CONFETTI === */
+        @keyframes confettiFall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+        .confetti{position:fixed;width:10px;height:10px;top:0;z-index:9999;border-radius:2px;animation:confettiFall 3s ease-in forwards}
+
+        /* === SPEAKER BOX === */
+        .soundwave{display:flex;align-items:center;gap:3px;height:20px}
+        .soundwave .bar{width:4px;background:#06b6d4;border-radius:2px;animation:wave 1s ease-in-out infinite}
+        .soundwave .bar:nth-child(2){animation-delay:.1s}
+        .soundwave .bar:nth-child(3){animation-delay:.2s}
+        .soundwave .bar:nth-child(4){animation-delay:.3s}
+        @keyframes wave{0%,100%{height:4px}50%{height:20px}}
+
+        /* === ORBIT ANIMATION === */
+        @keyframes orbit{from{transform:rotate(0deg) translateX(60px) rotate(0deg)}to{transform:rotate(360deg) translateX(60px) rotate(-360deg)}}
+        .orbit{animation:orbit 4s linear infinite}
+        .orbit-slow{animation:orbit 6s linear infinite}
+        .orbit-fast{animation:orbit 3s linear infinite}
+
+        /* === DATA FLOW === */
+        @keyframes dataFlow{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:calc(100% - 20px);opacity:0}}
+        .data-packet{position:absolute;width:16px;height:16px;border-radius:4px;animation:dataFlow 2s ease-in-out infinite}
+
+        @keyframes cpuProcess{0%,100%{background:rgba(6,182,212,.2)}50%{background:rgba(6,182,212,.6)}}
+        .cpu-process{animation:cpuProcess 1.5s ease infinite}
+
+        @keyframes spinGear{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        .spin-gear{animation:spinGear 3s linear infinite}
+
+        /* === STREAK FIRE === */
+        @keyframes fireFlicker{0%,100%{transform:scale(1)}25%{transform:scale(1.1) rotate(-2deg)}50%{transform:scale(.95) rotate(2deg)}75%{transform:scale(1.05) rotate(-1deg)}}
+        .fire-flicker{animation:fireFlicker .5s ease infinite}
+
+        /* === PROGRESS CIRCLE === */
+        .progress-circle{transform:rotate(-90deg)}
+        .progress-circle circle{transition:stroke-dashoffset .8s ease}
+
+        /* === SCROLL === */
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+
+        /* === TOOLTIP === */
+        .tooltip{position:relative}
+        .tooltip::after{content:attr(data-tip);position:absolute;bottom:110%;left:50%;transform:translateX(-50%) scale(.8);background:#1e293b;color:#94a3b8;padding:4px 10px;border-radius:8px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:all .2s ease;border:1px solid rgba(255,255,255,.1)}
+        .tooltip:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
+
+        /* === PARTICLE BG === */
+        #particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:rgba(6,182,212,.3);border-radius:50%;animation:particleFloat linear infinite}
+        @keyframes particleFloat{
+            0%{transform:translateY(100vh) translateX(0);opacity:0}
+            10%{opacity:1}
+            90%{opacity:1}
+            100%{transform:translateY(-10vh) translateX(40px);opacity:0}
+        }
+
+        /* Responsive */
+        @media(max-width:768px){
+            .hide-mobile{display:none !important}
+        }
+    </style>
+</head>
+<body class="flex flex-col bg-grid">
+
+<!-- AMBIENT PARTICLES -->
+<div id="particles"></div>
+
+<!-- ============================================= -->
+<!-- SCREEN: INIT                                  -->
+<!-- ============================================= -->
+<div id="screen-init" class="fixed inset-0 z-[1000] bg-slate-900 flex flex-col items-center justify-center p-6 text-center" style="z-index:10000">
+    <div class="glass p-10 rounded-3xl max-w-lg border border-cyan-500/30 no-hover relative" style="z-index:10001">
+        <div class="text-7xl mb-4 float">🎮</div>
+        <h1 class="text-3xl font-extrabold mb-2 text-cyan-400" style="text-shadow:0 0 20px rgba(6,182,212,.5)">EduSystem Lab</h1>
+        <p class="text-sm text-cyan-300/60 mono mb-4">Interactive Learning Environment v2.0</p>
+        <p class="text-slate-400 mb-6 text-sm leading-relaxed">Platform pembelajaran interaktif berbasis <strong class="text-white">gamifikasi</strong> untuk memahami Sistem Komputer. Lengkap dengan misi, level, nyawa, dan lencana!</p>
+        
+        <!-- Feature Preview -->
+        <div class="grid grid-cols-4 gap-2 mb-6">
+            <div class="bg-slate-800/80 p-2 rounded-lg text-center">
+                <div class="text-xl">❤️</div>
+                <p class="text-[8px] text-slate-500 mt-1">5 Nyawa</p>
+            </div>
+            <div class="bg-slate-800/80 p-2 rounded-lg text-center">
+                <div class="text-xl">⭐</div>
+                <p class="text-[8px] text-slate-500 mt-1">XP & Level</p>
+            </div>
+            <div class="bg-slate-800/80 p-2 rounded-lg text-center">
+                <div class="text-xl">🚀</div>
+                <p class="text-[8px] text-slate-500 mt-1">5 Misi</p>
+            </div>
+            <div class="bg-slate-800/80 p-2 rounded-lg text-center">
+                <div class="text-xl">🏅</div>
+                <p class="text-[8px] text-slate-500 mt-1">10 Lencana</p>
+            </div>
+        </div>
+
+        <button onclick="initSystem()" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(6,182,212,.4)] active:scale-95">
+            🚀 MULAI PETUALANGAN
+        </button>
+        <p class="text-[10px] text-slate-500 mt-4">Menggunakan audio narasi interaktif • Aktifkan speaker</p>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- SUBTITLE / SPEAKER BOX                        -->
+<!-- ============================================= -->
+<div id="speaker-box" class="fixed bottom-0 left-0 w-full bg-slate-900/95 border-t border-cyan-500/30 p-4 transform translate-y-full transition-transform duration-300 z-[9999] flex items-center justify-center gap-6 shadow-[0_-10px_30px_rgba(0,0,0,.5)] pointer-events-none">
+    <div class="soundwave"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+    <p id="speaker-text" class="text-cyan-50 font-medium text-sm md:text-base max-w-3xl text-center">...</p>
+    <div class="soundwave"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+</div>
+
+<!-- ============================================= -->
+<!-- HUD (Heads-Up Display)                        -->
+<!-- ============================================= -->
+<nav id="hud" class="hidden sticky top-0 z-50 bg-slate-900/90 backdrop-blur-xl border-b border-slate-800 px-4 md:px-6 py-3" style="z-index:100">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg">ES</div>
+            <div class="hide-mobile">
+                <h1 class="font-bold tracking-wider text-sm">EduSystem Lab</h1>
+                <p class="text-[10px] text-slate-500 mono">Interactive Learning</p>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="flex items-center gap-3 md:gap-5">
+            <!-- Streak -->
+            <div id="streak-display" class="hidden items-center gap-1 bg-orange-500/10 px-2 py-1 rounded-lg border border-orange-500/20">
+                <span class="fire-flicker text-sm">🔥</span>
+                <span id="streak-count" class="text-orange-400 font-bold text-xs mono">0</span>
+            </div>
+
+            <!-- Lives -->
+            <div class="flex items-center gap-0.5" id="lives-container">
+                <span id="heart-1" class="text-lg cursor-default">❤️</span>
+                <span id="heart-2" class="text-lg cursor-default">❤️</span>
+                <span id="heart-3" class="text-lg cursor-default">❤️</span>
+                <span id="heart-4" class="text-lg cursor-default">❤️</span>
+                <span id="heart-5" class="text-lg cursor-default">❤️</span>
+            </div>
+
+            <!-- XP / Level -->
+            <div class="flex items-center gap-2 tooltip" data-tip="Experience Points">
+                <div class="w-7 h-7 bg-amber-500/20 border border-amber-500/40 rounded-lg flex items-center justify-center text-amber-400 font-bold text-[10px] mono" id="level-badge">1</div>
+                <div class="hide-mobile">
+                    <p class="text-[9px] text-slate-500 font-bold">LVL <span id="level-text">1</span></p>
+                    <div class="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                        <div id="xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-400 xp-fill rounded-full" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges -->
+            <button onclick="goTo('view-badges','Membuka galeri lencana pencapaianmu.')" class="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-base transition-colors tooltip" data-tip="Lencana">🏅</button>
+
+            <!-- Progress Circle -->
+            <div class="hide-mobile tooltip" data-tip="Progress Total">
+                <svg class="progress-circle w-8 h-8" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="#1e293b" stroke-width="3"/>
+                    <circle id="progress-circle" cx="18" cy="18" r="15.5" fill="none" stroke="#06b6d4" stroke-width="3" stroke-dasharray="97.4" stroke-dashoffset="97.4" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ============================================= -->
+<!-- MAIN WORKSPACE                                -->
+<!-- ============================================= -->
+<main class="flex-grow w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col relative" style="z-index:1">
+
+<!-- =================== VIEW: HOME =================== -->
+<div id="view-home" class="hidden w-full anim-view">
+    <div class="text-center mb-8 pt-4">
+        <div class="text-5xl md:text-6xl mb-4 float">🖥️</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Pusat Pembelajaran</h2>
+        <p class="text-slate-400 max-w-xl mx-auto text-sm">Pelajari materi sistem komputer, selesaikan misi simulasi, dan kumpulkan lencana!</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div class="glass p-4 rounded-2xl text-center no-hover">
+            <div class="text-2xl mb-1">📖</div>
+            <p class="text-xl font-bold" id="stat-materi">0/6</p>
+            <p class="text-[10px] text-slate-500 uppercase font-bold">Materi</p>
+        </div>
+        <div class="glass p-4 rounded-2xl text-center no-hover">
+            <div class="text-2xl mb-1">🚀</div>
+            <p class="text-xl font-bold" id="stat-misi">0/5</p>
+            <p class="text-[10px] text-slate-500 uppercase font-bold">Misi</p>
+        </div>
+        <div class="glass p-4 rounded-2xl text-center no-hover">
+            <div class="text-2xl mb-1">🏅</div>
+            <p class="text-xl font-bold" id="stat-badge">0/10</p>
+            <p class="text-[10px] text-slate-500 uppercase font-bold">Lencana</p>
+        </div>
+        <div class="glass p-4 rounded-2xl text-center no-hover">
+            <div class="text-2xl mb-1">⭐</div>
+            <p class="text-xl font-bold" id="stat-xp">0</p>
+            <p class="text-[10px] text-slate-500 uppercase font-bold">Total XP</p>
+        </div>
+    </div>
+
+    <!-- Main Menu Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <button onclick="goTo('view-materi','Membuka Ensiklopedia Materi. Pilih topik yang ingin dipelajari.')" class="glass p-7 rounded-[2rem] text-left group col-span-1">
+            <div class="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">📖</div>
+            <h3 class="text-lg font-bold mb-1">Pelajari Materi</h3>
+            <p class="text-slate-400 text-xs">6 topik interaktif dengan animasi visual</p>
+            <div class="mt-3 w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-materi" class="h-full bg-blue-500 transition-all duration-700 rounded-full" style="width:0%"></div>
+            </div>
+        </button>
+        <button onclick="goTo('view-mission','Membuka Misi Simulasi. Selesaikan misi untuk naik level.')" class="glass p-7 rounded-[2rem] text-left group col-span-1">
+            <div class="w-14 h-14 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🚀</div>
+            <h3 class="text-lg font-bold mb-1">Mulai Misi</h3>
+            <p class="text-slate-400 text-xs">5 level misi simulasi berurutan</p>
+            <div class="mt-3 w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-misi" class="h-full bg-emerald-500 transition-all duration-700 rounded-full" style="width:0%"></div>
+            </div>
+        </button>
+        <button onclick="goTo('view-badges','Melihat koleksi lencana pencapaian.')" class="glass p-7 rounded-[2rem] text-left group col-span-1">
+            <div class="w-14 h-14 bg-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🏅</div>
+            <h3 class="text-lg font-bold mb-1">Lencana</h3>
+            <p class="text-slate-400 text-xs">10 lencana yang bisa dikumpulkan</p>
+            <div class="mt-3 w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-badge" class="h-full bg-amber-500 transition-all duration-700 rounded-full" style="width:0%"></div>
+            </div>
+        </button>
+    </div>
+
+    <div class="glass p-4 rounded-xl text-center text-sm text-slate-400 no-hover border border-slate-700/50">
+        💡 <strong class="text-slate-300">Tips:</strong> Pelajari materi dahulu sebelum misi. Jawaban salah mengurangi nyawa! ❤️
+    </div>
+</div>
+
+<!-- =================== VIEW: MATERI HUB =================== -->
+<div id="view-materi" class="hidden w-full anim-view space-y-6">
+    <button onclick="goHome()" class="text-slate-400 hover:text-white font-bold text-sm flex items-center gap-2 transition-colors">← KEMBALI</button>
+    <div class="text-center mb-2">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">📖 Ensiklopedia Materi</h2>
+        <p class="text-slate-400 text-sm">Pilih topik untuk mempelajari materi interaktif dengan animasi.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="materi-grid"></div>
+</div>
+
+<!-- =================== VIEW: MATERI DETAIL =================== -->
+<div id="view-materi-detail" class="hidden w-full anim-view space-y-6">
+    <button onclick="goTo('view-materi','Kembali ke daftar materi.')" class="text-slate-400 hover:text-white font-bold text-sm flex items-center gap-2 transition-colors">← KEMBALI KE MATERI</button>
+    <div id="materi-detail-content"></div>
+</div>
+
+<!-- =================== VIEW: MISSION SELECT =================== -->
+<div id="view-mission" class="hidden w-full anim-view space-y-6">
+    <button onclick="goHome()" class="text-slate-400 hover:text-white font-bold text-sm flex items-center gap-2 transition-colors">← KEMBALI</button>
+    <div class="text-center mb-4">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">🚀 Mission Control</h2>
+        <p class="text-slate-400 text-sm">Selesaikan berurutan. Benar +50 XP | Salah -1 ❤️</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto" id="mission-grid"></div>
+    <div class="glass p-4 rounded-xl text-center text-xs text-slate-500 no-hover mt-4">
+        🔒 Level terbuka setelah menyelesaikan level sebelumnya
+    </div>
+</div>
+
+<!-- =================== VIEW: ARENA =================== -->
+<div id="view-arena" class="hidden w-full anim-view space-y-5">
+    <div class="flex flex-wrap justify-between items-center glass p-4 rounded-2xl no-hover gap-3">
+        <button onclick="abandonMission()" class="text-red-400 hover:text-red-300 font-bold text-sm transition-colors">✕ BATALKAN</button>
+        <h3 id="arena-title" class="font-bold text-base md:text-lg mono tracking-widest uppercase text-cyan-400">MISSION</h3>
+        <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400">Benar: <strong id="arena-correct" class="text-emerald-400">0</strong>/3</span>
+            <span class="text-xs text-slate-400 hide-mobile">Salah: <strong id="arena-wrong" class="text-red-400">0</strong></span>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-slate-800/40 p-5 rounded-3xl border border-white/5">
+            <h4 class="text-center font-bold text-xs text-slate-500 mb-4 uppercase tracking-widest">⚙️ Gudang Komponen</h4>
+            <div id="arena-inventory" class="grid grid-cols-2 gap-3"></div>
+        </div>
+        <div class="glass rounded-3xl p-6 flex flex-col items-center justify-center min-h-[320px] relative no-hover">
+            <h4 id="arena-instruction" class="text-center font-bold text-sm md:text-base mb-5 max-w-sm text-cyan-100">Instruksi</h4>
+            <div id="arena-slots" class="flex gap-3 mb-5"></div>
+            <div id="arena-feedback" class="text-center text-sm font-bold min-h-[40px] flex items-center justify-center px-5 py-2 rounded-xl transition-all opacity-0 max-w-md"></div>
+        </div>
+    </div>
+</div>
+
+<!-- =================== VIEW: BADGES =================== -->
+<div id="view-badges" class="hidden w-full anim-view space-y-6">
+    <button onclick="goHome()" class="text-slate-400 hover:text-white font-bold text-sm flex items-center gap-2 transition-colors">← KEMBALI</button>
+    <div class="text-center mb-4">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">🏅 Galeri Lencana</h2>
+        <p class="text-slate-400 text-sm">Kumpulkan semua lencana dengan menyelesaikan materi dan misi!</p>
+        <p class="text-xs text-slate-500 mt-1 mono"><span id="badge-earned-count">0</span> / 10 lencana diperoleh</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="badge-grid"></div>
+</div>
+
+<!-- =================== VIEW: GAME OVER =================== -->
+<div id="view-gameover" class="hidden w-full text-center py-12 anim-view space-y-5">
+    <div class="text-7xl md:text-8xl mb-2">💔</div>
+    <h2 class="text-3xl md:text-4xl font-extrabold text-red-400">Nyawa Habis!</h2>
+    <p class="text-slate-400 text-base max-w-md mx-auto">Jangan menyerah! Pelajari kembali materinya, lalu coba lagi.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+        <button onclick="reviveAndGoMateri()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all active:scale-95">📖 Pelajari Materi</button>
+        <button onclick="reviveAndRetry()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg active:scale-95">🔄 Coba Lagi (+5 ❤️)</button>
+    </div>
+</div>
+
+<!-- =================== VIEW: VICTORY =================== -->
+<div id="view-victory" class="hidden w-full text-center py-8 anim-view space-y-5">
+    <div class="text-7xl md:text-8xl mb-2 float">🏆</div>
+    <h2 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">SISTEM BERHASIL DIRESTORASI!</h2>
+    <p class="text-slate-400 text-base max-w-2xl mx-auto">Selamat! Anda telah menguasai konsep <strong class="text-white">Kesatuan Sistem Komputer</strong> — Hardware, Software, dan Brainware.</p>
+    <div class="flex flex-wrap gap-3 justify-center mt-4" id="victory-badges"></div>
+    <div class="glass p-5 rounded-2xl max-w-sm mx-auto no-hover mt-2">
+        <p class="text-sm text-slate-400 mb-1">Total Skor Akhir</p>
+        <p class="text-3xl font-extrabold text-amber-400 mono" id="final-xp">0 XP</p>
+        <p class="text-xs text-slate-500 mt-1">Level <span id="final-level">1</span> • <span id="final-badges">0</span> Lencana</p>
+    </div>
+    <button onclick="location.reload()" class="bg-white hover:bg-slate-200 text-black font-bold py-3 px-10 rounded-full transition-all mt-4 active:scale-95">🎓 SELESAIKAN KELAS</button>
+</div>
+
+</main>
+
+<footer class="text-center py-3 text-[10px] text-slate-600 mono relative" style="z-index:1">EduSystem Lab &copy; 2026 — Teknologi Pembelajaran Interaktif</footer>
+
+<!-- ============================================= -->
+<!-- JAVASCRIPT ENGINE                             -->
+<!-- ============================================= -->
+<script>
+// ==========================================
+// 1. STATE
+// ==========================================
+let audioCtx = null;
+let synth = window.speechSynthesis;
+let uttId = 0;
+let currentView = 'view-home';
+
+const state = {
+    lives: 5,
+    maxLives: 5,
+    xp: 0,
+    level: 1,
+    xpToNext: 100,
+    streak: 0,
+    bestStreak: 0,
+    materiRead: new Set(),
+    missionsComplete: new Set(),
+    badges: new Set(),
+    missionUnlocked: { m1:true, m2:false, m3:false, m4:false, m5:false },
+    currentMission: null,
+    collected: [],
+    wrongCount: 0
+};
+
+// ==========================================
+// 2. DATABASE — MATERI (6 Topik)
+// ==========================================
+const dbMateri = [
+    {
+        id:'hw-input', title:'Perangkat Input', icon:'⌨️', category:'Hardware', color:'cyan',
+        summary:'Perangkat masukan yang mengirimkan data ke komputer.',
+        narration:'Perangkat Input atau masukan adalah hardware yang digunakan untuk memasukkan data ke dalam komputer. Contohnya adalah keyboard untuk mengetik, mouse untuk menggerakkan kursor, scanner untuk memindai dokumen, dan mikrofon untuk merekam suara. Tanpa perangkat input, pengguna tidak bisa berkomunikasi dengan komputer.',
+        content: function(){return `
+            <div class="space-y-5">
+                <div class="glass p-5 rounded-2xl no-hover">
+                    <h4 class="font-bold text-cyan-400 mb-2">📌 Apa itu Perangkat Input?</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed">Perangkat Input adalah <strong class="text-white">hardware yang berfungsi memasukkan data</strong> (teks, gambar, suara) ke dalam sistem komputer untuk diproses. Ini adalah jembatan komunikasi antara manusia dan mesin.</p>
+                </div>
+                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50 relative overflow-hidden">
+                    <h5 class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">🔄 Alur Data Input → Proses → Output</h5>
+                    <div class="flex items-center justify-between gap-2 text-center relative">
+                        <div class="flex flex-col items-center gap-2 z-10">
+                            <div class="w-14 h-14 bg-cyan-500/20 rounded-2xl flex items-center justify-center text-2xl float">⌨️</div>
+                            <span class="text-[10px] text-cyan-400 font-bold">INPUT</span>
+                        </div>
+                        <div class="flex-1 h-1 bg-slate-700 rounded relative mx-1">
+                            <div class="data-packet bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,.8)]" style="animation-delay:0s"></div>
+                            <div class="data-packet bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,.8)]" style="animation-delay:1s"></div>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 z-10">
+                            <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center text-2xl cpu-process">⚙️</div>
+                            <span class="text-[10px] text-purple-400 font-bold">PROSES</span>
+                        </div>
+                        <div class="flex-1 h-1 bg-slate-700 rounded relative mx-1">
+                            <div class="data-packet bg-purple-400 shadow-[0_0_10px_rgba(168,85,247,.8)]" style="animation-delay:.5s"></div>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 z-10">
+                            <div class="w-14 h-14 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-2xl float2">🖥️</div>
+                            <span class="text-[10px] text-emerald-400 font-bold">OUTPUT</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    ${['⌨️|Keyboard','🖱️|Mouse','📷|Scanner','🎤|Mikrofon'].map((x,i)=>{const[ic,nm]=x.split('|');return`<div class="glass p-3 rounded-xl text-center no-hover anim-scale" style="animation-delay:${i*.1}s"><div class="text-2xl mb-1">${ic}</div><p class="text-xs font-bold text-slate-300">${nm}</p></div>`}).join('')}
+                </div>
+                <div class="bg-cyan-500/10 border border-cyan-500/20 p-4 rounded-xl">
+                    <p class="text-sm text-cyan-300">🧠 <strong>Prinsip Multimedia (Mayer):</strong> Perangkat input memungkinkan interaksi multimodal — teks melalui keyboard, visual melalui scanner, dan audio melalui mikrofon.</p>
+                </div>
+            </div>`}
+    },
+    {
+        id:'hw-output', title:'Perangkat Output & Proses', icon:'🖥️', category:'Hardware', color:'cyan',
+        summary:'Perangkat yang menampilkan dan memproses hasil kerja komputer.',
+        narration:'Perangkat Output menampilkan hasil pemrosesan data ke pengguna. Monitor menampilkan visual, speaker mengeluarkan suara, dan printer mencetak dokumen. Sedangkan perangkat proses seperti CPU dan RAM bekerja di dalam untuk mengolah seluruh data secara cepat.',
+        content: function(){return `
+            <div class="space-y-5">
+                <div class="glass p-5 rounded-2xl no-hover">
+                    <h4 class="font-bold text-cyan-400 mb-2">📌 Output & Processing</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed"><strong class="text-white">Perangkat Output</strong> mengeluarkan hasil dalam bentuk yang dipahami manusia. <strong class="text-white">Perangkat Proses</strong> (CPU, RAM) adalah otak komputer yang mengolah data.</p>
+                </div>
+                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
+                    <h5 class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">🧠 Arsitektur Pemrosesan</h5>
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="relative w-36 h-36">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-16 h-16 bg-gradient-to-br from-cyan-500/30 to-blue-500/30 rounded-2xl flex items-center justify-center text-2xl cpu-process border border-cyan-500/30">⚙️</div>
+                            </div>
+                            <div class="absolute orbit" style="top:50%;left:50%;margin:-10px"><div class="text-base">💾</div></div>
+                            <div class="absolute orbit-slow" style="top:50%;left:50%;margin:-10px"><div class="text-base">📊</div></div>
+                            <div class="absolute orbit-fast" style="top:50%;left:50%;margin:-10px"><div class="text-base">⚡</div></div>
+                        </div>
+                        <p class="text-xs text-slate-400 text-center">CPU memproses instruksi — RAM menyimpan data sementara</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    ${['🖥️|Monitor','🔊|Speaker','🖨️|Printer','📽️|Proyektor'].map((x,i)=>{const[ic,nm]=x.split('|');return`<div class="glass p-3 rounded-xl text-center no-hover anim-scale" style="animation-delay:${i*.1}s"><div class="text-2xl mb-1">${ic}</div><p class="text-xs font-bold text-slate-300">${nm}</p></div>`}).join('')}
+                </div>
+                <div class="bg-cyan-500/10 border border-cyan-500/20 p-4 rounded-xl">
+                    <p class="text-sm text-cyan-300">🧠 <strong>Prinsip Contiguity:</strong> Output menyajikan informasi secara bersamaan (teks + visual + audio) meningkatkan pemahaman sesuai teori Mayer.</p>
+                </div>
+            </div>`}
+    },
+    {
+        id:'sw-system', title:'Software Sistem', icon:'💿', category:'Software', color:'purple',
+        summary:'Sistem operasi dan program pengelola perangkat keras.',
+        narration:'Software Sistem adalah perangkat lunak dasar yang mengelola sumber daya hardware dan menyediakan layanan untuk software aplikasi. Contoh utamanya adalah Sistem Operasi seperti Windows, macOS, dan Linux. Tanpa software sistem, hardware tidak bisa digunakan sama sekali.',
+        content: function(){return `
+            <div class="space-y-5">
+                <div class="glass p-5 rounded-2xl no-hover">
+                    <h4 class="font-bold text-purple-400 mb-2">📌 Apa itu Software Sistem?</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed">Software Sistem adalah <strong class="text-white">lapisan perangkat lunak fundamental</strong> yang menjembatani hardware dan pengguna. Ia mengelola memori, proses, dan perangkat I/O.</p>
+                </div>
+                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
+                    <h5 class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">📊 Layer Sistem Komputer</h5>
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-full max-w-xs bg-blue-500/10 border border-blue-500/30 p-3 rounded-xl text-center anim-scale" style="animation-delay:.1s"><p class="text-blue-400 font-bold text-sm">👤 Pengguna</p></div>
+                        <div class="text-slate-600 text-xs">▼</div>
+                        <div class="w-full max-w-sm bg-purple-500/10 border border-purple-500/30 p-3 rounded-xl text-center anim-scale" style="animation-delay:.2s"><p class="text-purple-400 font-bold text-sm">📱 Software Aplikasi</p></div>
+                        <div class="text-slate-600 text-xs">▼</div>
+                        <div class="w-full max-w-md bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl text-center anim-scale pulse-ring" style="animation-delay:.3s"><p class="text-amber-400 font-bold text-sm">💿 Software Sistem (OS)</p><p class="text-[10px] text-amber-300/60 mt-1">Windows · macOS · Linux · Android</p></div>
+                        <div class="text-slate-600 text-xs">▼</div>
+                        <div class="w-full bg-cyan-500/10 border border-cyan-500/30 p-3 rounded-xl text-center anim-scale" style="animation-delay:.4s"><p class="text-cyan-400 font-bold text-sm">🔧 Hardware</p></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    ${['🪟|Windows','🍎|macOS','🐧|Linux','🤖|Android'].map((x,i)=>{const[ic,nm]=x.split('|');return`<div class="glass p-3 rounded-xl text-center no-hover"><div class="text-2xl mb-1">${ic}</div><p class="text-xs font-bold text-slate-300">${nm}</p></div>`}).join('')}
+                </div>
+                <div class="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl">
+                    <p class="text-sm text-purple-300">🧠 <strong>Prinsip Signaling:</strong> Diagram layer membantu memahami hierarki — elemen visual memandu perhatian ke konsep inti.</p>
+                </div>
+            </div>`}
+    },
+    {
+        id:'sw-app', title:'Software Aplikasi', icon:'📱', category:'Software', color:'purple',
+        summary:'Program yang langsung digunakan pengguna untuk menyelesaikan tugas.',
+        narration:'Software Aplikasi adalah program yang dirancang untuk membantu pengguna menyelesaikan tugas tertentu. Misalnya Microsoft Word untuk menulis, Google Chrome untuk menjelajahi internet, atau Photoshop untuk mengedit gambar. Software aplikasi berjalan di atas software sistem.',
+        content: function(){return `
+            <div class="space-y-5">
+                <div class="glass p-5 rounded-2xl no-hover">
+                    <h4 class="font-bold text-purple-400 mb-2">📌 Software Aplikasi</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed">Software Aplikasi dirancang untuk <strong class="text-white">menyelesaikan tugas spesifik pengguna</strong>. Fokus pada produktivitas, kreativitas, dan komunikasi.</p>
+                </div>
+                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
+                    <h5 class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">📦 Kategori Software Aplikasi</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl anim-slide-r" style="animation-delay:.1s">
+                            <p class="font-bold text-blue-400 text-sm mb-2">📝 Produktivitas</p>
+                            <ul class="text-xs text-slate-400 space-y-1"><li>• Microsoft Word</li><li>• Excel</li><li>• PowerPoint</li></ul>
+                        </div>
+                        <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl anim-slide-r" style="animation-delay:.2s">
+                            <p class="font-bold text-emerald-400 text-sm mb-2">🌐 Internet</p>
+                            <ul class="text-xs text-slate-400 space-y-1"><li>• Google Chrome</li><li>• Firefox</li><li>• Email Client</li></ul>
+                        </div>
+                        <div class="bg-pink-500/10 border border-pink-500/20 p-4 rounded-xl anim-slide-r" style="animation-delay:.3s">
+                            <p class="font-bold text-pink-400 text-sm mb-2">🎨 Kreativitas</p>
+                            <ul class="text-xs text-slate-400 space-y-1"><li>• Photoshop</li><li>• Canva</li><li>• Video Editor</li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-purple-500/10 border border-purple-500/20 p-4 rounded-xl">
+                    <p class="text-sm text-purple-300">🧠 <strong>Prinsip Segmenting:</strong> Materi dibagi menjadi segmen kecil yang mudah dicerna, meningkatkan retensi belajar.</p>
+                </div>
+            </div>`}
+    },
+    {
+        id:'bw-roles', title:'Peran Brainware', icon:'👥', category:'Brainware', color:'emerald',
+        summary:'Manusia yang mengoperasikan, mengelola, dan merancang sistem.',
+        narration:'Brainware adalah manusia yang berperan dalam sistem komputer. Ada tiga kategori utama: Pertama, Programmer yang membuat kode program. Kedua, System Administrator yang mengelola jaringan. Ketiga, End User atau pengguna akhir yang menggunakan aplikasi untuk kebutuhan sehari-hari.',
+        content: function(){return `
+            <div class="space-y-5">
+                <div class="glass p-5 rounded-2xl no-hover">
+                    <h4 class="font-bold text-emerald-400 mb-2">📌 Manusia dalam Sistem Komputer</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed">Brainware adalah <strong class="text-white">komponen terpenting</strong>. Tanpa manusia yang mengoperasikan, komputer hanyalah mesin tanpa fungsi.</p>
+                </div>
+                <div class="bg-slate-800/50 p-5 rounded-2xl border border-slate-700/50">
+                    <h5 class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-4">👥 Hierarki Peran</h5>
+                    <div class="space-y-2">
+                        ${[
+                            {icon:'👩‍💻',name:'Programmer / Developer',desc:'Merancang dan menulis kode program.',c:'emerald'},
+                            {icon:'🛠️',name:'System Administrator',desc:'Mengelola server, jaringan, dan keamanan.',c:'blue'},
+                            {icon:'👤',name:'End User',desc:'Menggunakan aplikasi untuk kebutuhan harian.',c:'amber'},
+                            {icon:'🎨',name:'Desainer & Analis',desc:'Merancang antarmuka, menganalisis kebutuhan.',c:'pink'}
+                        ].map((r,i)=>`<div class="flex items-center gap-3 bg-${r.c}-500/10 border border-${r.c}-500/20 p-3 rounded-xl anim-slide-r" style="animation-delay:${i*.1}s">
+                            <div class="text-3xl float">${r.icon}</div>
+                            <div><p class="font-bold text-${r.c}-400 text-sm">${r.name}</p><p class="text-xs text-slate-400">${r.desc}</p></div>
+                        </div>`).join('')}
+                    </div>
+                </div>
+                <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl">
+                    <p class="text-sm text-emerald-300">🧠 <strong>Prinsip Personalization:</strong> Pembelajaran lebih efektif dalam gaya percakapan — seolah ada instruktur yang membimbing.</p>
+                </div>
+            </div>`}
+    },
+    {
+        id:'integrated', title:'Kesatuan Sistem', icon:'🔗', category:'Integrasi', color:'amber',
+        summary:'Bagaimana Hardware, Software, dan Brainware bekerja bersama.',
+        narration:'Sistem komputer adalah kesatuan dari tiga komponen: Hardware, Software, dan Brainware. Ketiganya saling bergantung. Hardware tanpa software tidak bisa berjalan. Software tanpa hardware tidak punya tempat bekerja. Dan keduanya tanpa brainware tidak memiliki tujuan. Inilah satu kesatuan sistem komputer terpadu.',
+        content: function(){return `
+            <div class="space-y-5">
+                <div class="glass p-5 rounded-2xl no-hover">
+                    <h4 class="font-bold text-amber-400 mb-2">📌 Tiga Pilar Sistem Komputer</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed">Komputer adalah <strong class="text-white">ekosistem terpadu</strong> — Hardware menyediakan fisik, Software memberikan instruksi, Brainware memberikan tujuan.</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50">
+                    <h5 class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-5 text-center">🔄 Hubungan Tiga Komponen</h5>
+                    <div class="flex justify-center">
+                        <div class="relative w-56 h-48">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 float">
+                                <div class="w-14 h-14 bg-emerald-500/20 border border-emerald-500/30 rounded-full flex items-center justify-center text-2xl">🧠</div>
+                                <span class="text-[10px] font-bold text-emerald-400">Brainware</span>
+                            </div>
+                            <div class="absolute bottom-0 left-0 flex flex-col items-center gap-1 float2">
+                                <div class="w-14 h-14 bg-cyan-500/20 border border-cyan-500/30 rounded-full flex items-center justify-center text-2xl">🔧</div>
+                                <span class="text-[10px] font-bold text-cyan-400">Hardware</span>
+                            </div>
+                            <div class="absolute bottom-0 right-0 flex flex-col items-center gap-1 float">
+                                <div class="w-14 h-14 bg-purple-500/20 border border-purple-500/30 rounded-full flex items-center justify-center text-2xl">💿</div>
+                                <span class="text-[10px] font-bold text-purple-400">Software</span>
+                            </div>
+                            <svg class="absolute inset-0 w-full h-full" style="z-index:-1">
+                                <line x1="50%" y1="22%" x2="18%" y2="72%" stroke="rgba(255,255,255,.1)" stroke-width="2" stroke-dasharray="5,5"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/></line>
+                                <line x1="50%" y1="22%" x2="82%" y2="72%" stroke="rgba(255,255,255,.1)" stroke-width="2" stroke-dasharray="5,5"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/></line>
+                                <line x1="18%" y1="72%" x2="82%" y2="72%" stroke="rgba(255,255,255,.1)" stroke-width="2" stroke-dasharray="5,5"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 text-center mt-3">Garis putus-putus = aliran data & interaksi antar komponen</p>
+                </div>
+                <div class="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl">
+                    <p class="text-sm text-amber-300">🧠 <strong>Prinsip Coherence:</strong> Diagram disederhanakan — hanya elemen esensial untuk menghindari cognitive overload.</p>
+                </div>
+            </div>`}
+    }
+];
+
+// ==========================================
+// 3. DATABASE — MISI (5 Level)
+// ==========================================
+const dbMission = {
+    m1:{
+        title:'Hardware Assembly', color:'text-cyan-400', border:'border-cyan-500', icon:'🛠️', level:1,
+        instruksi:'Pilih 3 perangkat keras (fisik) yang tepat untuk merakit komputer.',
+        items:[
+            {id:'cpu',name:'CPU',icon:'⚙️',type:'correct',msg:'CPU adalah hardware utama pemroses data.'},
+            {id:'ram',name:'RAM',icon:'💾',type:'correct',msg:'RAM adalah hardware penyimpanan sementara.'},
+            {id:'psu',name:'Power Supply',icon:'🔋',type:'correct',msg:'PSU mengalirkan listrik ke hardware.'},
+            {id:'pizza',name:'Pizza',icon:'🍕',type:'wrong',msg:'Pizza makanan, bukan perangkat keras!'},
+            {id:'os1',name:'Windows OS',icon:'🪟',type:'wrong',msg:'OS adalah Software, bukan hardware fisik.'},
+            {id:'palu',name:'Palu',icon:'🔨',type:'wrong',msg:'Palu bukan komponen komputer!'}
+        ]
+    },
+    m2:{
+        title:'Software Config', color:'text-purple-400', border:'border-purple-500', icon:'📦', level:2,
+        instruksi:'Pilih 3 perangkat lunak (program) untuk diinstal ke sistem.',
+        items:[
+            {id:'os2',name:'Sistem Operasi',icon:'🪟',type:'correct',msg:'OS adalah software dasar pengelola sistem.'},
+            {id:'browser',name:'Browser Web',icon:'🌐',type:'correct',msg:'Browser adalah software aplikasi internet.'},
+            {id:'av',name:'Antivirus',icon:'🛡️',type:'correct',msg:'Antivirus melindungi dari malware.'},
+            {id:'cpu2',name:'Processor',icon:'⚙️',type:'wrong',msg:'Processor adalah Hardware, bukan program.'},
+            {id:'kopi',name:'Kopi',icon:'☕',type:'wrong',msg:'Kopi bukan software komputer!'},
+            {id:'mouse',name:'Mouse',icon:'🖱️',type:'wrong',msg:'Mouse adalah Hardware input.'}
+        ]
+    },
+    m3:{
+        title:'Brainware Logic', color:'text-emerald-400', border:'border-emerald-500', icon:'🧠', level:3,
+        instruksi:'Pilih 3 peran manusia yang tepat dalam sistem komputer.',
+        items:[
+            {id:'prog',name:'Programmer',icon:'👩‍💻',type:'correct',msg:'Programmer menulis kode — Brainware!'},
+            {id:'admin',name:'SysAdmin',icon:'🛠️',type:'correct',msg:'Admin mengelola jaringan — Brainware!'},
+            {id:'user',name:'End User',icon:'👤',type:'correct',msg:'Pengguna akhir — Brainware!'},
+            {id:'robot',name:'Robot AI',icon:'🤖',type:'wrong',msg:'AI adalah Software, bukan manusia.'},
+            {id:'kabel',name:'Kabel LAN',icon:'🔌',type:'wrong',msg:'Kabel adalah Hardware fisik.'},
+            {id:'word',name:'Ms. Word',icon:'📝',type:'wrong',msg:'Word adalah Software aplikasi.'}
+        ]
+    },
+    m4:{
+        title:'System Integration', color:'text-amber-400', border:'border-amber-500', icon:'🔗', level:4,
+        instruksi:'Pilih 1 Hardware, 1 Software, DAN 1 Brainware — ketiganya harus terwakili!',
+        items:[
+            {id:'monitor',name:'Monitor',icon:'🖥️',type:'correct',msg:'Monitor = Hardware ✓ Pilar pertama!'},
+            {id:'linux',name:'Linux OS',icon:'🐧',type:'correct',msg:'Linux = Software ✓ Pilar kedua!'},
+            {id:'analyst',name:'Analis IT',icon:'👨‍💼',type:'correct',msg:'Analis = Brainware ✓ Pilar ketiga!'},
+            {id:'awan',name:'Awan',icon:'☁️',type:'wrong',msg:'Cloud bukan komponen tunggal.'},
+            {id:'buku',name:'Buku Teks',icon:'📚',type:'wrong',msg:'Buku bukan komponen sistem komputer.'},
+            {id:'wifi',name:'Sinyal WiFi',icon:'📶',type:'wrong',msg:'WiFi adalah layanan, bukan pilar utama.'}
+        ]
+    },
+    m5:{
+        title:'Troubleshoot Master', color:'text-pink-400', border:'border-pink-500', icon:'🔍', level:5,
+        instruksi:'Sistem error! Pilih 3 solusi TEPAT untuk memperbaikinya.',
+        items:[
+            {id:'restart',name:'Restart PC',icon:'🔄',type:'correct',msg:'Restart mengatasi banyak masalah!'},
+            {id:'update',name:'Update Driver',icon:'⬆️',type:'correct',msg:'Driver terbaru perbaiki kompatibilitas.'},
+            {id:'scan',name:'Scan Antivirus',icon:'🔍',type:'correct',msg:'Scanning deteksi malware!'},
+            {id:'air',name:'Tiup Layar',icon:'💨',type:'wrong',msg:'Meniup layar tidak perbaiki error!'},
+            {id:'del',name:'Hapus System32',icon:'🗑️',type:'wrong',msg:'JANGAN! Itu merusak OS!'},
+            {id:'stiker',name:'Tempel Stiker',icon:'🏷️',type:'wrong',msg:'Stiker tidak perbaiki masalah!'}
+        ]
+    }
+};
+
+// ==========================================
+// 4. DATABASE — BADGES (10 Lencana)
+// ==========================================
+const dbBadges = [
+    {id:'b_welcome',icon:'🌟',name:'Pemula Cerah',desc:'Memulai petualangan pembelajaran',condition:'Mulai aplikasi'},
+    {id:'b_reader',icon:'📖',name:'Kutu Buku',desc:'Membaca minimal 3 materi',condition:'Baca 3 materi'},
+    {id:'b_scholar',icon:'🎓',name:'Pelajar Tekun',desc:'Membaca semua 6 materi',condition:'Baca 6 materi'},
+    {id:'b_hw',icon:'🔧',name:'Teknisi Hardware',desc:'Menyelesaikan misi Hardware',condition:'Selesai misi 1'},
+    {id:'b_sw',icon:'💿',name:'Installer Pro',desc:'Menyelesaikan misi Software',condition:'Selesai misi 2'},
+    {id:'b_bw',icon:'🧠',name:'Brain Master',desc:'Menyelesaikan misi Brainware',condition:'Selesai misi 3'},
+    {id:'b_integrate',icon:'🔗',name:'System Integrator',desc:'Menyelesaikan misi Integrasi',condition:'Selesai misi 4'},
+    {id:'b_troubleshoot',icon:'🔍',name:'Troubleshooter',desc:'Menyelesaikan misi Troubleshoot',condition:'Selesai misi 5'},
+    {id:'b_streak',icon:'🔥',name:'On Fire!',desc:'Menjawab 5 soal berturut-turut benar',condition:'Streak 5'},
+    {id:'b_master',icon:'🏆',name:'Grand Master',desc:'Menyelesaikan seluruh permainan',condition:'Selesai semua'}
+];
+
+// ==========================================
+// 5. AUDIO ENGINE
+// ==========================================
+function initSystem(){
+    audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended')audioCtx.resume();
+    document.getElementById('screen-init').classList.add('hidden');
+    const hud = document.getElementById('hud');
+    hud.classList.remove('hidden');
+    hud.style.display='flex';
+    sfx(440,'sine',.2);
+    switchView('view-home');
+    speak("Selamat datang di EduSystem Lab! Platform pembelajaran interaktif sistem komputer. Pilih menu untuk memulai petualangan belajarmu.");
+    earnBadge('b_welcome');
+    spawnParticles();
+}
+
+function speak(text,cb=null){
+    synth.cancel();uttId++;const id=uttId;
+    const box=document.getElementById('speaker-box');
+    document.getElementById('speaker-text').innerText=text;
+    box.classList.remove('translate-y-full');
+    const u=new SpeechSynthesisUtterance(text);u.lang='id-ID';u.rate=1.05;
+    u.onend=()=>{if(id===uttId){box.classList.add('translate-y-full');if(cb)cb()}};
+    u.onerror=()=>{if(id===uttId)box.classList.add('translate-y-full')};
+    synth.speak(u);
+}
+
+function sfx(f,t='sine',d=.2){
+    if(!audioCtx)return;
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type=t;o.connect(g);g.connect(audioCtx.destination);
+    o.frequency.setValueAtTime(f,audioCtx.currentTime);
+    g.gain.setValueAtTime(.08,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d);
+    o.start();o.stop(audioCtx.currentTime+d);
+}
+function sfxSuccess(){sfx(523,'sine',.15);setTimeout(()=>sfx(659,'sine',.15),100);setTimeout(()=>sfx(784,'sine',.2),200)}
+function sfxFail(){sfx(200,'square',.3)}
+function sfxLevelUp(){sfx(523,'sine',.1);setTimeout(()=>sfx(659,'sine',.1),80);setTimeout(()=>sfx(784,'sine',.1),160);setTimeout(()=>sfx(1047,'sine',.3),240)}
+function sfxBadge(){sfx(880,'sine',.1);setTimeout(()=>sfx(1100,'sine',.2),120)}
+
+// ==========================================
+// 6. NAVIGATION
+// ==========================================
+const allViews=['view-home','view-materi','view-materi-detail','view-mission','view-arena','view-badges','view-gameover','view-victory'];
+function switchView(id){
+    allViews.forEach(v=>document.getElementById(v).classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    currentView=id;
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+function goTo(viewId,narr){
+    sfx(600,'sine',.1);
+    if(viewId==='view-materi')renderMateriGrid();
+    if(viewId==='view-mission')renderMissionGrid();
+    if(viewId==='view-badges')renderBadgeGrid();
+    switchView(viewId);
+    if(narr)speak(narr);
+}
+function goHome(){updateHomeStats();goTo('view-home','Kembali ke pusat pembelajaran.')}
+
+// ==========================================
+// 7. MATERI SYSTEM
+// ==========================================
+function renderMateriGrid(){
+    const grid=document.getElementById('materi-grid');grid.innerHTML='';
+    dbMateri.forEach((m,i)=>{
+        const isRead=state.materiRead.has(m.id);
+        const c=m.color;
+        const card=document.createElement('div');
+        card.className='glass p-5 rounded-2xl cursor-pointer group relative overflow-hidden anim-scale';
+        card.style.animationDelay=`${i*.07}s`;
+        card.onclick=()=>openMateri(m);
+        card.innerHTML=`
+            ${isRead?'<div class="absolute top-3 right-3 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-[10px]">✓</div>':''}
+            <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">${m.icon}</div>
+            <span class="text-[9px] font-bold text-${c}-400/60 uppercase tracking-widest">${m.category}</span>
+            <h3 class="text-base font-bold mt-1 mb-1">${m.title}</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">${m.summary}</p>
+            <div class="mt-3 flex items-center gap-2 text-[9px] text-slate-500">
+                <span>🔊 Audio</span><span>•</span><span>📊 Animasi</span>${isRead?'<span>•</span><span class="text-emerald-400">✓ Dipelajari</span>':''}
+            </div>`;
+        grid.appendChild(card);
+    });
+}
+
+function openMateri(m){
+    sfx(500,'sine',.1);
+    const container=document.getElementById('materi-detail-content');
+    const c=m.color;
+    container.innerHTML=`
+        <div class="anim-view">
+            <div class="flex items-center gap-4 mb-5">
+                <div class="w-14 h-14 bg-${c}-500/20 rounded-2xl flex items-center justify-center text-3xl float">${m.icon}</div>
+                <div>
+                    <span class="text-[9px] font-bold text-${c}-400/60 uppercase tracking-widest">${m.category}</span>
+                    <h2 class="text-xl md:text-2xl font-bold">${m.title}</h2>
+                </div>
+            </div>
+            ${typeof m.content==='function'?m.content():m.content}
+            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                <button onclick="playMateriNarration('${m.id}')" class="flex-1 bg-${c}-600/20 hover:bg-${c}-600/30 border border-${c}-500/30 text-${c}-400 font-bold py-3 px-5 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-95 text-sm">
+                    🔊 Dengarkan Narasi
+                </button>
+                <button onclick="markMateriRead('${m.id}')" class="flex-1 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 font-bold py-3 px-5 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-95 text-sm">
+                    ✅ Sudah Dipelajari (+30 XP)
+                </button>
+            </div>
+        </div>`;
+    switchView('view-materi-detail');
+    speak(m.narration);
+}
+
+function playMateriNarration(id){const m=dbMateri.find(x=>x.id===id);if(m)speak(m.narration)}
+
+function markMateriRead(id){
+    if(state.materiRead.has(id)){speak("Materi ini sudah ditandai sebelumnya.");return}
+    state.materiRead.add(id);addXP(30);sfxSuccess();
+    speak("Materi ditandai sudah dipelajari! Kamu mendapat 30 XP.");
+    if(state.materiRead.size>=3)earnBadge('b_reader');
+    if(state.materiRead.size>=6)earnBadge('b_scholar');
+    updateHomeStats();
+    setTimeout(()=>goTo('view-materi','Bagus! Lanjut pelajari materi berikutnya.'),1500);
+}
+
+// ==========================================
+// 8. MISSION SYSTEM
+// ==========================================
+function renderMissionGrid(){
+    const grid=document.getElementById('mission-grid');grid.innerHTML='';
+    Object.entries(dbMission).forEach(([key,m])=>{
+        const unlocked=state.missionUnlocked[key];
+        const completed=state.missionsComplete.has(key);
+        const card=document.createElement('div');
+        card.className=`glass p-5 rounded-2xl text-center relative overflow-hidden cursor-pointer ${!unlocked&&!completed?'locked':''}`;
+        card.onclick=()=>startMission(key);
+        const statusBadge=completed
+            ?`<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-full">✓ SELESAI</span>`
+            :unlocked
+                ?`<span class="inline-block px-3 py-1 bg-cyan-500/20 text-cyan-400 text-[10px] font-bold rounded-full pulse-ring">TERBUKA</span>`
+                :`<span class="inline-block px-3 py-1 bg-slate-700 text-slate-500 text-[10px] font-bold rounded-full">🔒 TERKUNCI</span>`;
+        card.innerHTML=`
+            <div class="absolute top-0 left-0 w-full h-1 ${m.color.replace('text-','bg-')} ${!unlocked&&!completed?'opacity-30':''}"></div>
+            <div class="text-[10px] font-bold ${m.color} mb-2 tracking-widest">LEVEL ${String(m.level).padStart(2,'0')}</div>
+            <div class="text-3xl md:text-4xl mb-2">${m.icon}</div>
+            <h4 class="font-bold text-xs md:text-sm mb-2">${m.title}</h4>
+            ${statusBadge}`;
+        grid.appendChild(card);
+    });
+}
+
+function startMission(key){
+    if(!state.missionUnlocked[key]){sfxFail();speak("Level ini masih terkunci. Selesaikan level sebelumnya.");return}
+    if(state.missionsComplete.has(key)){speak("Misi ini sudah selesai! Lanjut ke level berikutnya.");return}
+    if(state.lives<=0){switchView('view-gameover');speak("Nyawamu habis! Klik Coba Lagi untuk mendapat nyawa baru.");return}
+    sfx(800,'sine',.1);
+    state.currentMission=key;state.collected=[];state.wrongCount=0;
+    const d=dbMission[key];
+    document.getElementById('arena-title').innerText=d.title;
+    document.getElementById('arena-title').className=`font-bold text-base md:text-lg mono tracking-widest uppercase ${d.color}`;
+    document.getElementById('arena-instruction').innerText=d.instruksi;
+    document.getElementById('arena-correct').innerText='0';
+    document.getElementById('arena-wrong').innerText='0';
+    resetSlots();
+    const shuffled=[...d.items].sort(()=>Math.random()-.5);
+    const inv=document.getElementById('arena-inventory');inv.innerHTML='';
+    shuffled.forEach(item=>{
+        const btn=document.createElement('button');
+        btn.className='glass p-4 rounded-xl flex flex-col items-center justify-center hover:bg-slate-700/50 transition-all w-full active:scale-95 no-hover';
+        btn.id=`item-${item.id}-${key}`;
+        btn.innerHTML=`<span class="text-2xl md:text-3xl mb-1">${item.icon}</span><span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">${item.name}</span>`;
+        btn.onclick=()=>handlePick(item,key);
+        inv.appendChild(btn);
+    });
+    switchView('view-arena');
+    speak(`Misi ${d.title} dimulai! ${d.instruksi}`);
+}
+
+function handlePick(item,mk){
+    const d=dbMission[mk];
+    const fb=document.getElementById('arena-feedback');
+    const btn=document.getElementById(`item-${item.id}-${mk}`);
+    if(item.type==='correct'){
+        if(state.collected.includes(item.id))return;
+        state.collected.push(item.id);
+        btn.classList.add('opacity-20','grayscale','pointer-events-none');btn.onclick=null;
+        fb.innerHTML=`✅ ${item.msg}`;
+        fb.className='text-center text-sm font-bold min-h-[40px] flex items-center justify-center px-5 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 opacity-100 anim-scale max-w-md';
+        addXP(50);state.streak++;
+        if(state.streak>state.bestStreak)state.bestStreak=state.streak;
+        updateStreakUI();sfxSuccess();updateSlots(d);
+        document.getElementById('arena-correct').innerText=state.collected.length;
+        if(state.streak>=5)earnBadge('b_streak');
+        if(state.collected.length===3){
+            speak(item.msg+" Luar biasa! Misi berhasil!",()=>finishMission(mk));
+        }else{speak(item.msg)}
+    }else{
+        fb.innerHTML=`❌ ${item.msg}`;
+        fb.className='text-center text-sm font-bold min-h-[40px] flex items-center justify-center px-5 py-2 rounded-xl bg-red-500/20 text-red-400 opacity-100 shake max-w-md';
+        state.streak=0;updateStreakUI();state.wrongCount++;
+        document.getElementById('arena-wrong').innerText=state.wrongCount;
+        loseLife();sfxFail();speak(item.msg);
+        if(state.lives<=0){
+            setTimeout(()=>{switchView('view-gameover');speak("Nyawamu habis! Jangan menyerah, pelajari materi dan coba lagi.")},1200);
+        }
+    }
+}
+
+function resetSlots(){
+    document.getElementById('arena-slots').innerHTML=Array(3).fill(0).map(()=>`<div class="w-14 h-14 md:w-18 md:h-18 rounded-2xl border-2 border-dashed border-slate-600 flex items-center justify-center text-xl transition-all">?</div>`).join('');
+    const fb=document.getElementById('arena-feedback');fb.innerHTML='';fb.className='text-center text-sm font-bold min-h-[40px] flex items-center justify-center px-5 py-2 rounded-xl opacity-0 max-w-md';
+}
+
+function updateSlots(d){
+    const slots=document.getElementById('arena-slots');slots.innerHTML='';
+    for(let i=0;i<3;i++){
+        const div=document.createElement('div');
+        div.className='w-14 h-14 md:w-18 md:h-18 rounded-2xl border-2 flex items-center justify-center text-2xl md:text-3xl transition-all';
+        if(i<state.collected.length){
+            const obj=d.items.find(x=>x.id===state.collected[i]);
+            div.classList.add(d.border,'bg-slate-800','anim-scale');div.innerHTML=obj.icon;
+        }else{div.classList.add('border-dashed','border-slate-600');div.innerHTML='?'}
+        slots.appendChild(div);
+    }
+}
+
+function finishMission(key){
+    state.missionsComplete.add(key);
+    const order=['m1','m2','m3','m4','m5'];
+    const idx=order.indexOf(key);
+    if(idx<order.length-1)state.missionUnlocked[order[idx+1]]=true;
+    const badgeMap={m1:'b_hw',m2:'b_sw',m3:'b_bw',m4:'b_integrate',m5:'b_troubleshoot'};
+    earnBadge(badgeMap[key]);sfxLevelUp();addXP(100);
+    updateHomeStats();updateProgressCircle();
+    if(state.missionsComplete.size>=5){
+        earnBadge('b_master');
+        setTimeout(()=>showVictory(),800);
+    }else{
+        switchView('view-mission');renderMissionGrid();
+        const nextKey=order[idx+1];const nextD=dbMission[nextKey];
+        speak(`Misi selesai! Level ${nextD.title} sekarang terbuka. Lanjutkan!`);
+    }
+}
+
+function abandonMission(){sfx(300,'square',.15);state.currentMission=null;state.collected=[];goTo('view-mission','Misi dibatalkan. Kembali ke Mission Control.')}
+
+// ==========================================
+// 9. LIVES SYSTEM
+// ==========================================
+function loseLife(){
+    if(state.lives<=0)return;
+    state.lives--;
+    const h=document.getElementById(`heart-${state.lives+1}`);
+    h.classList.add('heart-break');
+    setTimeout(()=>{h.innerText='🖤';h.classList.remove('heart-break')},500);
+}
+
+function restoreLives(){
+    state.lives=state.maxLives;
+    for(let i=1;i<=state.maxLives;i++){
+        const h=document.getElementById(`heart-${i}`);h.innerText='❤️';
+        h.classList.add('heart-beat');setTimeout(()=>h.classList.remove('heart-beat'),600);
+    }
+}
+
+function reviveAndRetry(){restoreLives();sfxSuccess();goTo('view-mission','Nyawamu pulih! Lanjutkan misimu.')}
+function reviveAndGoMateri(){restoreLives();sfxSuccess();goTo('view-materi','Nyawamu pulih. Pelajari materi untuk persiapan.')}
+
+// ==========================================
+// 10. XP & LEVEL SYSTEM
+// ==========================================
+function addXP(amount){
+    state.xp+=amount;
+    while(state.xp>=state.xpToNext){
+        state.xp-=state.xpToNext;state.level++;
+        state.xpToNext=Math.floor(state.xpToNext*1.4);
+        sfxLevelUp();showNotification(`⬆️ Level Up! Level ${state.level}`,'amber');
+    }
+    updateXPUI();
+}
+
+function updateXPUI(){
+    const pct=(state.xp/state.xpToNext)*100;
+    document.getElementById('xp-bar').style.width=pct+'%';
+    document.getElementById('level-badge').innerText=state.level;
+    document.getElementById('level-text').innerText=state.level;
+}
+
+// ==========================================
+// 11. STREAK
+// ==========================================
+function updateStreakUI(){
+    const d=document.getElementById('streak-display');
+    const c=document.getElementById('streak-count');
+    if(state.streak>=2){d.classList.remove('hidden');d.classList.add('flex');c.innerText=state.streak}
+    else{d.classList.add('hidden');d.classList.remove('flex')}
+}
+
+// ==========================================
+// 12. BADGE SYSTEM
+// ==========================================
+function earnBadge(id){
+    if(state.badges.has(id))return;
+    state.badges.add(id);
+    const badge=dbBadges.find(b=>b.id===id);
+    if(badge){sfxBadge();showNotification(`🏅 Lencana: ${badge.name}!`,'amber')}
+    updateHomeStats();
+}
+
+function renderBadgeGrid(){
+    const grid=document.getElementById('badge-grid');grid.innerHTML='';
+    document.getElementById('badge-earned-count').innerText=state.badges.size;
+    dbBadges.forEach(b=>{
+        const earned=state.badges.has(b.id);
+        const card=document.createElement('div');
+        card.className=`glass p-4 rounded-2xl text-center no-hover ${earned?'badge-glow':'opacity-30 grayscale'}`;
+        card.innerHTML=`
+            <div class="text-3xl mb-2 ${earned?'float':''}">${b.icon}</div>
+            <h4 class="font-bold text-xs mb-1">${b.name}</h4>
+            <p class="text-[9px] text-slate-400">${b.desc}</p>
+            ${earned?'<p class="text-[9px] text-emerald-400 mt-1 font-bold">✓ Diperoleh</p>':`<p class="text-[9px] text-slate-500 mt-1">${b.condition}</p>`}`;
+        grid.appendChild(card);
+    });
+}
+
+// ==========================================
+// 13. PROGRESS & STATS
+// ==========================================
+function updateHomeStats(){
+    const el=id=>document.getElementById(id);
+    if(el('stat-materi'))el('stat-materi').innerText=`${state.materiRead.size}/6`;
+    if(el('stat-misi'))el('stat-misi').innerText=`${state.missionsComplete.size}/5`;
+    if(el('stat-badge'))el('stat-badge').innerText=`${state.badges.size}/10`;
+    if(el('stat-xp'))el('stat-xp').innerText=getTotalXP();
+    if(el('bar-materi'))el('bar-materi').style.width=(state.materiRead.size/6*100)+'%';
+    if(el('bar-misi'))el('bar-misi').style.width=(state.missionsComplete.size/5*100)+'%';
+    if(el('bar-badge'))el('bar-badge').style.width=(state.badges.size/10*100)+'%';
+    updateProgressCircle();
+}
+
+function getTotalXP(){
+    let t=state.xp;
+    for(let l=1;l<state.level;l++)t+=Math.floor(100*Math.pow(1.4,l-1));
+    return t;
+}
+
+function updateProgressCircle(){
+    const done=state.materiRead.size+state.missionsComplete.size;
+    const pct=done/11;
+    const c=document.getElementById('progress-circle');
+    if(c)c.setAttribute('stroke-dashoffset',97.4*(1-pct));
+}
+
+// ==========================================
+// 14. NOTIFICATIONS & EFFECTS
+// ==========================================
+function showNotification(text,color='cyan'){
+    const n=document.createElement('div');
+    n.className=`fixed top-20 left-1/2 -translate-x-1/2 z-[9998] px-6 py-3 rounded-xl font-bold text-sm shadow-2xl anim-scale text-white`;
+    n.style.cssText=`backdrop-filter:blur(12px);background:rgba(${color==='amber'?'245,158,11':color==='cyan'?'6,182,212':'16,185,129'},.25);border:1px solid rgba(${color==='amber'?'245,158,11':color==='cyan'?'6,182,212':'16,185,129'},.4)`;
+    n.innerText=text;
+    document.body.appendChild(n);
+    setTimeout(()=>{n.style.opacity='0';n.style.transform='translateX(-50%) translateY(-20px)';n.style.transition='all .5s ease';setTimeout(()=>n.remove(),500)},2500);
+}
+
+function spawnConfetti(){
+    const colors=['#06b6d4','#a855f7','#10b981','#f59e0b','#ef4444','#3b82f6'];
+    for(let i=0;i<60;i++){
+        const c=document.createElement('div');c.className='confetti';
+        c.style.left=Math.random()*100+'vw';
+        c.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+        c.style.animationDelay=Math.random()*2+'s';
+        c.style.animationDuration=(2+Math.random()*2)+'s';
+        c.style.width=(6+Math.random()*8)+'px';
+        c.style.height=(6+Math.random()*8)+'px';
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    }
+}
+
+function spawnParticles(){
+    const container=document.getElementById('particles');
+    for(let i=0;i<15;i++){
+        const p=document.createElement('div');p.className='particle';
+        p.style.left=Math.random()*100+'%';
+        p.style.animationDuration=(8+Math.random()*12)+'s';
+        p.style.animationDelay=Math.random()*8+'s';
+        p.style.opacity=(.1+Math.random()*.3);
+        container.appendChild(p);
+    }
+}
+
+// ==========================================
+// 15. VICTORY
+// ==========================================
+function showVictory(){
+    const vb=document.getElementById('victory-badges');vb.innerHTML='';
+    dbBadges.forEach(b=>{
+        if(state.badges.has(b.id)){
+            const s=document.createElement('div');
+            s.className='w-10 h-10 bg-amber-500/20 border border-amber-500/30 rounded-xl flex items-center justify-center text-xl tooltip badge-glow';
+            s.setAttribute('data-tip',b.name);s.innerHTML=b.icon;
+            vb.appendChild(s);
+        }
+    });
+    document.getElementById('final-xp').innerText=getTotalXP()+' XP';
+    document.getElementById('final-level').innerText=state.level;
+    document.getElementById('final-badges').innerText=state.badges.size;
+    switchView('view-victory');spawnConfetti();
+    speak("Luar biasa! Anda telah menguasai seluruh materi Kesatuan Sistem Komputer. Hardware, Software, dan Brainware. Selamat, Grand Master!");
+}
+
+// === INIT ===
+updateXPUI();updateStreakUI();
+</script>
+</body>
+</html>
