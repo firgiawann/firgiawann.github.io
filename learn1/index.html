@@ -714,46 +714,201 @@ const dbBadges = [
 ];
 
 // ==========================================
-// 5. AUDIO ENGINE
+// 5. AUDIO ENGINE (Robust Cross-Browser)
 // ==========================================
-function initSystem(){
-    audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    if(audioCtx.state==='suspended')audioCtx.resume();
+let voicesReady = false;
+let selectedVoice = null;
+let speechResumeTimer = null;
+let speechUnlocked = false;
+
+// --- Voice Loading (async on Chrome/Edge) ---
+function loadVoices() {
+    const voices = synth.getVoices();
+    if (voices.length > 0) {
+        voicesReady = true;
+        // Prefer Indonesian voice, fallback to any available
+        selectedVoice = voices.find(v => v.lang && v.lang.startsWith('id'))
+            || voices.find(v => v.lang && v.lang.startsWith('ms')) // Malay as fallback
+            || voices.find(v => v.default)
+            || voices[0];
+        console.log('[Audio] Voice selected:', selectedVoice ? selectedVoice.name : 'none');
+    }
+}
+loadVoices();
+if (synth.onvoiceschanged !== undefined) {
+    synth.onvoiceschanged = loadVoices;
+}
+
+// --- Chrome Long-Speech Workaround ---
+// Chrome pauses speech after ~15s. This timer keeps it alive.
+function startSpeechKeepAlive() {
+    stopSpeechKeepAlive();
+    speechResumeTimer = setInterval(() => {
+        if (synth.speaking && !synth.paused) {
+            synth.pause();
+            synth.resume();
+        }
+    }, 10000); // every 10 seconds
+}
+function stopSpeechKeepAlive() {
+    if (speechResumeTimer) { clearInterval(speechResumeTimer); speechResumeTimer = null; }
+}
+
+function initSystem() {
+    // --- AudioContext ---
+    try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) {
+        console.warn('[Audio] AudioContext not supported:', e);
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+    }
+
+    // --- Unlock SpeechSynthesis on user gesture (required on iOS/mobile) ---
+    if (!speechUnlocked) {
+        const dummy = new SpeechSynthesisUtterance('');
+        dummy.volume = 0;
+        dummy.lang = 'id-ID';
+        synth.speak(dummy);
+        speechUnlocked = true;
+    }
+
+    // Force reload voices if not ready yet
+    if (!voicesReady) loadVoices();
+
     document.getElementById('screen-init').classList.add('hidden');
     const hud = document.getElementById('hud');
     hud.classList.remove('hidden');
-    hud.style.display='flex';
-    sfx(440,'sine',.2);
+    hud.style.display = 'flex';
+    sfx(440, 'sine', .2);
     switchView('view-home');
-    speak("Selamat datang di EduSystem Lab! Platform pembelajaran interaktif sistem komputer. Pilih menu untuk memulai petualangan belajarmu.");
+
+    // Small delay to let the dummy utterance finish and voices to load
+    setTimeout(() => {
+        speak("Selamat datang di EduSystem Lab! Platform pembelajaran interaktif sistem komputer. Pilih menu untuk memulai petualangan belajarmu.");
+    }, 300);
     earnBadge('b_welcome');
     spawnParticles();
 }
 
-function speak(text,cb=null){
-    synth.cancel();uttId++;const id=uttId;
-    const box=document.getElementById('speaker-box');
-    document.getElementById('speaker-text').innerText=text;
-    box.classList.remove('translate-y-full');
-    const u=new SpeechSynthesisUtterance(text);u.lang='id-ID';u.rate=1.05;
-    u.onend=()=>{if(id===uttId){box.classList.add('translate-y-full');if(cb)cb()}};
-    u.onerror=()=>{if(id===uttId)box.classList.add('translate-y-full')};
-    synth.speak(u);
+function speak(text, cb = null) {
+    // Safety: if synth not available, just show subtitle & callback
+    if (!synth || typeof SpeechSynthesisUtterance === 'undefined') {
+        showSubtitle(text);
+        autoHideSubtitle(cb);
+        return;
+    }
+
+    // Stop any current speech
+    try { synth.cancel(); } catch(e) {}
+    stopSpeechKeepAlive();
+
+    uttId++;
+    const thisId = uttId;
+
+    showSubtitle(text);
+
+    // Retry voices if not loaded
+    if (!voicesReady) loadVoices();
+
+    // Delay after cancel() — some browsers (Samsung, Firefox) need this
+    setTimeout(() => {
+        // Check if a newer speak() call was made during the delay
+        if (thisId !== uttId) return;
+
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'id-ID';
+        u.rate = 1.05;
+        u.volume = 1;
+        u.pitch = 1;
+
+        // Set voice explicitly if available
+        if (selectedVoice) u.voice = selectedVoice;
+
+        u.onstart = () => {
+            startSpeechKeepAlive();
+        };
+
+        u.onend = () => {
+            stopSpeechKeepAlive();
+            if (thisId === uttId) {
+                hideSubtitle();
+                if (cb) cb();
+            }
+        };
+
+        u.onerror = (e) => {
+            console.warn('[Speech] Error:', e.error);
+            stopSpeechKeepAlive();
+            if (thisId === uttId) {
+                hideSubtitle();
+                // Still fire callback on error so the app doesn't get stuck
+                if (cb) setTimeout(cb, 500);
+            }
+        };
+
+        try {
+            synth.speak(u);
+        } catch(e) {
+            console.warn('[Speech] speak() failed:', e);
+            hideSubtitle();
+            if (cb) setTimeout(cb, 500);
+        }
+
+        // Fallback: if speech doesn't start within 3 seconds, hide subtitle
+        // (handles cases where TTS engine is simply unavailable)
+        setTimeout(() => {
+            if (thisId === uttId && !synth.speaking) {
+                console.warn('[Speech] Fallback: speech did not start');
+                // Don't hide if it just ended naturally
+            }
+        }, 3000);
+
+    }, 150); // 150ms delay after cancel
 }
 
-function sfx(f,t='sine',d=.2){
-    if(!audioCtx)return;
-    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.type=t;o.connect(g);g.connect(audioCtx.destination);
-    o.frequency.setValueAtTime(f,audioCtx.currentTime);
-    g.gain.setValueAtTime(.08,audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d);
-    o.start();o.stop(audioCtx.currentTime+d);
+function showSubtitle(text) {
+    const box = document.getElementById('speaker-box');
+    document.getElementById('speaker-text').innerText = text;
+    box.classList.remove('translate-y-full');
+}
+function hideSubtitle() {
+    document.getElementById('speaker-box').classList.add('translate-y-full');
+}
+function autoHideSubtitle(cb) {
+    setTimeout(() => { hideSubtitle(); if (cb) cb(); }, 4000);
+}
+
+function sfx(f, t = 'sine', d = .2) {
+    if (!audioCtx) return;
+    // Resume AudioContext if suspended (mobile browsers suspend it)
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+    }
+    try {
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.type = t; o.connect(g); g.connect(audioCtx.destination);
+        o.frequency.setValueAtTime(f, audioCtx.currentTime);
+        g.gain.setValueAtTime(.08, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + d);
+        o.start(); o.stop(audioCtx.currentTime + d);
+    } catch(e) {
+        console.warn('[SFX] Error:', e);
+    }
 }
 function sfxSuccess(){sfx(523,'sine',.15);setTimeout(()=>sfx(659,'sine',.15),100);setTimeout(()=>sfx(784,'sine',.2),200)}
 function sfxFail(){sfx(200,'square',.3)}
 function sfxLevelUp(){sfx(523,'sine',.1);setTimeout(()=>sfx(659,'sine',.1),80);setTimeout(()=>sfx(784,'sine',.1),160);setTimeout(()=>sfx(1047,'sine',.3),240)}
 function sfxBadge(){sfx(880,'sine',.1);setTimeout(()=>sfx(1100,'sine',.2),120)}
+
+// --- Keep AudioContext alive on mobile (re-resume on user interaction) ---
+document.addEventListener('touchstart', function resumeAudioOnTouch() {
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+}, { passive: true });
+document.addEventListener('click', function resumeAudioOnClick() {
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+});
 
 // ==========================================
 // 6. NAVIGATION
