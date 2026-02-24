@@ -3,231 +3,665 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Pembelajaran Tata Surya</title>
-    <!-- Tailwind CSS untuk Desain -->
+    <title>🪐 Media Pembelajaran Tata Surya</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React dan Babel untuk menjalankan JSX di browser -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-            animation: spin-slow 8s linear infinite;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; }
+
         body {
-            background-color: #0f172a;
+            background: #020818;
             color: white;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
         }
+
+        /* ===== STARS ===== */
+        .stars-layer {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            animation: twinkle var(--d, 3s) ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.4); }
+        }
+
+        /* ===== ORBIT ANIMATION (Home) ===== */
+        .solar-system {
+            position: relative;
+            width: 260px; height: 260px;
+            margin: 0 auto;
+        }
+        .sun {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 52px;
+            filter: drop-shadow(0 0 18px #fbbf24) drop-shadow(0 0 36px #f59e0b);
+            animation: pulse-sun 2.5s ease-in-out infinite;
+        }
+        @keyframes pulse-sun {
+            0%, 100% { filter: drop-shadow(0 0 18px #fbbf24) drop-shadow(0 0 36px #f59e0b); }
+            50% { filter: drop-shadow(0 0 30px #fbbf24) drop-shadow(0 0 60px #f59e0b); }
+        }
+        .orbit-ring {
+            position: absolute;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .orbit-planet {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 0 0;
+            animation: orbit linear infinite;
+        }
+        .orbit-planet span {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
+            to   { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+        }
+
+        /* ===== CARDS ===== */
+        .planet-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .planet-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(251,191,36,0.6);
+            box-shadow: 0 8px 30px rgba(251,191,36,0.2);
+        }
+        .planet-card.selected {
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(251,191,36,0.4);
+        }
+
+        /* ===== INFO BOX ===== */
+        .info-box {
+            background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.9));
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            border: none; border-radius: 16px;
+            padding: 14px 32px;
+            font-size: 18px; font-weight: 700;
+            color: white; cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99,102,241,0.6);
+        }
+        .btn-quiz-option {
+            width: 100%; padding: 16px 20px;
+            background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.8));
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 14px; color: white;
+            font-size: 16px; font-weight: 500;
+            cursor: pointer; text-align: left;
+            transition: all 0.25s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-quiz-option:hover {
+            border-color: #60a5fa;
+            background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(99,102,241,0.15));
+            transform: translateX(4px);
+        }
+        .btn-quiz-option.correct {
+            border-color: #4ade80;
+            background: linear-gradient(135deg, rgba(74,222,128,0.25), rgba(34,197,94,0.15));
+        }
+        .btn-quiz-option.wrong {
+            border-color: #f87171;
+            background: linear-gradient(135deg, rgba(248,113,113,0.25), rgba(239,68,68,0.15));
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: linear-gradient(90deg, rgba(2,8,24,0.95), rgba(15,23,42,0.95));
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            padding: 14px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .navbar-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px; font-weight: 700;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-pill {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50px; padding: 6px 16px;
+            font-size: 13px; cursor: pointer; color: white;
+            transition: all 0.2s;
+        }
+        .nav-pill:hover, .nav-pill.active {
+            background: rgba(251,191,36,0.15);
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 99px; height: 8px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 99px;
+            transition: width 0.5s ease;
+        }
+
+        /* ===== SPIN ===== */
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spin-slow { animation: spin-slow 8s linear infinite; }
+        @keyframes bounce-in { 0%{transform:scale(0.5);opacity:0} 70%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+        .bounce-in { animation: bounce-in 0.5s ease forwards; }
+
+        /* ===== FACT BADGE ===== */
+        .fact-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(251,191,36,0.12);
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 99px; padding: 4px 12px;
+            font-size: 12px; color: #fbbf24;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(2,8,24,0.95);
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .footer-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.3px;
+        }
+        .footer-text span {
+            color: rgba(251,191,36,0.7);
+            font-weight: 600;
+        }
+
+        /* ===== SCORE BADGE ===== */
+        .score-ring {
+            width: 140px; height: 140px; border-radius: 50%;
+            background: conic-gradient(#fbbf24 var(--pct, 0%), rgba(255,255,255,0.1) 0%);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(251,191,36,0.3);
+        }
+        .score-inner {
+            width: 110px; height: 110px; border-radius: 50%;
+            background: #020818;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+
+        /* ===== AUDIO STATUS ===== */
+        .audio-wave {
+            display: flex; gap: 3px; align-items: flex-end; height: 20px;
+        }
+        .audio-wave span {
+            width: 4px; background: #fbbf24; border-radius: 2px;
+            animation: wave 0.8s ease-in-out infinite;
+        }
+        .audio-wave span:nth-child(2) { animation-delay: 0.1s; }
+        .audio-wave span:nth-child(3) { animation-delay: 0.2s; }
+        .audio-wave span:nth-child(4) { animation-delay: 0.3s; }
+        @keyframes wave {
+            0%, 100% { height: 4px; }
+            50% { height: 18px; }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020818; }
+        ::-webkit-scrollbar-thumb { background: rgba(251,191,36,0.3); border-radius: 3px; }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef, useCallback } = React;
 
-        // Komponen Icon Sederhana (Menggantikan Lucide-React agar kompatibel dengan CDN)
-        const Icon = ({ name, size = 24, className = "" }) => {
-            useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
-            }, [name]);
-            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        // ===================== DATA =====================
+        const planets = [
+            {
+                name: "Merkurius", icon: "☿", emoji: "🌑",
+                color: "#9ca3af", glow: "rgba(156,163,175,0.4)",
+                distance: "57,9 juta km", temp: "-180°C s/d 430°C",
+                moons: 0, rings: false,
+                fact: "Planet tercepat mengelilingi Matahari",
+                info: "Merkurius adalah planet terkecil dan terdekat dari Matahari di tata surya kita. Satu hari di Merkurius setara dengan 59 hari di Bumi. Meski dekat dengan Matahari, permukaannya memiliki es di kawah kutub yang tidak terkena sinar matahari."
+            },
+            {
+                name: "Venus", icon: "♀", emoji: "🌕",
+                color: "#f59e0b", glow: "rgba(245,158,11,0.4)",
+                distance: "108,2 juta km", temp: "465°C",
+                moons: 0, rings: false,
+                fact: "Planet paling panas di tata surya",
+                info: "Venus adalah planet terpanas meskipun Mars lebih jauh ke Matahari. Atmosfer tebalnya mengandung CO₂ yang menyebabkan efek rumah kaca ekstrem. Venus berputar terbalik dibanding planet lain — matahari terbit dari barat dan terbenam di timur!"
+            },
+            {
+                name: "Bumi", icon: "⊕", emoji: "🌍",
+                color: "#3b82f6", glow: "rgba(59,130,246,0.4)",
+                distance: "149,6 juta km", temp: "-88°C s/d 58°C",
+                moons: 1, rings: false,
+                fact: "Satu-satunya planet dengan kehidupan",
+                info: "Bumi adalah rumah kita! Memiliki lapisan ozon yang melindungi dari radiasi matahari, air dalam tiga wujud, dan satu bulan alami. Sekitar 71% permukaan Bumi tertutup air. Usia Bumi diperkirakan 4,5 miliar tahun."
+            },
+            {
+                name: "Mars", icon: "♂", emoji: "🔴",
+                color: "#ef4444", glow: "rgba(239,68,68,0.4)",
+                distance: "227,9 juta km", temp: "-140°C s/d 20°C",
+                moons: 2, rings: false,
+                fact: "Gunung tertinggi di tata surya ada di sini",
+                info: "Mars dikenal sebagai Planet Merah karena kandungan besi oksida di tanahnya. Gunung Olympus Mons di Mars adalah gunung tertinggi di tata surya (21 km). Mars memiliki 2 bulan kecil: Phobos dan Deimos. Para ilmuwan percaya Mars pernah memiliki air cair."
+            },
+            {
+                name: "Yupiter", icon: "♃", emoji: "🟠",
+                color: "#f97316", glow: "rgba(249,115,22,0.4)",
+                distance: "778,5 juta km", temp: "-145°C",
+                moons: 95, rings: true,
+                fact: "Planet terbesar, lebih besar dari semua planet lain digabung",
+                info: "Yupiter adalah raksasa gas terbesar di tata surya. Badai Great Red Spot di Yupiter telah berlangsung lebih dari 350 tahun! Yupiter memiliki 95 bulan yang diketahui, termasuk Ganymede yang lebih besar dari planet Merkurius."
+            },
+            {
+                name: "Saturnus", icon: "♄", emoji: "🪐",
+                color: "#eab308", glow: "rgba(234,179,8,0.4)",
+                distance: "1,43 miliar km", temp: "-178°C",
+                moons: 146, rings: true,
+                fact: "Planet dengan cincin paling indah",
+                info: "Saturnus terkenal dengan cincinnya yang luar biasa, terdiri dari es dan batu. Saturnus sangat ringan secara kepadatan sehingga akan mengambang di air jika ada lautan yang cukup besar. Titan, bulan terbesar Saturnus, memiliki atmosfer yang tebal."
+            },
+            {
+                name: "Uranus", icon: "♅", emoji: "🔵",
+                color: "#22d3ee", glow: "rgba(34,211,238,0.4)",
+                distance: "2,87 miliar km", temp: "-224°C",
+                moons: 28, rings: true,
+                fact: "Berputar miring hampir 90 derajat",
+                info: "Uranus adalah planet es raksasa yang unik karena berotasi miring hampir 90 derajat, seolah-olah berguling mengelilingi Matahari. Ini menyebabkan musim yang sangat ekstrem — satu musim bisa berlangsung 21 tahun Bumi! Uranus tampak berwarna biru-hijau karena metana di atmosfernya."
+            },
+            {
+                name: "Neptunus", icon: "♆", emoji: "🌀",
+                color: "#6366f1", glow: "rgba(99,102,241,0.4)",
+                distance: "4,5 miliar km", temp: "-218°C",
+                moons: 16, rings: true,
+                fact: "Planet terjauh & paling berangin",
+                info: "Neptunus adalah planet terjauh dari Matahari dengan angin tercepat di tata surya — mencapai 2.100 km/jam! Satu tahun di Neptunus = 165 tahun di Bumi. Triton, bulan terbesar Neptunus, bergerak berlawanan arah rotasi planet — sangat tidak biasa."
+            },
+        ];
+
+        const quizData = [
+            { question: "Planet manakah yang sering disebut Planet Merah?", options: ["Bumi", "Mars", "Venus", "Saturnus"], answer: "Mars" },
+            { question: "Planet mana yang memiliki cincin paling terkenal dan indah?", options: ["Yupiter", "Uranus", "Saturnus", "Neptunus"], answer: "Saturnus" },
+            { question: "Di planet mana kita tinggal saat ini?", options: ["Mars", "Venus", "Yupiter", "Bumi"], answer: "Bumi" },
+            { question: "Planet manakah yang merupakan planet terbesar di tata surya?", options: ["Saturnus", "Yupiter", "Neptunus", "Uranus"], answer: "Yupiter" },
+            { question: "Planet mana yang berputar miring hampir 90 derajat?", options: ["Merkurius", "Mars", "Uranus", "Neptunus"], answer: "Uranus" },
+            { question: "Berapa jumlah bulan (satelit alami) yang dimiliki Bumi?", options: ["0", "1", "2", "3"], answer: "1" },
+            { question: "Planet manakah yang paling dekat dengan Matahari?", options: ["Venus", "Bumi", "Merkurius", "Mars"], answer: "Merkurius" },
+            { question: "Planet mana yang memiliki angin paling kencang di tata surya?", options: ["Yupiter", "Saturnus", "Uranus", "Neptunus"], answer: "Neptunus" },
+        ];
+
+        // ===================== WEB SPEECH API =====================
+        const speakText = (text, onEnd) => {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'id-ID';
+            utter.rate = 0.92;
+            utter.pitch = 1.35; // lebih tinggi = suara perempuan
+            utter.volume = 1;
+            if (onEnd) utter.onend = onEnd;
+            const voices = window.speechSynthesis.getVoices();
+            // Prioritas: (1) suara ID perempuan, (2) suara ID apa saja, (3) suara EN perempuan
+            const femaleId = voices.find(v =>
+                v.lang.startsWith('id') && /female|woman|wanita|perempuan/i.test(v.name)
+            );
+            const anyId = voices.find(v => v.lang.startsWith('id'));
+            const femaleEn = voices.find(v =>
+                v.lang.startsWith('en') && /female|woman|zira|hazel|susan|samantha|karen|victoria|moira/i.test(v.name)
+            );
+            const chosen = femaleId || anyId || femaleEn;
+            if (chosen) utter.voice = chosen;
+            window.speechSynthesis.speak(utter);
         };
 
+        // ===================== STAR LAYER =====================
+        const StarField = () => {
+            const stars = Array.from({ length: 80 }, (_, i) => ({
+                id: i,
+                top: Math.random() * 100,
+                left: Math.random() * 100,
+                size: Math.random() * 2.5 + 0.5,
+                delay: Math.random() * 4,
+                duration: Math.random() * 3 + 2,
+            }));
+            return (
+                <div className="stars-layer">
+                    {stars.map(s => (
+                        <div key={s.id} className="star" style={{
+                            top: `${s.top}%`, left: `${s.left}%`,
+                            width: s.size, height: s.size,
+                            '--d': `${s.duration}s`,
+                            animationDelay: `${s.delay}s`,
+                        }} />
+                    ))}
+                </div>
+            );
+        };
+
+        // ===================== SOLAR SYSTEM HOME ANIMATION =====================
+        const SolarSystem = () => {
+            const orbitPlanets = [
+                { emoji: "☿", r: 50, dur: "8s" },
+                { emoji: "🌍", r: 80, dur: "13s" },
+                { emoji: "🪐", r: 115, dur: "22s" },
+            ];
+            return (
+                <div className="solar-system">
+                    {orbitPlanets.map((p, i) => (
+                        <div key={i} className="orbit-ring"
+                            style={{ width: p.r * 2, height: p.r * 2 }} />
+                    ))}
+                    <div className="sun">☀️</div>
+                    {orbitPlanets.map((p, i) => (
+                        <div key={i} className="orbit-planet"
+                            style={{ '--r': `${p.r}px`, animationDuration: p.dur }}>
+                            <span style={{ fontSize: i === 2 ? '18px' : '16px' }}>{p.emoji}</span>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        // ===================== AUDIO WAVE =====================
+        const AudioWave = () => (
+            <div className="audio-wave">
+                {[1,2,3,4].map(i => <span key={i}/>)}
+            </div>
+        );
+
+        // ===================== MAIN APP =====================
         const App = () => {
             const [page, setPage] = useState('home');
             const [selectedPlanet, setSelectedPlanet] = useState(null);
-            const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+            const [isSpeaking, setIsSpeaking] = useState(false);
             const [score, setScore] = useState(0);
             const [currentQuiz, setCurrentQuiz] = useState(0);
-            const apiKey = ""; // API Key disediakan otomatis di lingkungan tertentu
+            const [answered, setAnswered] = useState(null); // null | 'correct' | 'wrong'
+            const [selectedOption, setSelectedOption] = useState(null);
 
-            const planets = [
-                { name: "Merkurius", color: "bg-gray-400", info: "Planet terkecil dan paling dekat dengan Matahari. Sangat panas di siang hari!", icon: "🌑" },
-                { name: "Venus", color: "bg-yellow-500", info: "Planet paling panas di tata surya kita karena awannya yang tebal.", icon: "🌕" },
-                { name: "Bumi", color: "bg-blue-500", info: "Rumah kita! Satu-satunya planet yang diketahui memiliki kehidupan.", icon: "🌍" },
-                { name: "Mars", color: "bg-red-500", info: "Sering disebut Planet Merah karena tanahnya yang berkarat.", icon: "🔴" },
-                { name: "Yupiter", color: "bg-orange-400", info: "Planet terbesar! Yupiter adalah raksasa gas yang sangat besar.", icon: "🟠" },
-                { name: "Saturnus", color: "bg-yellow-200", info: "Planet yang cantik karena memiliki cincin yang sangat besar.", icon: "🪐" },
-            ];
+            // Ensure voices are loaded
+            useEffect(() => {
+                window.speechSynthesis?.getVoices();
+                window.speechSynthesis?.addEventListener('voiceschanged', () => {});
+            }, []);
 
-            const quizData = [
-                { question: "Planet manakah yang sering disebut Planet Merah?", options: ["Bumi", "Mars", "Saturnus"], answer: "Mars" },
-                { question: "Planet mana yang memiliki cincin paling besar?", options: ["Saturnus", "Merkurius", "Venus"], answer: "Saturnus" },
-                { question: "Di planet mana kita tinggal saat ini?", options: ["Yupiter", "Bumi", "Mars"], answer: "Bumi" },
-            ];
-
-            const pcmToWav = (pcmData, sampleRate) => {
-                const buffer = new ArrayBuffer(44 + pcmData.length * 2);
-                const view = new DataView(buffer);
-                const writeString = (offset, string) => {
-                    for (let i = 0; i < string.length; i++) {
-                        view.setUint8(offset + i, string.charCodeAt(i));
-                    }
-                };
-                writeString(0, 'RIFF');
-                view.setUint32(4, 32 + pcmData.length * 2, true);
-                writeString(8, 'WAVE');
-                writeString(12, 'fmt ');
-                view.setUint32(16, 16, true);
-                view.setUint16(20, 1, true);
-                view.setUint16(22, 1, true);
-                view.setUint32(24, sampleRate, true);
-                view.setUint32(28, sampleRate * 2, true);
-                view.setUint16(32, 2, true);
-                view.setUint16(34, 16, true);
-                writeString(36, 'data');
-                view.setUint32(40, pcmData.length * 2, true);
-                for (let i = 0; i < pcmData.length; i++) {
-                    view.setInt16(44 + i * 2, pcmData[i], true);
-                }
-                return buffer;
+            const handleSpeak = (text) => {
+                setIsSpeaking(true);
+                speakText(text, () => setIsSpeaking(false));
             };
 
-            const speakText = async (text) => {
-                if (isPlayingAudio || !apiKey) return;
-                setIsPlayingAudio(true);
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: `Katakan dengan suara ceria: ${text}` }] }],
-                            generationConfig: {
-                                responseModalities: ["AUDIO"],
-                                speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } }
-                            }
-                        })
-                    });
-                    const result = await response.json();
-                    const audioBase64 = result.candidates[0].content.parts[0].inlineData.data;
-                    const mimeType = result.candidates[0].content.parts[0].inlineData.mimeType;
-                    const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)?.[1] || "24000");
-                    const binaryString = atob(audioBase64);
-                    const bytes = new Int16Array(binaryString.length / 2);
-                    for (let i = 0; i < binaryString.length; i += 2) {
-                        bytes[i / 2] = binaryString.charCodeAt(i) | (binaryString.charCodeAt(i + 1) << 8);
-                    }
-                    const wavBuffer = pcmToWav(bytes, sampleRate);
-                    const blob = new Blob([wavBuffer], { type: 'audio/wav' });
-                    const audio = new Audio(URL.createObjectURL(blob));
-                    audio.onended = () => setIsPlayingAudio(false);
-                    await audio.play();
-                } catch (e) {
-                    setIsPlayingAudio(false);
-                }
+            const resetQuiz = () => {
+                setScore(0);
+                setCurrentQuiz(0);
+                setAnswered(null);
+                setSelectedOption(null);
             };
 
             const handleAnswer = (option) => {
-                if (option === quizData[currentQuiz].answer) {
-                    setScore(score + 10);
-                    speakText("Hebat! Jawabanmu benar.");
+                if (answered) return;
+                setSelectedOption(option);
+                const correct = option === quizData[currentQuiz].answer;
+                setAnswered(correct ? 'correct' : 'wrong');
+                if (correct) {
+                    setScore(s => s + 10);
+                    handleSpeak("Hebat! Jawabanmu benar!");
                 } else {
-                    speakText("Aduh, coba lagi ya!");
+                    handleSpeak(`Jawaban yang benar adalah ${quizData[currentQuiz].answer}.`);
                 }
                 setTimeout(() => {
+                    setAnswered(null);
+                    setSelectedOption(null);
                     if (currentQuiz < quizData.length - 1) {
-                        setCurrentQuiz(currentQuiz + 1);
+                        setCurrentQuiz(q => q + 1);
                     } else {
                         setPage('result');
                     }
-                }, 800);
+                }, 1800);
             };
 
-            return (
-                <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden relative">
-                    {/* Bintang-bintang */}
-                    <div className="fixed inset-0 pointer-events-none opacity-20">
-                        {[...Array(30)].map((_, i) => (
-                            <div key={i} className="absolute animate-pulse bg-white rounded-full" style={{
-                                top: `${Math.random() * 100}%`,
-                                left: `${Math.random() * 100}%`,
-                                width: '2px', height: '2px'
-                            }} />
-                        ))}
-                    </div>
+            const maxScore = quizData.length * 10;
+            const scorePct = `${(score / maxScore) * 100}%`;
 
-                    <div className="relative z-10 max-w-md mx-auto min-h-screen flex flex-col p-6">
+            const goHome = () => { setPage('home'); };
+
+            return (
+                <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+                    <StarField />
+
+                    {/* NAVBAR */}
+                    <nav className="navbar">
+                        <span className="navbar-brand">🪐 TATA SURYA</span>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                            <button className={`nav-pill ${page === 'home' ? 'active' : ''}`} onClick={goHome}>🏠 Home</button>
+                            <button className={`nav-pill ${page === 'explore' ? 'active' : ''}`} onClick={() => { setPage('explore'); setSelectedPlanet(null); }}>🔭 Jelajah</button>
+                            <button className={`nav-pill ${page === 'quiz' ? 'active' : ''}`} onClick={() => { setPage('quiz'); resetQuiz(); }}>📝 Kuis</button>
+                        </div>
+                    </nav>
+
+                    {/* MAIN CONTENT */}
+                    <main style={{ flex: 1, position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto', width: '100%', padding: '24px 20px' }}>
+
+                        {/* ===== HOME ===== */}
                         {page === 'home' && (
-                            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8">
-                                <div className="bg-yellow-400 p-6 rounded-full shadow-lg">
-                                    <Icon name="rocket" size={64} className="text-slate-900" />
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh', textAlign: 'center', gap: 32 }}>
+                                <SolarSystem />
+                                <div>
+                                    <h1 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 'clamp(24px,5vw,42px)', fontWeight: 900, margin: 0, lineHeight: 1.2 }}>
+                                        PETUALANGAN<br/>
+                                        <span style={{ background: 'linear-gradient(135deg, #fbbf24, #f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>TATA SURYA</span>
+                                    </h1>
+                                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, marginTop: 10 }}>
+                                        Media Pembelajaran Interaktif • Teknologi Multimedia
+                                    </p>
                                 </div>
-                                <h1 className="text-4xl font-bold">Petualangan <br/><span className="text-yellow-400">Tata Surya</span></h1>
-                                <button onClick={() => setPage('explore')} className="bg-blue-600 px-8 py-4 rounded-2xl text-xl font-bold flex items-center gap-2">
-                                    Mulai Belajar <Icon name="play" />
-                                </button>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 320 }}>
+                                    <button className="btn-primary" onClick={() => setPage('explore')} style={{ width: '100%' }}>
+                                        🔭 Jelajahi Planet
+                                    </button>
+                                    <button className="btn-primary" onClick={() => { setPage('quiz'); resetQuiz(); }}
+                                        style={{ background: 'linear-gradient(135deg, #059669, #10b981)', boxShadow: '0 4px 20px rgba(16,185,129,0.4)', width: '100%' }}>
+                                        📝 Mulai Kuis
+                                    </button>
+                                </div>
+                                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+                                    <span className="fact-badge">☀️ 8 Planet</span>
+                                    <span className="fact-badge">📚 Materi Lengkap</span>
+                                    <span className="fact-badge">🎤 Audio Narasi</span>
+                                    <span className="fact-badge">🏆 {quizData.length} Soal Kuis</span>
+                                </div>
                             </div>
                         )}
 
+                        {/* ===== EXPLORE ===== */}
                         {page === 'explore' && (
-                            <div className="flex-1 space-y-6">
-                                <header className="flex justify-between items-center">
-                                    <h2 className="text-2xl font-bold flex gap-2"><Icon name="info" className="text-yellow-400" /> Jelajah</h2>
-                                    <button onClick={() => setPage('home')}><Icon name="rotate-ccw" /></button>
-                                </header>
-                                <div className="grid grid-cols-2 gap-4">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                                <div>
+                                    <h2 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 22, margin: 0, color: '#fbbf24' }}>🔭 Jelajahi Planet</h2>
+                                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, margin: '4px 0 0' }}>Pilih planet untuk melihat informasi lengkap</p>
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 14 }}>
                                     {planets.map(p => (
-                                        <button key={p.name} onClick={() => {setSelectedPlanet(p); speakText(p.info)}} className={`${p.color} bg-opacity-20 p-4 rounded-2xl border-2 border-transparent hover:border-white flex flex-col items-center`}>
-                                            <span className="text-4xl">{p.icon}</span>
-                                            <span className="font-bold">{p.name}</span>
-                                        </button>
+                                        <div key={p.name} className={`planet-card ${selectedPlanet?.name === p.name ? 'selected' : ''}`}
+                                            onClick={() => { setSelectedPlanet(p); handleSpeak(p.info); }}>
+                                            <div style={{ fontSize: 44, lineHeight: 1.3 }}>{p.emoji}</div>
+                                            <div style={{ fontWeight: 700, fontSize: 15, marginTop: 6 }}>{p.name}</div>
+                                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 2 }}>{p.fact.slice(0, 30)}…</div>
+                                        </div>
                                     ))}
                                 </div>
+
                                 {selectedPlanet && (
-                                    <div className="bg-slate-800 p-6 rounded-3xl border border-slate-700">
-                                        <div className="flex justify-between mb-2">
-                                            <h3 className="text-xl font-bold text-yellow-400">{selectedPlanet.name}</h3>
-                                            <button onClick={() => speakText(selectedPlanet.info)} className={isPlayingAudio ? "text-yellow-400 animate-pulse" : ""}>
-                                                <Icon name="volume-2" />
+                                    <div className="info-box bounce-in">
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                                <span style={{ fontSize: 48 }}>{selectedPlanet.emoji}</span>
+                                                <div>
+                                                    <h3 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 20, color: '#fbbf24', margin: 0 }}>{selectedPlanet.name}</h3>
+                                                    <span className="fact-badge" style={{ marginTop: 4, display: 'inline-flex' }}>✨ {selectedPlanet.fact}</span>
+                                                </div>
+                                            </div>
+                                            <button onClick={() => handleSpeak(selectedPlanet.info)}
+                                                title="Dengarkan penjelasan"
+                                                style={{ background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.3)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', color: '#fbbf24', fontSize: 20 }}>
+                                                {isSpeaking ? <AudioWave /> : '🔊'}
                                             </button>
                                         </div>
-                                        <p>{selectedPlanet.info}</p>
+
+                                        {/* Stats */}
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+                                            {[
+                                                { label: '📏 Jarak dari Matahari', val: selectedPlanet.distance },
+                                                { label: '🌡️ Suhu', val: selectedPlanet.temp },
+                                                { label: '🌙 Jumlah Bulan', val: selectedPlanet.moons },
+                                                { label: '💍 Cincin', val: selectedPlanet.rings ? 'Ya' : 'Tidak' },
+                                            ].map(({ label, val }) => (
+                                                <div key={label} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '10px 14px' }}>
+                                                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>{label}</div>
+                                                    <div style={{ fontWeight: 700, fontSize: 14, marginTop: 2 }}>{val}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', margin: 0 }}>{selectedPlanet.info}</p>
                                     </div>
                                 )}
-                                <button onClick={() => setPage('quiz')} className="w-full bg-green-600 p-4 rounded-2xl font-bold flex justify-center gap-2">
-                                    Uji Kemampuan <Icon name="arrow-right" />
+
+                                <button className="btn-primary" onClick={() => { setPage('quiz'); resetQuiz(); }}
+                                    style={{ background: 'linear-gradient(135deg, #059669, #10b981)', boxShadow: '0 4px 20px rgba(16,185,129,0.4)', width: '100%', marginTop: 8 }}>
+                                    📝 Lanjut ke Kuis →
                                 </button>
                             </div>
                         )}
 
+                        {/* ===== QUIZ ===== */}
                         {page === 'quiz' && (
-                            <div className="flex-1 space-y-8">
-                                <div className="flex justify-between text-sm">
-                                    <span>Soal {currentQuiz + 1}/{quizData.length}</span>
-                                    <span>Skor: {score}</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 560, margin: '0 auto' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div>
+                                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', margin: 0 }}>Soal {currentQuiz + 1} dari {quizData.length}</p>
+                                        <p style={{ fontSize: 16, fontWeight: 700, margin: '2px 0 0', color: '#fbbf24' }}>Skor: {score}/{maxScore}</p>
+                                    </div>
+                                    <button onClick={goHome} style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '8px 14px', color: 'white', cursor: 'pointer', fontSize: 13 }}>🏠 Keluar</button>
                                 </div>
-                                <h3 className="text-2xl font-bold">{quizData[currentQuiz].question}</h3>
-                                <div className="space-y-4">
-                                    {quizData[currentQuiz].options.map(opt => (
-                                        <button key={opt} onClick={() => handleAnswer(opt)} className="w-full p-5 text-left bg-slate-800 border-2 border-slate-700 rounded-2xl hover:border-blue-500 font-medium">
-                                            {opt}
-                                        </button>
-                                    ))}
+
+                                <div className="progress-bar-track">
+                                    <div className="progress-bar-fill" style={{ width: `${((currentQuiz) / quizData.length) * 100}%` }} />
+                                </div>
+
+                                <div className="info-box">
+                                    <p style={{ fontSize: 13, color: '#fbbf24', fontWeight: 600, margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: 1 }}>Pertanyaan</p>
+                                    <h3 style={{ fontSize: 19, fontWeight: 700, margin: 0, lineHeight: 1.5 }}>{quizData[currentQuiz].question}</h3>
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                    {quizData[currentQuiz].options.map((opt, i) => {
+                                        let extra = '';
+                                        if (answered && opt === quizData[currentQuiz].answer) extra = 'correct';
+                                        else if (answered && opt === selectedOption) extra = 'wrong';
+                                        return (
+                                            <button key={opt} className={`btn-quiz-option ${extra}`} onClick={() => handleAnswer(opt)}>
+                                                <span style={{ opacity: 0.5, marginRight: 10, fontFamily: 'monospace' }}>{String.fromCharCode(65+i)}.</span>
+                                                {opt}
+                                                {answered && opt === quizData[currentQuiz].answer && <span style={{ float: 'right' }}>✅</span>}
+                                                {answered && opt === selectedOption && opt !== quizData[currentQuiz].answer && <span style={{ float: 'right' }}>❌</span>}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )}
 
+                        {/* ===== RESULT ===== */}
                         {page === 'result' && (
-                            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
-                                <Icon name="star" size={100} className="text-yellow-400 animate-spin-slow" />
-                                <h2 className="text-3xl font-bold">Skor Kamu: {score}</h2>
-                                <button onClick={() => {setPage('home'); setScore(0); setCurrentQuiz(0)}} className="bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold flex gap-2">
-                                    <Icon name="rotate-ccw" /> Main Lagi
-                                </button>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh', textAlign: 'center', gap: 28 }}>
+                                <div className="score-ring bounce-in" style={{ '--pct': scorePct }}>
+                                    <div className="score-inner">
+                                        <span style={{ fontSize: 28, fontWeight: 900, fontFamily: "'Orbitron', sans-serif", color: '#fbbf24' }}>{score}</span>
+                                        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>dari {maxScore}</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h2 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 26, margin: 0 }}>
+                                        {score === maxScore ? '🏆 SEMPURNA!' : score >= maxScore * 0.7 ? '🎉 BAGUS SEKALI!' : '📚 TERUS BELAJAR!'}
+                                    </h2>
+                                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, marginTop: 8 }}>
+                                        {score === maxScore
+                                            ? 'Kamu menjawab semua pertanyaan dengan benar!'
+                                            : `Kamu menjawab ${score/10} dari ${quizData.length} soal dengan benar.`}
+                                    </p>
+                                </div>
+
+                                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+                                    <button className="btn-primary" onClick={() => { resetQuiz(); setPage('quiz'); }}>
+                                        🔄 Ulangi Kuis
+                                    </button>
+                                    <button className="btn-primary" onClick={() => { setPage('explore'); setSelectedPlanet(null); }}
+                                        style={{ background: 'linear-gradient(135deg, #7c3aed, #6d28d9)', boxShadow: '0 4px 20px rgba(124,58,237,0.4)' }}>
+                                        🔭 Jelajah Lagi
+                                    </button>
+                                </div>
                             </div>
                         )}
-                    </div>
+
+                    </main>
+
+                    {/* ===== FOOTER ===== */}
+                    <footer>
+                        <p className="footer-text">by <span>Nurun Nisa Ahmad</span> - PTIK E 2024 | Teknologi Multimedia</p>
+                    </footer>
                 </div>
             );
         };
