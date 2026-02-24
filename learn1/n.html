@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Tata Surya</title>
+    <!-- Tailwind CSS untuk Desain -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React dan Babel untuk menjalankan JSX di browser -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 8s linear infinite;
+        }
+        body {
+            background-color: #0f172a;
+            color: white;
+            margin: 0;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Komponen Icon Sederhana (Menggantikan Lucide-React agar kompatibel dengan CDN)
+        const Icon = ({ name, size = 24, className = "" }) => {
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [name]);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const App = () => {
+            const [page, setPage] = useState('home');
+            const [selectedPlanet, setSelectedPlanet] = useState(null);
+            const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+            const [score, setScore] = useState(0);
+            const [currentQuiz, setCurrentQuiz] = useState(0);
+            const apiKey = ""; // API Key disediakan otomatis di lingkungan tertentu
+
+            const planets = [
+                { name: "Merkurius", color: "bg-gray-400", info: "Planet terkecil dan paling dekat dengan Matahari. Sangat panas di siang hari!", icon: "🌑" },
+                { name: "Venus", color: "bg-yellow-500", info: "Planet paling panas di tata surya kita karena awannya yang tebal.", icon: "🌕" },
+                { name: "Bumi", color: "bg-blue-500", info: "Rumah kita! Satu-satunya planet yang diketahui memiliki kehidupan.", icon: "🌍" },
+                { name: "Mars", color: "bg-red-500", info: "Sering disebut Planet Merah karena tanahnya yang berkarat.", icon: "🔴" },
+                { name: "Yupiter", color: "bg-orange-400", info: "Planet terbesar! Yupiter adalah raksasa gas yang sangat besar.", icon: "🟠" },
+                { name: "Saturnus", color: "bg-yellow-200", info: "Planet yang cantik karena memiliki cincin yang sangat besar.", icon: "🪐" },
+            ];
+
+            const quizData = [
+                { question: "Planet manakah yang sering disebut Planet Merah?", options: ["Bumi", "Mars", "Saturnus"], answer: "Mars" },
+                { question: "Planet mana yang memiliki cincin paling besar?", options: ["Saturnus", "Merkurius", "Venus"], answer: "Saturnus" },
+                { question: "Di planet mana kita tinggal saat ini?", options: ["Yupiter", "Bumi", "Mars"], answer: "Bumi" },
+            ];
+
+            const pcmToWav = (pcmData, sampleRate) => {
+                const buffer = new ArrayBuffer(44 + pcmData.length * 2);
+                const view = new DataView(buffer);
+                const writeString = (offset, string) => {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                };
+                writeString(0, 'RIFF');
+                view.setUint32(4, 32 + pcmData.length * 2, true);
+                writeString(8, 'WAVE');
+                writeString(12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true);
+                view.setUint16(22, 1, true);
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, sampleRate * 2, true);
+                view.setUint16(32, 2, true);
+                view.setUint16(34, 16, true);
+                writeString(36, 'data');
+                view.setUint32(40, pcmData.length * 2, true);
+                for (let i = 0; i < pcmData.length; i++) {
+                    view.setInt16(44 + i * 2, pcmData[i], true);
+                }
+                return buffer;
+            };
+
+            const speakText = async (text) => {
+                if (isPlayingAudio || !apiKey) return;
+                setIsPlayingAudio(true);
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: `Katakan dengan suara ceria: ${text}` }] }],
+                            generationConfig: {
+                                responseModalities: ["AUDIO"],
+                                speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } }
+                            }
+                        })
+                    });
+                    const result = await response.json();
+                    const audioBase64 = result.candidates[0].content.parts[0].inlineData.data;
+                    const mimeType = result.candidates[0].content.parts[0].inlineData.mimeType;
+                    const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)?.[1] || "24000");
+                    const binaryString = atob(audioBase64);
+                    const bytes = new Int16Array(binaryString.length / 2);
+                    for (let i = 0; i < binaryString.length; i += 2) {
+                        bytes[i / 2] = binaryString.charCodeAt(i) | (binaryString.charCodeAt(i + 1) << 8);
+                    }
+                    const wavBuffer = pcmToWav(bytes, sampleRate);
+                    const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+                    const audio = new Audio(URL.createObjectURL(blob));
+                    audio.onended = () => setIsPlayingAudio(false);
+                    await audio.play();
+                } catch (e) {
+                    setIsPlayingAudio(false);
+                }
+            };
+
+            const handleAnswer = (option) => {
+                if (option === quizData[currentQuiz].answer) {
+                    setScore(score + 10);
+                    speakText("Hebat! Jawabanmu benar.");
+                } else {
+                    speakText("Aduh, coba lagi ya!");
+                }
+                setTimeout(() => {
+                    if (currentQuiz < quizData.length - 1) {
+                        setCurrentQuiz(currentQuiz + 1);
+                    } else {
+                        setPage('result');
+                    }
+                }, 800);
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden relative">
+                    {/* Bintang-bintang */}
+                    <div className="fixed inset-0 pointer-events-none opacity-20">
+                        {[...Array(30)].map((_, i) => (
+                            <div key={i} className="absolute animate-pulse bg-white rounded-full" style={{
+                                top: `${Math.random() * 100}%`,
+                                left: `${Math.random() * 100}%`,
+                                width: '2px', height: '2px'
+                            }} />
+                        ))}
+                    </div>
+
+                    <div className="relative z-10 max-w-md mx-auto min-h-screen flex flex-col p-6">
+                        {page === 'home' && (
+                            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8">
+                                <div className="bg-yellow-400 p-6 rounded-full shadow-lg">
+                                    <Icon name="rocket" size={64} className="text-slate-900" />
+                                </div>
+                                <h1 className="text-4xl font-bold">Petualangan <br/><span className="text-yellow-400">Tata Surya</span></h1>
+                                <button onClick={() => setPage('explore')} className="bg-blue-600 px-8 py-4 rounded-2xl text-xl font-bold flex items-center gap-2">
+                                    Mulai Belajar <Icon name="play" />
+                                </button>
+                            </div>
+                        )}
+
+                        {page === 'explore' && (
+                            <div className="flex-1 space-y-6">
+                                <header className="flex justify-between items-center">
+                                    <h2 className="text-2xl font-bold flex gap-2"><Icon name="info" className="text-yellow-400" /> Jelajah</h2>
+                                    <button onClick={() => setPage('home')}><Icon name="rotate-ccw" /></button>
+                                </header>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {planets.map(p => (
+                                        <button key={p.name} onClick={() => {setSelectedPlanet(p); speakText(p.info)}} className={`${p.color} bg-opacity-20 p-4 rounded-2xl border-2 border-transparent hover:border-white flex flex-col items-center`}>
+                                            <span className="text-4xl">{p.icon}</span>
+                                            <span className="font-bold">{p.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                                {selectedPlanet && (
+                                    <div className="bg-slate-800 p-6 rounded-3xl border border-slate-700">
+                                        <div className="flex justify-between mb-2">
+                                            <h3 className="text-xl font-bold text-yellow-400">{selectedPlanet.name}</h3>
+                                            <button onClick={() => speakText(selectedPlanet.info)} className={isPlayingAudio ? "text-yellow-400 animate-pulse" : ""}>
+                                                <Icon name="volume-2" />
+                                            </button>
+                                        </div>
+                                        <p>{selectedPlanet.info}</p>
+                                    </div>
+                                )}
+                                <button onClick={() => setPage('quiz')} className="w-full bg-green-600 p-4 rounded-2xl font-bold flex justify-center gap-2">
+                                    Uji Kemampuan <Icon name="arrow-right" />
+                                </button>
+                            </div>
+                        )}
+
+                        {page === 'quiz' && (
+                            <div className="flex-1 space-y-8">
+                                <div className="flex justify-between text-sm">
+                                    <span>Soal {currentQuiz + 1}/{quizData.length}</span>
+                                    <span>Skor: {score}</span>
+                                </div>
+                                <h3 className="text-2xl font-bold">{quizData[currentQuiz].question}</h3>
+                                <div className="space-y-4">
+                                    {quizData[currentQuiz].options.map(opt => (
+                                        <button key={opt} onClick={() => handleAnswer(opt)} className="w-full p-5 text-left bg-slate-800 border-2 border-slate-700 rounded-2xl hover:border-blue-500 font-medium">
+                                            {opt}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {page === 'result' && (
+                            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
+                                <Icon name="star" size={100} className="text-yellow-400 animate-spin-slow" />
+                                <h2 className="text-3xl font-bold">Skor Kamu: {score}</h2>
+                                <button onClick={() => {setPage('home'); setScore(0); setCurrentQuiz(0)}} className="bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold flex gap-2">
+                                    <Icon name="rotate-ccw" /> Main Lagi
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
