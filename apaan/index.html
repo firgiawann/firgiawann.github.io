@@ -52,12 +52,11 @@
         }
         .hidden-step { display: none !important; }
         .ketupat { position: absolute; opacity: 0.12; pointer-events: none; }
-        input::placeholder { color: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
 
-    <div id="decor-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+    <div id="decor-bg" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
     <div id="app" class="z-10 w-full flex justify-center">
         
@@ -72,7 +71,7 @@
             <div class="bg-black/30 p-5 rounded-3xl border border-white/5 space-y-3">
                 <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-300">
                     <span>Sisa Kuota Aktif</span>
-                    <span id="stock-text" class="text-yellow-400 font-bold tracking-tighter">Menghubungkan...</span>
+                    <span id="stock-text" class="text-yellow-400 font-bold tracking-tighter">MENGHUBUNGKAN...</span>
                 </div>
                 <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                     <div id="stock-bar" class="h-full bg-yellow-400 transition-all duration-1000 shadow-[0_0_10px_#fbbf24]" style="width: 0%"></div>
@@ -82,7 +81,7 @@
             <div class="space-y-4">
                 <div class="relative">
                     <input type="text" id="name-input" placeholder="Namamu siapa?" class="w-full p-5 bg-black/20 border border-white/10 rounded-2xl text-center text-white font-bold outline-none focus:border-yellow-400 transition-all">
-                    <p id="err-name" class="text-[10px] text-red-300 italic mt-2 hidden text-center font-semibold animate-pulse">Minimal 3 huruf ya, biar aku tau ini siapa..</p>
+                    <p id="err-name" class="text-[10px] text-red-300 italic mt-2 hidden text-center font-semibold animate-pulse">Minimal 3 huruf ya!</p>
                 </div>
                 <button id="btn-start" onclick="goNext(1)" class="w-full py-5 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all">Mulai Cerita</button>
             </div>
@@ -104,7 +103,7 @@
         <div id="step-2" class="hidden-step glass p-8 text-center space-y-6">
             <div class="space-y-1">
                 <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi #2</span>
-                <h2 class="text-xl font-bold italic leading-relaxed text-white">Rencana buat semester depan gimana nih?</h2>
+                <h2 class="text-xl font-bold italic leading-relaxed text-white text-left">Rencana buat semester depan gimana nih?</h2>
             </div>
             <div class="space-y-3">
                 <button onclick="saveData('q2', 'Gas MBKM'); goNext(3)" class="btn-option">Gas MBKM! (Biar dapet pengalaman & cuan). 🚀</button>
@@ -119,10 +118,8 @@
                 <h2 class="text-xl font-bold italic leading-relaxed text-white">Satu kata hangat/rahasia/sesuatu yang terlintas saat mengingatku?</h2>
             </div>
             <div class="space-y-4">
-                <div class="relative">
-                    <input type="text" id="secret-input" placeholder="..." class="w-full p-5 bg-black/20 border border-white/10 rounded-2xl text-center text-white font-bold outline-none focus:border-yellow-400 transition-all">
-                    <p id="err-secret" class="text-[10px] text-red-300 italic hidden text-center font-semibold mt-2 animate-pulse">Satu kata tulus ya, minimal 3 huruf.</p>
-                </div>
+                <input type="text" id="secret-input" placeholder="..." class="w-full p-5 bg-black/20 border border-white/10 rounded-2xl text-center text-white font-bold outline-none focus:border-yellow-400 transition-all">
+                <p id="err-secret" class="text-[10px] text-red-300 italic hidden text-center font-semibold mt-2 animate-pulse">Satu kata tulus ya, minimal 3 huruf.</p>
                 <button onclick="finishWar()" class="w-full py-5 bg-yellow-400 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest active:scale-95 transition-all">Klaim THR 🧧</button>
             </div>
         </div>
@@ -137,7 +134,7 @@
         <div id="step-5" class="hidden-step glass p-10 text-center space-y-8">
             <div class="text-8xl block">🧧</div>
             <h2 class="text-3xl font-black text-yellow-400 italic uppercase leading-none">War Menang!</h2>
-            <p class="text-[11px] text-white/70 mt-4 leading-relaxed px-4 italic">Selamat <span id="display-name" class="font-bold text-white underline decoration-yellow-400"></span>! Kamu gercep banget. Klik tombol untuk ambil jatahmu.</p>
+            <p class="text-[11px] text-white/70 mt-4 px-4 italic leading-relaxed">Selamat <span id="display-name" class="font-bold text-white underline decoration-yellow-400"></span>! Kamu gercep banget. Klik tombol untuk ambil jatahmu.</p>
             <button id="final-btn" class="w-full py-5 bg-yellow-400 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all">GAS KLAIM SEKARANG</button>
         </div>
 
@@ -145,19 +142,18 @@
         <div id="step-6" class="hidden-step glass p-10 text-center space-y-6">
             <span class="text-8xl block opacity-50">💨</span>
             <h2 class="text-2xl font-black text-red-400 italic uppercase">KEHABISAN!</h2>
-            <p class="text-sm text-white/60 px-4 leading-relaxed">Waduh, slot terakhir baru saja disikat orang lain milidetik lalu. Kamu kurang cepat!</p>
+            <p class="text-sm text-white/60 px-4 leading-relaxed text-center">Waduh, slot terakhir baru saja disikat orang lain milidetik lalu. Kamu kurang cepat!</p>
             <button onclick="location.reload()" class="w-full py-5 bg-white/10 rounded-2xl font-black text-white active:scale-95">Coba Lagi Nanti</button>
         </div>
 
     </div>
 
-    <!-- Firebase System -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
-        // CONFIG PEMAKAI
+        // CONFIG PEMAKAI (SUDAH DIMASUKKAN)
         const firebaseConfig = {
             apiKey: "AIzaSyAMRGqEeU81afE497Sg_4dd_5XgrAFAOZM",
             authDomain: "thrweb-35453.firebaseapp.com",
@@ -170,7 +166,7 @@
         const TEL_TOKEN = "8735764974:AAHEHwg9wgFD9Tus5JSffboUhYhFIXYwWTQ";
         const TEL_ID = "2010496733";
         const DAGET = "https://link.dana.id/kaget/xxxxxxxxxxxx"; // <--- GANTI LINK DANA KAGET ASLI DISINI
-        const MAX_S = 10; // <--- UBAH JADI 10
+        const MAX_S = 10; 
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -182,6 +178,7 @@
             signInAnonymously(auth).catch(e => console.error("Auth Fail", e));
             onAuthStateChanged(auth, (u) => {
                 if(u) {
+                    // MENGGUNAKAN PATH ASLI: public_stats / thr_war_config
                     const ref = doc(db, 'public_stats', 'thr_war_config');
                     onSnapshot(ref, s => {
                         if(s.exists()) {
@@ -189,17 +186,16 @@
                             document.getElementById('stock-text').innerText = `${val} / ${MAX_S}`;
                             document.getElementById('stock-bar').style.width = `${(val/MAX_S)*100}%`;
                             if(val <= 0) {
-                                const btn = document.getElementById('btn-start');
-                                btn.disabled = true;
-                                btn.innerText = "STOK HABIS 🙏";
+                                document.getElementById('btn-start').disabled = true;
+                                document.getElementById('btn-start').innerText = "STOK HABIS 🙏";
                             }
                         } else { 
-                            // Pastikan data awal ada di Firestore kamu
-                            setDoc(ref, { s: MAX_S }).catch(e => console.error("Firestore Init Error:", e)); 
+                            // AUTO-CREATE: Jika belum ada, sistem akan membuatkan dengan stok 10
+                            setDoc(ref, { s: MAX_S }).catch(e => console.error("Create Error", e)); 
                         }
                     }, (err) => {
                         console.error("Firestore Error:", err);
-                        document.getElementById('stock-text').innerText = "Cek Rules Firestore!";
+                        document.getElementById('stock-text').innerText = "Cek Rules di Console!";
                     });
                 }
             });
@@ -253,10 +249,9 @@
                 });
 
                 if(win) {
-                    // Sanitasi Markdown Telegram
-                    const cleanName = state.n.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
-                    const cleanSecret = state.q3.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
-                    const msg = `🚀 *NEW WINNER: SEMESTER 4*\n━━━━━━━━━━━━━━\n👤 *Nama:* ${cleanName}\n🧪 *Laprak:* ${state.q1}\n🏛️ *MBKM:* ${state.q2}\n💎 *Rahasia:* ${cleanSecret}\n━━━━━━━━━━━━━━`;
+                    const cleanN = state.n.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
+                    const cleanS = state.q3.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
+                    const msg = `🚀 *NEW WINNER: SEMESTER 4*\n━━━━━━━━━━━━━━\n👤 *Nama:* ${cleanN}\n🧪 *Laprak:* ${state.q1}\n🏛️ *MBKM:* ${state.q2}\n💎 *Rahasia:* ${cleanS}\n━━━━━━━━━━━━━━`;
                     
                     fetch(`https://api.telegram.org/bot${TEL_TOKEN}/sendMessage`, {
                         method: 'POST',
@@ -274,8 +269,7 @@
                     document.getElementById('step-6').classList.remove('hidden-step');
                 }
             } catch(e) { 
-                console.error(e);
-                alert("Database sibuk! Mohon klik ulang tombol kirim.");
+                alert("Database sibuk! Mohon muat ulang halaman.");
                 location.reload(); 
             }
         }
@@ -283,14 +277,14 @@
     </script>
 
     <script>
-        const container = document.getElementById('decor-container');
+        const container = document.getElementById('decor-bg');
         for(let i=0; i<15; i++) {
             const d = document.createElement('div');
             d.className = 'ketupat';
             d.innerHTML = `<svg width="50" height="50" viewBox="0 0 100 100"><path d="M50 5L95 50L50 95L5 50L50 5Z" fill="white"/></svg>`;
             d.style.left = Math.random()*100+'%'; d.style.top = Math.random()*100+'%';
             container.appendChild(d);
-            gsap.to(d, {y: "random(-100,100)", rotation: "random(0,360)", duration: "random(10,20)", repeat: -1, yoyo: true});
+            gsap.to(d, {y: "random(-100,100)", rotation: "random(0,360)", duration: "random(10,25)", repeat: -1, yoyo: true, ease: "sine.inOut"});
         }
     </script>
 </body>
