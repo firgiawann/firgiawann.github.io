@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THR War | Edisi Ruang Teduh</title>
-    <!-- Frameworks -->
+    <title>THR War | Semester 4 Survival</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -15,7 +14,7 @@
             background: linear-gradient(-45deg, #064e3b, #065f46, #047857, #10b981);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            height: 100vh;
+            height: 100dvh;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -33,8 +32,8 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 40px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 92%;
             max-width: 400px;
-            width: 100%;
         }
         .btn-option {
             background: rgba(0, 0, 0, 0.25);
@@ -45,41 +44,35 @@
             border-radius: 1.25rem;
             font-weight: 600;
             width: 100%;
-            outline: none;
         }
         .btn-option:active {
             transform: scale(0.96);
             background: rgba(251, 191, 36, 0.2);
             border-color: #fbbf24;
         }
-        .ketupat {
-            position: absolute;
-            opacity: 0.12;
-            pointer-events: none;
-        }
-        .hidden-step { display: none; }
-        input::placeholder { color: rgba(255,255,255,0.3); }
+        .hidden-step { display: none !important; }
+        .ketupat { position: absolute; opacity: 0.12; pointer-events: none; }
+        input::placeholder { color: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
 
-    <!-- Animasi Latar Belakang -->
     <div id="decor-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
-    <div id="app" class="px-6 z-10 w-full flex justify-center">
+    <div id="app" class="z-10 w-full flex justify-center">
         
-        <!-- STEP 0: HOMEPAGE -->
-        <div id="step-0" class="glass p-8 text-center space-y-8">
+        <!-- STEP 0: HOME -->
+        <div id="step-0" class="glass p-8 text-center space-y-8 animate-in fade-in zoom-in duration-500">
             <div class="space-y-3">
                 <span class="text-7xl block animate-bounce">🧧</span>
                 <h1 class="text-3xl font-black italic tracking-tighter uppercase text-white">THR <span class="text-yellow-400">War</span></h1>
-                <p class="text-[11px] text-white/70 italic leading-relaxed px-4">"Ruang teduh untuk pejuang Semester 4 yang bertahan di antara gempuran Laprak & Deadline."</p>
+                <p class="text-[11px] text-white/70 italic leading-relaxed px-4">"Ruang teduh untuk pejuang Semester 4 yang bertahan di tengah gempuran Laprak & Deadline."</p>
             </div>
             
             <div class="bg-black/30 p-5 rounded-3xl border border-white/5 space-y-3">
                 <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-300">
                     <span>Sisa Kuota Aktif</span>
-                    <span id="stock-text" class="text-yellow-400">Menghubungkan...</span>
+                    <span id="stock-text" class="text-yellow-400 font-bold tracking-tighter">Menghubungkan...</span>
                 </div>
                 <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                     <div id="stock-bar" class="h-full bg-yellow-400 transition-all duration-1000 shadow-[0_0_10px_#fbbf24]" style="width: 0%"></div>
@@ -87,78 +80,73 @@
             </div>
 
             <div class="space-y-4">
-                <div class="relative group">
+                <div class="relative">
                     <input type="text" id="name-input" placeholder="Namamu siapa?" class="w-full p-5 bg-black/20 border border-white/10 rounded-2xl text-center text-white font-bold outline-none focus:border-yellow-400 transition-all">
-                    <p id="err-name" class="text-[10px] text-red-300 italic mt-2 hidden">Minimal 3 huruf ya, biar aku tau ini siapa..</p>
+                    <p id="err-name" class="text-[10px] text-red-300 italic mt-2 hidden text-center font-semibold animate-pulse">Minimal 3 huruf ya, biar aku tau ini siapa..</p>
                 </div>
-                <button id="btn-start" onclick="goStep(1)" class="w-full py-5 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all">Mulai Cerita</button>
+                <button id="btn-start" onclick="goNext(1)" class="w-full py-5 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all">Mulai Cerita</button>
             </div>
         </div>
 
         <!-- STEP 1: Q1 -->
         <div id="step-1" class="hidden-step glass p-8 text-center space-y-6">
-            <div class="space-y-2">
-                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi 01: Trauma Check</span>
+            <div class="space-y-1">
+                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi #1</span>
                 <h2 class="text-xl font-bold italic leading-relaxed text-white">Hal paling bikin trauma di semester 4 ini?</h2>
             </div>
             <div class="space-y-3">
-                <button onclick="setChoice('q1', 'Tremor Laprak'); goStep(2)" class="btn-option">Laprak tulisan tangan yang asistensinya bikin tremor. 🧪</button>
-                <button onclick="setChoice('q1', 'Deadline Buka'); goStep(2)" class="btn-option">Deadline revisi yang datang barengan waktu buka. ⏰</button>
+                <button onclick="saveData('q1', 'Tremor Laprak'); goNext(2)" class="btn-option">Laprak tulisan tangan yang asistensinya bikin tremor. 🧪</button>
+                <button onclick="saveData('q1', 'Deadline Buka'); goNext(2)" class="btn-option">Deadline revisi yang datang barengan waktu buka. ⏰</button>
             </div>
         </div>
 
         <!-- STEP 2: Q2 -->
         <div id="step-2" class="hidden-step glass p-8 text-center space-y-6">
-            <div class="space-y-2">
-                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi 02: Dilema</span>
+            <div class="space-y-1">
+                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi #2</span>
                 <h2 class="text-xl font-bold italic leading-relaxed text-white">Rencana buat semester depan gimana nih?</h2>
             </div>
             <div class="space-y-3">
-                <button onclick="setChoice('q2', 'Gas MBKM'); goStep(3)" class="btn-option">Gas MBKM! (Biar dapet pengalaman & cuan). 🚀</button>
-                <button onclick="setChoice('q2', 'Mikir-mikir'); goStep(3)" class="btn-option">MBKM & Kuliah (Masih mikir-mikir dulu deh). 🏛️</button>
+                <button onclick="saveData('q2', 'Gas MBKM'); goNext(3)" class="btn-option">Gas MBKM! (Biar dapet pengalaman & cuan). 🚀</button>
+                <button onclick="saveData('q2', 'Mikir-mikir'); goNext(3)" class="btn-option">MBKM & Kuliah (Masih mikir-mikir dulu deh). 🏛️</button>
             </div>
         </div>
 
         <!-- STEP 3: Q3 -->
         <div id="step-3" class="hidden-step glass p-8 text-center space-y-6">
-            <div class="space-y-2">
-                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi Akhir: Rahasia</span>
+            <div class="space-y-1">
+                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-[0.3em]">Misi Akhir</span>
                 <h2 class="text-xl font-bold italic leading-relaxed text-white">Satu kata hangat/rahasia/sesuatu yang terlintas saat mengingatku?</h2>
             </div>
             <div class="space-y-4">
-                <input type="text" id="secret-input" placeholder="..." class="w-full p-5 bg-black/20 border border-white/10 rounded-2xl text-center text-white font-bold outline-none focus:border-yellow-400 transition-all">
-                <p id="err-secret" class="text-[10px] text-red-300 italic hidden">Minimal 3 huruf ya, biar berkesan..</p>
-                <button onclick="finishWar()" class="w-full py-5 bg-yellow-400 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all">Kirim & Ambil Amplop 🧧</button>
+                <div class="relative">
+                    <input type="text" id="secret-input" placeholder="..." class="w-full p-5 bg-black/20 border border-white/10 rounded-2xl text-center text-white font-bold outline-none focus:border-yellow-400 transition-all">
+                    <p id="err-secret" class="text-[10px] text-red-300 italic hidden text-center font-semibold mt-2 animate-pulse">Satu kata tulus ya, minimal 3 huruf.</p>
+                </div>
+                <button onclick="finishWar()" class="w-full py-5 bg-yellow-400 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest active:scale-95 transition-all">Klaim THR 🧧</button>
             </div>
         </div>
 
         <!-- STEP 4: LOADING -->
         <div id="step-4" class="hidden-step glass p-12 text-center space-y-4">
             <div class="animate-spin h-10 w-10 border-4 border-yellow-400 border-t-transparent rounded-full mx-auto"></div>
-            <p class="text-[10px] font-black animate-pulse tracking-[0.3em] text-yellow-400 uppercase">Mengantre di Database Cloud...</p>
+            <p class="text-[10px] font-black animate-pulse tracking-[0.3em] text-yellow-400 uppercase">Mengunci Slot Transaksi...</p>
         </div>
 
         <!-- STEP 5: SUCCESS -->
         <div id="step-5" class="hidden-step glass p-10 text-center space-y-8">
-            <div class="relative inline-block">
-                <span class="text-8xl block">🧧</span>
-                <div class="absolute inset-0 bg-yellow-400 blur-3xl opacity-30 animate-pulse"></div>
-            </div>
-            <div>
-                <h2 class="text-3xl font-black text-yellow-400 italic uppercase">War Menang!</h2>
-                <p class="text-[11px] text-white/70 mt-4 leading-relaxed italic px-4">Selamat <span id="display-name" class="font-bold text-white underline decoration-yellow-400"></span>! Kamu menang tantangan hari ini.</p>
-            </div>
-            <button id="final-claim-btn" class="w-full py-5 bg-yellow-400 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3">
-                <span>GAS KLAIM SEKARANG</span>
-            </button>
+            <div class="text-8xl block">🧧</div>
+            <h2 class="text-3xl font-black text-yellow-400 italic uppercase leading-none">War Menang!</h2>
+            <p class="text-[11px] text-white/70 mt-4 leading-relaxed px-4 italic">Selamat <span id="display-name" class="font-bold text-white underline decoration-yellow-400"></span>! Kamu gercep banget. Klik tombol untuk ambil jatahmu.</p>
+            <button id="final-btn" class="w-full py-5 bg-yellow-400 rounded-2xl font-black text-[#064e3b] uppercase tracking-widest shadow-xl active:scale-95 transition-all">GAS KLAIM SEKARANG</button>
         </div>
 
         <!-- STEP 6: FAIL -->
         <div id="step-6" class="hidden-step glass p-10 text-center space-y-6">
             <span class="text-8xl block opacity-50">💨</span>
             <h2 class="text-2xl font-black text-red-400 italic uppercase">KEHABISAN!</h2>
-            <p class="text-sm text-white/60 leading-relaxed px-4">Waduh, slot terakhir baru saja disikat orang lain milidetik lalu. Kamu kurang gercep!</p>
-            <button onclick="location.reload()" class="w-full py-5 bg-white/10 rounded-2xl font-black text-white active:scale-95 transition-all">Coba Lagi Nanti</button>
+            <p class="text-sm text-white/60 px-4 leading-relaxed">Waduh, slot terakhir baru saja disikat orang lain milidetik lalu. Kamu kurang cepat!</p>
+            <button onclick="location.reload()" class="w-full py-5 bg-white/10 rounded-2xl font-black text-white active:scale-95">Coba Lagi Nanti</button>
         </div>
 
     </div>
@@ -167,56 +155,57 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
-        // --- KONFIGURASI PENTING ---
+        // CONFIG PEMAKAI
+        const firebaseConfig = {
+            apiKey: "AIzaSyAMRGqEeU81afE497Sg_4dd_5XgrAFAOZM",
+            authDomain: "thrweb-35453.firebaseapp.com",
+            projectId: "thrweb-35453",
+            storageBucket: "thrweb-35453.firebasestorage.app",
+            messagingSenderId: "382439034169",
+            appId: "1:382439034169:web:a9651ba2a5e2f82f1a6ce8",
+            measurementId: "G-90PK2BDL66"
+        };
         const TEL_TOKEN = "8735764974:AAHEHwg9wgFD9Tus5JSffboUhYhFIXYwWTQ";
         const TEL_ID = "2010496733";
-        const DAGET = "https://link.dana.id/kaget/xxxxxxxxxxxx"; // <--- GANTI LINK DANA KAGET KAMU DISINI
-        const MAX_STOCK = 50; 
+        const DAGET = "https://link.dana.id/kaget/xxxxxxxxxxxx"; // <--- GANTI LINK DANA KAGET ASLI DISINI
+        const MAX_S = 10; // <--- UBAH JADI 10
 
-        const fbConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(fbConfig);
+        const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'thr-secure-prod-v1';
-
+        
         let state = { n: '', q1: '', q2: '', q3: '' };
 
-        // 1. Inisialisasi Auth & Sinkronisasi
-        async function start() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch(e) {}
-
+        async function init() {
+            signInAnonymously(auth).catch(e => console.error("Auth Fail", e));
             onAuthStateChanged(auth, (u) => {
                 if(u) {
-                    const ref = doc(db, 'artifacts', appId, 'public', 'data', 'v1', 'config');
+                    const ref = doc(db, 'public_stats', 'thr_war_config');
                     onSnapshot(ref, s => {
                         if(s.exists()) {
                             const val = s.data().s;
-                            document.getElementById('stock-text').innerText = `${val} / ${MAX_STOCK}`;
-                            document.getElementById('stock-bar').style.width = `${(val/MAX_STOCK)*100}%`;
+                            document.getElementById('stock-text').innerText = `${val} / ${MAX_S}`;
+                            document.getElementById('stock-bar').style.width = `${(val/MAX_S)*100}%`;
                             if(val <= 0) {
                                 const btn = document.getElementById('btn-start');
                                 btn.disabled = true;
-                                btn.innerText = "KUOTA HABIS 🙏";
-                                btn.classList.replace('bg-gradient-to-r', 'bg-gray-600');
+                                btn.innerText = "STOK HABIS 🙏";
                             }
-                        } else {
-                            setDoc(ref, { s: MAX_STOCK });
+                        } else { 
+                            // Pastikan data awal ada di Firestore kamu
+                            setDoc(ref, { s: MAX_S }).catch(e => console.error("Firestore Init Error:", e)); 
                         }
+                    }, (err) => {
+                        console.error("Firestore Error:", err);
+                        document.getElementById('stock-text').innerText = "Cek Rules Firestore!";
                     });
                 }
             });
         }
 
-        // 2. Navigasi Logic
-        window.goStep = (n) => {
+        window.goNext = (n) => {
             if(n === 1) {
                 const name = document.getElementById('name-input').value.trim();
                 if(name.length < 3) {
@@ -224,25 +213,20 @@
                     gsap.to("#name-input", {x: 8, duration: 0.1, repeat: 5, yoyo: true});
                     return;
                 }
+                document.getElementById('err-name').classList.add('hidden');
                 state.n = name;
-                // Cek jika user ini pernah klaim sebelumnya (Simple browser security)
-                if(localStorage.getItem('thr_claimed')) {
-                    alert("Kamu sudah pernah mengikuti war ini hari ini!");
-                    return;
-                }
             }
             const current = document.querySelector('.glass:not(.hidden-step)');
-            const target = document.getElementById(`step-${n}`);
-            gsap.to(current, { opacity: 0, x: -30, duration: 0.4, onComplete: () => {
+            const next = document.getElementById(`step-${n}`);
+            gsap.to(current, { opacity: 0, scale: 0.9, duration: 0.3, onComplete: () => {
                 current.classList.add('hidden-step');
-                target.classList.remove('hidden-step');
-                gsap.fromTo(target, { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.4 });
+                next.classList.remove('hidden-step');
+                gsap.fromTo(next, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.3 });
             }});
-        };
+        }
 
-        window.setChoice = (k, v) => { state[k] = v; };
+        window.saveData = (k, v) => { state[k] = v; };
 
-        // 3. Final War (Atomic Transaction)
         window.finishWar = async () => {
             const secret = document.getElementById('secret-input').value.trim();
             if(secret.length < 3) {
@@ -250,20 +234,16 @@
                 gsap.to("#secret-input", {x: 8, duration: 0.1, repeat: 5, yoyo: true});
                 return;
             }
+            document.getElementById('err-secret').classList.add('hidden');
             state.q3 = secret;
+            
+            document.getElementById('step-3').classList.add('hidden-step');
+            document.getElementById('step-4').classList.remove('hidden-step');
 
-            const current = document.getElementById('step-3');
-            const loading = document.getElementById('step-4');
-            current.classList.add('hidden-step');
-            loading.classList.remove('hidden-step');
-
-            const ref = doc(db, 'artifacts', appId, 'public', 'data', 'v1', 'config');
-
+            const ref = doc(db, 'public_stats', 'thr_war_config');
             try {
-                // ATOMIC: Benar-benar menjamin konsistensi stok
-                const success = await runTransaction(db, async (t) => {
+                const win = await runTransaction(db, async (t) => {
                     const snap = await t.get(ref);
-                    if(!snap.exists()) return false;
                     const currS = snap.data().s;
                     if (currS > 0) {
                         t.update(ref, { s: currS - 1 });
@@ -272,50 +252,45 @@
                     return false;
                 });
 
-                if(success) {
-                    // Simpan di local agar tidak double claim
-                    localStorage.setItem('thr_claimed', 'true');
-
-                    // Kirim ke Telegram (Sanitized)
+                if(win) {
+                    // Sanitasi Markdown Telegram
                     const cleanName = state.n.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
                     const cleanSecret = state.q3.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
-                    const msg = `🌸 *NEW SECRET RESPONSE: SEMESTER 4*\n━━━━━━━━━━━━━━\n👤 *Nama:* ${cleanName}\n🧪 *Laprak:* ${state.q1}\n🏛️ *Dilema:* ${state.q2}\n💎 *Rahasia:* ${cleanSecret}\n━━━━━━━━━━━━━━`;
+                    const msg = `🚀 *NEW WINNER: SEMESTER 4*\n━━━━━━━━━━━━━━\n👤 *Nama:* ${cleanName}\n🧪 *Laprak:* ${state.q1}\n🏛️ *MBKM:* ${state.q2}\n💎 *Rahasia:* ${cleanSecret}\n━━━━━━━━━━━━━━`;
                     
                     fetch(`https://api.telegram.org/bot${TEL_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: {'Content-Type':'application/json'},
                         body: JSON.stringify({ chat_id: TEL_ID, text: msg, parse_mode: 'MarkdownV2' })
                     });
-
-                    loading.classList.add('hidden-step');
+                    
+                    document.getElementById('step-4').classList.add('hidden-step');
                     document.getElementById('step-5').classList.remove('hidden-step');
                     document.getElementById('display-name').innerText = state.n;
-                    document.getElementById('final-claim-btn').onclick = () => window.open(DAGET, '_blank');
+                    document.getElementById('final-btn').onclick = () => window.open(DAGET, '_blank');
                     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 } else {
-                    loading.classList.add('hidden-step');
+                    document.getElementById('step-4').classList.add('hidden-step');
                     document.getElementById('step-6').classList.remove('hidden-step');
                 }
-            } catch(e) {
-                loading.classList.add('hidden-step');
-                current.classList.remove('hidden-step');
-                alert("Database sibuk! Mohon klik tombol kirim sekali lagi.");
+            } catch(e) { 
+                console.error(e);
+                alert("Database sibuk! Mohon klik ulang tombol kirim.");
+                location.reload(); 
             }
-        };
-
-        start();
+        }
+        init();
     </script>
 
-    <!-- Decoration Script -->
     <script>
         const container = document.getElementById('decor-container');
         for(let i=0; i<15; i++) {
             const d = document.createElement('div');
             d.className = 'ketupat';
-            d.innerHTML = `<svg width="50" height="50" viewBox="0 0 100 100"><path d="M50 5L95 50L50 95L5 50L50 5Z" fill="white" stroke="white" stroke-width="1"/></svg>`;
+            d.innerHTML = `<svg width="50" height="50" viewBox="0 0 100 100"><path d="M50 5L95 50L50 95L5 50L50 5Z" fill="white"/></svg>`;
             d.style.left = Math.random()*100+'%'; d.style.top = Math.random()*100+'%';
             container.appendChild(d);
-            gsap.to(d, {y: "random(-100,100)", rotation: "random(0,360)", duration: "random(10,25)", repeat: -1, yoyo: true, ease: "sine.inOut"});
+            gsap.to(d, {y: "random(-100,100)", rotation: "random(0,360)", duration: "random(10,20)", repeat: -1, yoyo: true});
         }
     </script>
 </body>
