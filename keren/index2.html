@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuotanya Awan ☁️ - Layanan Digital Terpercaya</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS CSS untuk efek scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* ================= RESET & VARIABLES ================= */
+        :root {
+            --primary: #3498db;
+            --accent: #8e44ad;
+            --light-blue: #e0f2fe;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-dark: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background-color: #f0f9ff; /* Warna dasar bg saat scroll ke bawah */
+        }
+
+        /* ================= DYNAMIC BACKGROUND ================= */
+        /* Background Gradien Asli (Dipertahankan untuk Hero) */
+        .bg-original {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to top left, #8e44ad, #3498db);
+            background-size: 500% 100%;
+            animation: gradientAnim 15s ease infinite;
+            z-index: -2;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        @keyframes gradientAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Ornamen Animasi Melayang (Keren-kerenan) */
+        .glowing-orb {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            filter: blur(40px);
+            z-index: -1;
+            animation: floatOrb 10s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        .orb-1 { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; bottom: 10%; right: 5%; animation-delay: -5s; background: rgba(52, 152, 219, 0.15); }
+
+        @keyframes floatOrb {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-50px) scale(1.1); }
+        }
+
+        /* ================= LAYOUT WRAPPER ================= */
+        .page-wrapper {
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+        
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* ================= HERO SECTION (Mempertahankan structure asli) ================= */
+        .container-hero {
+            background-color: rgba(0, 0, 0, 0.4); /* Disesuaikan agar lebih modern (glass effect) */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container-hero h1 {
+            font-size: 2.8em;
+            margin: 0;
+            animation: popUp 1s ease-in-out;
+            background: linear-gradient(135deg, #fff, #e0f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.5); }
+            100% { transform: scale(1); }
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+            animation: zoomIn 1.5s ease-in-out;
+            transition: all 0.3s;
+            object-fit: cover;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px #44e2dd;
+            border-color: #44e2dd;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .bio {
+            font-size: 1.1em;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            font-size: 1em;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Social Icons - Dipertahankan persis sesuai request */
+        .social-icons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.5em;
+            transition: transform 0.3s, color 0.3s, box-shadow 0.3s;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .social-icons a:hover {
+            color: #44e2dd;
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(68, 226, 221, 0.6);
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* ================= OTHER SECTIONS (Layanan, Keunggulan) ================= */
+        .section-title {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            margin-bottom: 40px;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+
+        /* Styling warna teks dinamis saat masuk zona terang */
+        .light-zone {
+            color: var(--text-dark);
+        }
+        .light-zone .section-subtitle {
+            color: #64748b;
+        }
+
+        /* Grid Services */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            color: var(--text-dark);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .card:hover::before {
+            left: 150%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2);
+            border-color: var(--primary);
+        }
+
+        .card i {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover i {
+            transform: scale(1.2);
+        }
+
+        .card h3 { margin-bottom: 10px; font-size: 1.2M; }
+        .card p { font-size: 0.9em; color: #64748b; }
+
+        /* ================= BOTTOM NAVIGATION (APP-LIKE) ================= */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 400px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #64748b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75em;
+            gap: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 10px;
+        }
+
+        .nav-item i {
+            font-size: 1.4em;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            transform: translateY(-5px) scale(1.1);
+            color: var(--primary);
+        }
+        
+        /* Indikator aktif */
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            width: 5px; height: 5px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-dark);
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Dynamic Background -->
+    <div class="bg-original" id="gradBg"></div>
+    <div class="glowing-orb orb-1"></div>
+    <div class="glowing-orb orb-2"></div>
+
+    <div class="page-wrapper">
+        
+        <!-- ================= 1. HOME / HERO ================= -->
+        <section id="home">
+            <div class="container-hero">
+                <img class="profile-pic" src="https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png" alt="Foto Profil">
+                <h1>Kuotanya Awan ☁️</h1>
+                <p class="bio">Layanan digital terpercaya, aman, dan super cepat untuk kebutuhan harianmu.</p>
+                <p class="bio" style="font-size: 0.95em; color: rgba(255,255,255,0.8);">Mulai dari kuota, pulsa, hingga jasa digital AI.</p>
+                
+                <a href="https://wa.me/6285173118500?text=Halo%20Kuotanya%20Awan,%20saya%20butuh%20layanan" target="_blank" class="cta-btn">
+                    <i class="fab fa-whatsapp"></i> Hubungi Sekarang
+                </a>
+
+                <!-- Social Icons Asli -->
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/firgi.awan.927758" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://instagram.com/firgiawan.id" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/iiniawann" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://discordapp.com/users/716959396755931166" target="_blank"><i class="fab fa-discord"></i></a>
+                    <a href="https://linkedin.com/in/firgiawann" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/firgiawann" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 2. LAYANAN ================= -->
+        <section id="layanan" class="light-zone">
+            <h2 class="section-title" data-aos="fade-up">Layanan Kami</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Pilih layanan digital yang Anda butuhkan</p>
+            
+            <div class="grid-container">
+                <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                    <i class="fas fa-wifi"></i>
+                    <h3>Kuota & Pulsa</h3>
+                    <p>Paket data All Operator (XL, Telkomsel, dll) & Pulsa termurah.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Top Up & Tagihan</h3>
+                    <p>Top Up E-Wallet, Listrik, Air, BPJS, dan Transfer Bank.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="300">
+                    <i class="fas fa-code"></i>
+                    <h3>Jasa Website</h3>
+                    <p>Pembuatan Landing Page, Web Profile & Undangan Digital.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="400">
+                    <i class="fas fa-pencil-alt"></i>
+                    <h3>Joki Tugas</h3>
+                    <p>Bantu pengerjaan makalah, PPT, tugas sekolah/kuliah.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="500">
+                    <i class="fas fa-robot"></i>
+                    <h3>Layanan AI</h3>
+                    <p>Akses ke tools AI premium untuk mempermudah kerjamu.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="600">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Flashing HP</h3>
+                    <p>Perbaikan software, bootloop, dan reset pola/sandi.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 3. KEUNGGULAN ================= -->
+        <section id="keunggulan" class="light-zone" style="min-height: 70vh;">
+            <h2 class="section-title" data-aos="fade-up">Kenapa Kami?</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Keunggulan Kuotanya Awan</p>
+            
+            <div class="grid-container" style="max-width: 800px;">
+                <div class="card" data-aos="fade-up" data-aos-delay="100" style="padding: 20px;">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Cepat</h3>
+                    <p>Proses hitungan detik.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="200" style="padding: 20px;">
+                    <i class="fas fa-lock"></i>
+                    <h3>Aman</h3>
+                    <p>Privasi & data terjamin.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="300" style="padding: 20px;">
+                    <i class="fas fa-star"></i>
+                    <h3>Terpercaya</h3>
+                    <p>Review & rating terbaik.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="400" style="padding: 20px;">
+                    <i class="fas fa-wallet"></i>
+                    <h3>Terjangkau</h3>
+                    <p>Harga ramah di kantong.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 4. TENTANG & KONTAK ================= -->
+        <section id="info" class="light-zone" style="min-height: 70vh;">
+            <h2 class="section-title" data-aos="fade-up">Tentang & Kontak</h2>
+            <div class="card" style="max-width: 600px; width: 100%; margin-top:20px;" data-aos="flip-up">
+                <h3 style="color:var(--primary); margin-bottom: 10px;">Kuotanya Awan ☁️</h3>
+                <p style="margin-bottom: 20px;">Kami adalah solusi tepat untuk segala kebutuhan digital masa kini, dikelola langsung oleh <strong>Firgi awan</strong>. Berkomitmen memberi layanan tercepat.</p>
+                
+                <hr style="border:0; border-top: 1px dashed #cbd5e1; margin: 20px 0;">
+                
+                <p><i class="far fa-clock" style="color:#64748b; font-size: 1.2M; margin-bottom:5px;"></i><br><strong>Jam Operasional:</strong><br>08:00 - 22:00 WIB (Setiap Hari)</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Firgi awan (Kuotanya Awan). All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- ================= BOTTOM NAVIGATION (RECENT APP STYLE) ================= -->
+    <nav class="bottom-nav">
+        <a href="#home" class="nav-item active" onclick="setActiveNav(this)">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </a>
+        <a href="#layanan" class="nav-item" onclick="setActiveNav(this)">
+            <i class="fas fa-th-large"></i>
+            <span>Layanan</span>
+        </a>
+        <a href="#keunggulan" class="nav-item" onclick="setActiveNav(this)">
+            <i class="fas fa-award"></i>
+            <span>Keunggulan</span>
+        </a>
+        <a href="#info" class="nav-item" onclick="setActiveNav(this)">
+            <i class="fas fa-user-circle"></i>
+            <span>Info</span>
+        </a>
+    </nav>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init Animasi Scroll
+        AOS.init({ once: true, duration: 800 });
+
+        // Logic Bottom Nav Active State Click
+        function setActiveNav(element) {
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Logic Transisi Background Gradien & Bottom Nav Sync by Scroll
+        window.addEventListener('scroll', function() {
+            let scrollY = window.scrollY;
+            let layananOffset = document.getElementById('layanan').offsetTop - 300;
+            
+            let bgGrad = document.getElementById('gradBg');
+            
+            // Saat mulai masuk area layanan, fade out background gradient ungu aslinya
+            // sehingga memunculkan warna biru lembut / putih (light-zone) dari body background.
+            if (scrollY > layananOffset) {
+                bgGrad.style.opacity = '0';
+            } else {
+                bgGrad.style.opacity = '1';
+            }
+
+            // Sync Nav Bottom dengan posisi scroll
+            let sections = document.querySelectorAll('section');
+            sections.forEach(sec => {
+                let top = window.scrollY;
+                let offset = sec.offsetTop - 150;
+                let height = sec.offsetHeight;
+                let id = sec.getAttribute('id');
+
+                if(top >= offset && top < offset + height) {
+                    document.querySelectorAll('.bottom-nav a').forEach(links => {
+                        links.classList.remove('active');
+                        document.querySelector('.bottom-nav a[href*=' + id + ']').classList.add('active');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
