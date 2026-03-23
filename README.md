@@ -79,7 +79,6 @@
 | 💬 Confess | Pesan anonim | [Open](https://firgiawann.github.io/projects/confess/) |
 | 🔄 Convert | Konverter unit | [Open](https://firgiawann.github.io/projects/convert/) |
 | 📋 Cheatsheet | Cheatsheet coding | [Open](https://firgiawann.github.io/projects/cheatsheet/) |
-| 💝 Untukmu | Halaman spesial | [Open](https://firgiawann.github.io/projects/untukmu/untukmu.html) |
 
 ---
 
@@ -136,7 +135,6 @@ firgiawann.github.io/
 │
 ├── projects/               ← Mini Apps & Projects
 │   ├── calculator/         🧮 Kalkulator
-│   ├── untukmu/            💝 Halaman Spesial
 │   ├── cheatsheet/         📋 Cheatsheet Coding
 │   ├── confess/            💬 Pesan Anonim
 │   ├── convert/            🔄 Konverter Unit
