@@ -1,0 +1,18 @@
+# Mengizinkan semua bot mesin pencari (Google, Bing, Yahoo, dll)
+User-agent: *
+Allow: /
+
+# Mengizinkan bot AI untuk membaca portofolio (ChatGPT, Perplexity, Gemini, dll)
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Menunjuk lokasi sitemap agar bot tahu struktur website
+Sitemap: https://firgiawann.github.io/sitemap.xml
