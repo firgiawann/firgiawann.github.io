@@ -57,49 +57,128 @@
             }
         }
 
+        // Escape Telegram Markdown v1 special characters in user input
+        function escapeMd(text) {
+            return String(text).replace(/\\/g, '\\\\').replace(/[*_`[]/g, '\\$&');
+        }
+
         // Send Message using Telegram bot API
         function sendToTelegram() {
-            const name = document.getElementById('senderName').value;
-            const message = document.getElementById('senderMsg').value;
-            
+            const name = escapeMd(document.getElementById('senderName').value.trim());
+            const message = escapeMd(document.getElementById('senderMsg').value.trim());
+
             if (!name || !message) {
                 alert("Mohon isi Nama dan Pesan terlebih dahulu!");
                 return;
             }
 
-            // GANTI DENGAN BOT TOKEN DAN CHAT ID MILIK ANDA
-            const botToken = "YOUR_BOT_TOKEN_HERE"; 
-            const chatId = "YOUR_CHAT_ID_HERE";
-            
-            const textContent = `📩 *Pesan Baru dari Website Profile*\n\n*Nama:* ${name}\n*Pesan:* ${message}`;
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            const botToken = "8430081251:AAEJIIRT0m-3hZrgZCB-iTW6KtdmQeafBpA";
+            const chatId = "2010496733";
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: textContent,
-                    parse_mode: "Markdown"
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    alert("Pesan berhasil dikirim!");
-                    document.getElementById('senderName').value = '';
-                    document.getElementById('senderMsg').value = '';
-                    toggleMessageForm(); // Tutup form setelah berhasil kirim
-                } else {
-                    alert("Gagal mengirim pesan! Pastikan konfigurasi Bot Telegram benar.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Terjadi kesalahan jaringan.");
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform || "Unknown Platform";
+
+            // Detect device type from User-Agent
+            let deviceType = "💻 Desktop";
+            if (/android/i.test(userAgent)) {
+                deviceType = "📱 Android";
+            } else if (/iphone|ipad|ipod/i.test(userAgent)) {
+                deviceType = "🍎 iOS";
+            } else if (/mobile/i.test(userAgent)) {
+                deviceType = "📱 Mobile";
+            }
+
+            const timestamp = new Date().toLocaleString("id-ID", {
+                timeZone: "Asia/Makassar",
+                dateStyle: "full",
+                timeStyle: "short"
             });
+
+            // Fetch IP & Location first, then send to Telegram
+            fetch("https://ipapi.co/json/")
+                .then(res => res.json())
+                .then(geo => {
+                    const ip = geo.ip || "Tidak diketahui";
+                    const city = geo.city || "-";
+                    const region = geo.region || "-";
+                    const country = geo.country_name || "-";
+                    const org = geo.org || "-";
+
+                    const textContent =
+`📩 *Pesan Baru dari Website Profile*
+
+👤 *Nama:* ${name}
+💬 *Pesan:*
+${message}
+
+━━━━━━━━━━━━━━━━━━━━
+📊 *Data Pengunjung*
+🌐 *IP Address:* \`${ip}\`
+📍 *Lokasi:* ${city}, ${region}, ${country}
+🏢 *ISP/Org:* ${org}
+🖥️ *Device:* ${deviceType}
+📐 *Platform:* ${platform}
+🔍 *User-Agent:*
+\`${userAgent}\`
+🕒 *Waktu:* ${timestamp}
+━━━━━━━━━━━━━━━━━━━━`;
+
+                    return fetch(telegramUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: textContent,
+                            parse_mode: "Markdown"
+                        })
+                    });
+                })
+                .catch(() => {
+                    // If IP lookup fails, send without geo data
+                    const textContent =
+`📩 *Pesan Baru dari Website Profile*
+
+👤 *Nama:* ${name}
+💬 *Pesan:*
+${message}
+
+━━━━━━━━━━━━━━━━━━━━
+📊 *Data Pengunjung*
+🌐 *IP Address:* Tidak tersedia
+📍 *Lokasi:* Tidak tersedia
+🖥️ *Device:* ${deviceType}
+📐 *Platform:* ${platform}
+🔍 *User-Agent:*
+\`${userAgent}\`
+🕒 *Waktu:* ${timestamp}
+━━━━━━━━━━━━━━━━━━━━`;
+
+                    return fetch(telegramUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: textContent,
+                            parse_mode: "Markdown"
+                        })
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert("✅ Pesan berhasil dikirim!");
+                        document.getElementById('senderName').value = '';
+                        document.getElementById('senderMsg').value = '';
+                        toggleMessageForm(); // Tutup form setelah berhasil kirim
+                    } else {
+                        alert("❌ Gagal mengirim pesan! Silakan coba lagi.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("❌ Terjadi kesalahan jaringan.");
+                });
         }
 
         // Matikan scroll bounce effect bawaan browser di body tapi izinkan di dalam section dan modal
