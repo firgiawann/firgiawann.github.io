@@ -96,14 +96,15 @@
             });
 
             // Fetch IP & Location first, then send to Telegram
-            fetch("https://ipapi.co/json/")
+            return fetch("https://ipapi.co/json/")
                 .then(res => res.json())
+                .catch((err) => { console.warn("IP lookup failed, proceeding without geo data:", err); return null; }) // If IP lookup fails, continue without geo data
                 .then(geo => {
-                    const ip = geo.ip || "Tidak diketahui";
-                    const city = geo.city || "-";
-                    const region = geo.region || "-";
-                    const country = geo.country_name || "-";
-                    const org = geo.org || "-";
+                    const ip = (geo && geo.ip) ? `\`${geo.ip}\`` : "Tidak tersedia";
+                    const location = geo
+                        ? `${geo.city || "-"}, ${geo.region || "-"}, ${geo.country_name || "-"}`
+                        : "Tidak tersedia";
+                    const org = (geo && geo.org) || "Tidak tersedia";
 
                     const textContent =
 `📩 *Pesan Baru dari Website Profile*
@@ -114,39 +115,9 @@ ${message}
 
 ━━━━━━━━━━━━━━━━━━━━
 📊 *Data Pengunjung*
-🌐 *IP Address:* \`${ip}\`
-📍 *Lokasi:* ${city}, ${region}, ${country}
+🌐 *IP Address:* ${ip}
+📍 *Lokasi:* ${location}
 🏢 *ISP/Org:* ${org}
-🖥️ *Device:* ${deviceType}
-📐 *Platform:* ${platform}
-🔍 *User-Agent:*
-\`${userAgent}\`
-🕒 *Waktu:* ${timestamp}
-━━━━━━━━━━━━━━━━━━━━`;
-
-                    return fetch(telegramUrl, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            chat_id: chatId,
-                            text: textContent,
-                            parse_mode: "Markdown"
-                        })
-                    });
-                })
-                .catch(() => {
-                    // If IP lookup fails, send without geo data
-                    const textContent =
-`📩 *Pesan Baru dari Website Profile*
-
-👤 *Nama:* ${name}
-💬 *Pesan:*
-${message}
-
-━━━━━━━━━━━━━━━━━━━━
-📊 *Data Pengunjung*
-🌐 *IP Address:* Tidak tersedia
-📍 *Lokasi:* Tidak tersedia
 🖥️ *Device:* ${deviceType}
 📐 *Platform:* ${platform}
 🔍 *User-Agent:*
@@ -237,3 +208,8 @@ ${message}
                 closeMatrixModal();
             }
         });
+
+        // Export functions for testing in Node.js/Jest environment
+        if (typeof module !== 'undefined' && module.exports) {
+            module.exports = { escapeMd, sendToTelegram, toggleMessageForm };
+        }
