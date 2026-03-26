@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firgiawan Listianto - IT Student, Web Developer &amp; Kuotanya Awan</title>
+
+    <!-- Primary SEO Meta Tags -->
+    <meta name="title" content="Firgiawan Listianto - IT Student, Web Developer &amp; Kuotanya Awan">
+    <meta name="description" content="Firgiawan Listianto (Awan) — Mahasiswa IT, Web Developer &amp; Entrepreneur digital dari Makassar. Layanan Kuotanya Awan: kuota &amp; pulsa murah, top up e-wallet, jasa website, joki tugas, layanan AI, dan flashing HP. Hubungi sekarang!">
+    <meta name="keywords" content="Firgiawan Listianto, Awan, Kuotanya Awan, web developer, IT student, mahasiswa IT Makassar, jasa website, kuota murah, pulsa murah, top up e-wallet, joki tugas, layanan AI, flashing HP, Universitas Negeri Makassar, portfolio">
+    <meta name="author" content="Firgiawan Listianto">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://firgiawann.github.io/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://firgiawann.github.io/">
+    <meta property="og:title" content="Firgiawan Listianto - IT Student, Web Developer &amp; Kuotanya Awan">
+    <meta property="og:description" content="Mahasiswa IT, Web Developer &amp; Entrepreneur digital dari Makassar. Layanan Kuotanya Awan: kuota &amp; pulsa murah, top up, jasa website, layanan AI, dan flashing HP.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png">
+    <meta property="og:image:alt" content="Firgiawan Listianto - Foto Profil">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="400">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="Kuotanya Awan">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://firgiawann.github.io/">
+    <meta name="twitter:title" content="Firgiawan Listianto - IT Student, Web Developer &amp; Kuotanya Awan">
+    <meta name="twitter:description" content="Mahasiswa IT, Web Developer &amp; Entrepreneur digital dari Makassar. Layanan Kuotanya Awan: kuota &amp; pulsa murah, top up, jasa website, layanan AI, dan flashing HP.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png">
+    <meta name="twitter:creator" content="@iiniawann">
+    <meta name="twitter:site" content="@iiniawann">
+
+    <!-- Mobile / PWA Meta Tags -->
+    <meta name="theme-color" content="#0d1117">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kuotanya Awan">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS CSS untuk efek scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="../style/main.css">
+</head>
+
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+        <i class="fas fa-sun" id="themeIcon"></i>
+    </div>
+
+    <!-- Dynamic Background -->
+    <div class="bg-original" id="gradBg"></div>
+    <div class="glowing-orb orb-1"></div>
+    <div class="glowing-orb orb-2"></div>
+    <div class="glowing-orb orb-3"></div>
+    <div class="glowing-orb orb-4"></div>
+    <div class="glass-shape shape-1"></div>
+    <div class="glass-shape shape-2"></div>
+
+    <div class="page-wrapper">
+        
+        <!-- ================= 1. HOME / HERO ================= -->
+        <section id="home" class="active-tab">
+            <div class="snap-box">
+                <div class="container-hero" style="text-align: center;">
+
+                    <!-- HERO LAYOUT: FOTO KIRI, TEKS KANAN -->
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+                        <img class="profile-pic" src="../assets/avatar.png" alt="Foto Profil" style="margin: 0; flex-shrink: 0; border: 4px solid rgba(255, 255, 255, 0.1);">
+                        <div style="text-align: left; flex: 1; min-width: 200px;">
+                            <div class="role-badge" style="margin-bottom: 10px;">IT Student & Tech Enthusiast</div>
+                            <h1 style="margin: 0; line-height: 1.2; font-size: 1.8em;">
+                                Firgiawan Listianto <span class="nickname">(Awan)</span>
+                            </h1>
+                        </div>
+                    </div>
+                    
+                    <p class="bio" style="font-size: 0.95em; color: rgba(255,255,255,0.9); margin-top: 15px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                        <span><i class="fas fa-graduation-cap"></i> Mahasiswa Aktif</span> | 
+                        <span><i class="fas fa-code"></i> Web Developer</span> | 
+                        <span><i class="fas fa-store"></i> Entrepreneur</span>
+                    </p>
+                    <p class="bio" style="font-size: 0.85em; color: rgba(255,255,255,0.7); margin-bottom: 25px; line-height: 1.6;">
+                        Halo, selamat datang di profilku! 👋<br>
+                        Aku Awan, seorang mahasiswa IT yang suka ngulik website dan mengamati perkembangan AI. Selain menikmati dunia **ngoding**, aku juga mengelola bisnis digital serba-praktis di <strong>Kuotanya Awan</strong>. Mari terhubung dan ciptakan sesuatu yang keren bersama! ✨
+                    </p>
+                    
+                    <div class="cta-btn-container" style="text-align: center; margin-bottom: 25px;">
+                        <a href="https://wa.me/6285173118500?text=Halo%20Awan,%20saya%20tertarik%20dengan%20layanan%20Kuotanya%20Awan" target="_blank" class="cta-btn">
+                            <i class="fab fa-whatsapp"></i> Hubungi Sekarang
+                        </a>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="social-icons" style="justify-content: flex-start;">
+                        <a href="https://www.facebook.com/firgi.awan.927758" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://instagram.com/firgiawan.id" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/iiniawann" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://discordapp.com/users/716959396755931166" target="_blank"><i class="fab fa-discord"></i></a>
+                        <a href="https://linkedin.com/in/firgiawann" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/firgiawann" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 2. PROFILE & CV ================= -->
+        <section id="profile">
+            <!-- SNAP: BIODATA -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <h2 style="color:#58a6ff; margin-bottom: 15px; font-size: 1.8em;"><i class="fas fa-address-card"></i> BIODATA</h2>
+                    <p style="color:#c9d1d9; line-height: 1.7; font-size: 0.95em;">
+                        <strong>Firgiawan Listianto</strong> was born on April 18, 2006 
+                        <span class="has-tooltip" style="color:#38bdf8; font-weight:bold; cursor:pointer;" onclick="openMatrixModal()">(Life Path 3)
+                            <span class="tooltip-content" style="width: 200px; text-align:center;">
+                                Destiny Matrix: The Empress.<br><br>
+                                <span style="display:inline-block; background:rgba(88,166,255,0.2); border:1px solid rgba(88,166,255,0.5); padding:5px 15px; border-radius:12px; color:#58a6ff; font-size:0.9em;">Baca Selengkapnya</span>
+                            </span>
+                        </span>
+                        in Kalumpang/Desa Bontosunggu. Grew up in Jeneponto Regency, South Sulawesi. 
+                        <br><br>
+                        Currently studying <strong>Computer and Informatics Engineering Education</strong> at Universitas Negeri Makassar, Makassar.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SNAP: EDUCATION -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <h2 style="color:#58a6ff; margin-bottom: 25px; font-size: 1.8em;"><i class="fas fa-university"></i> EDUCATION</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024 - NOW</div>
+                            <div class="timeline-desc"><strong>Computer and Informatics Engineering Education</strong><br>Universitas Negeri Makassar</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2021 - 2024</div>
+                            <div class="timeline-desc"><strong>SMA Negeri 3 Jeneponto</strong><br>Science Major</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2018 - 2021</div>
+                            <div class="timeline-desc"><strong>SMP Negeri 7 Tamalatea</strong></div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2012 - 2018</div>
+                            <div class="timeline-desc"><strong>SD Inpress 145 Bungung-Bungung</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SNAP: HOBBIES -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <h2 style="color:#58a6ff; margin-bottom: 25px; font-size: 1.8em;"><i class="fas fa-gamepad"></i> HOBBY</h2>
+                    
+                    <div class="skill-row"><div class="skill-labels"><span>Coding</span><span>95%</span></div><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 95%;"></div></div></div>
+                    <div class="skill-row"><div class="skill-labels"><span>AI Enthusiast</span><span>85%</span></div><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 85%;"></div></div></div>
+                    <div class="skill-row"><div class="skill-labels"><span>Music</span><span>70%</span></div><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 70%;"></div></div></div>
+                    <div class="skill-row"><div class="skill-labels"><span>Reading</span><span>50%</span></div><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 50%;"></div></div></div>
+                    <div class="skill-row"><div class="skill-labels"><span>Gaming</span><span>40%</span></div><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 40%;"></div></div></div>
+                </div>
+            </div>
+
+            <!-- SNAP: PERSONALITY -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <h2 style="color:#58a6ff; margin-bottom: 25px; font-size: 1.7em; line-height:1.2;"><i class="fas fa-fingerprint"></i> PERSONALITY BLUEPRINT</h2>
+                    
+                    <div class="skill-row">
+                        <div class="skill-labels">
+                            <span class="has-tooltip">MBTI: INFP
+                                <span class="tooltip-content"><strong style="color:#58a6ff;">INFP (The Mediator):</strong><br><br>Seseorang yang idealis, empatik, dan didorong oleh nilai-nilai moral yang tinggi. Suka menolong dan sangat kreatif dalam berekspresi.</span>
+                            </span>
+                            <span>Idealist</span>
+                        </div>
+                        <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+                    </div>
+
+                    <div class="skill-row">
+                        <div class="skill-labels">
+                            <span class="has-tooltip">Enneagram: 4w5
+                                <span class="tooltip-content"><strong style="color:#58a6ff;">4w5 (The Individualist):</strong><br><br>Kreatif, sensitif, dan analitis. Menggabungkan kedalaman emosi (Tipe 4) dengan rasa ingin tahu dan pemikiran intelektual (Tipe 5).</span>
+                            </span>
+                            <span>Individualist</span>
+                        </div>
+                        <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                    </div>
+
+                    <div class="skill-row">
+                        <div class="skill-labels">
+                            <span class="has-tooltip">Zodiac: Aries
+                                <span class="tooltip-content"><strong style="color:#58a6ff;">Aries (Fire Element):</strong><br><br>Berani, perintis, dan penuh semangat. Memiliki jiwa kepemimpinan alami yang berapi-api dan tangguh.</span>
+                            </span>
+                            <span>Fire</span>
+                        </div>
+                        <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+                    </div>
+
+                    <div class="skill-row">
+                        <div class="skill-labels">
+                            <span class="has-tooltip">Psychomatrix: Type 1
+                                <span class="tooltip-content"><strong style="color:#58a6ff;">Psychomatrix Type 1:</strong><br><br>Karakter independen, mandiri, dan berkeinginan keras (strong-willed). Punya inisiatif tinggi untuk memimpin.</span>
+                            </span>
+                            <span>Type 1</span>
+                        </div>
+                        <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                    </div>
+
+                    <div class="skill-row">
+                        <div class="skill-labels">
+                            <span class="has-tooltip">Matrix Destiny: 18-4-9
+                                <span class="tooltip-content"><strong style="color:#58a6ff;">Angka 18-4-9:</strong><br><br>Melambangkan potensi manifestasi kreatif yang terstruktur melalui pemahaman mendalam tentang pola energi hidup dan kedisiplinan mental.</span>
+                            </span>
+                            <span>Manifestor</span>
+                        </div>
+                        <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+                    </div>
+
+                    <div class="skill-row">
+                        <div class="skill-labels">
+                            <span class="has-tooltip" style="cursor:pointer;" onclick="openMatrixModal()">Life Path: 3
+                                <span class="tooltip-content"><strong style="color:#3fb950; font-size: 1.1em;">Kenapa Sangat Pas Buat Kamu?</strong><br><br>
+✨ <strong style="color:#fff;">Kreativitas Tinggi:</strong> Sesuai hobi ngoding & bangun web.<br><br>
+📣 <strong style="color:#fff;">Komunikasi:</strong> Pas dengan skill copywriting.<br><br>
+☀️ <strong style="color:#fff;">Optimisme:</strong> Penyeimbang buat sisi 4w5 kamu yang cenderung reflektif.</span>
+                            </span>
+                            <span>Creative</span>
+                        </div>
+                        <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width: 90%;"></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="snap-box" style="min-height: 20vh;">
+                <footer>
+                    <p>&copy; 2026 Firgiawan Listianto. All Rights Reserved.</p>
+                </footer>
+            </div>
+        </section>
+
+        <!-- ================= 3. LAYANAN ================= -->
+        <section id="layanan">
+            <!-- Snap Layanan Kuotanya Awan -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <span style="background: rgba(88, 166, 255, 0.1); color: #58a6ff; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; font-weight: 600; text-transform: uppercase; border: 1px solid rgba(88, 166, 255, 0.2); display: inline-block; margin-bottom: 15px;">Layanan Eksklusif</span>
+                    <h2 style="color:#58a6ff; margin-bottom: 25px; font-size: 1.8em;"><i class="fas fa-cloud"></i> Kuotanya Awan</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                        <div class="glass-card" style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-wifi" style="font-size: 1.5em; color: #3fb950; min-width: 30px; text-align: center;"></i>
+                            <div>
+                                <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Kuota & Pulsa</h3>
+                                <p style="font-size: 0.85em; color: #8b949e; margin: 0;">Data All Operator & Pulsa termurah.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card" style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-file-invoice-dollar" style="font-size: 1.5em; color: #3fb950; min-width: 30px; text-align: center;"></i>
+                            <div>
+                                <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Top Up & Tagihan</h3>
+                                <p style="font-size: 0.85em; color: #8b949e; margin: 0;">E-Wallet, Listrik, Air, BPJS, Bank.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card" style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-code" style="font-size: 1.5em; color: #3fb950; min-width: 30px; text-align: center;"></i>
+                            <div>
+                                <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Jasa Website</h3>
+                                <p style="font-size: 0.85em; color: #8b949e; margin: 0;">Landing Page, Undangan & Konten Digital.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card" style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-pencil-alt" style="font-size: 1.5em; color: #3fb950; min-width: 30px; text-align: center;"></i>
+                            <div>
+                                <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Joki Tugas</h3>
+                                <p style="font-size: 0.85em; color: #8b949e; margin: 0;">Bantu pengerjaan makalah, PPT & tugas.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card" style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-robot" style="font-size: 1.5em; color: #3fb950; min-width: 30px; text-align: center;"></i>
+                            <div>
+                                <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Layanan AI</h3>
+                                <p style="font-size: 0.85em; color: #8b949e; margin: 0;">Akses tools AI premium & solusi otomatis.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card" style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-mobile-alt" style="font-size: 1.5em; color: #3fb950; min-width: 30px; text-align: center;"></i>
+                            <div>
+                                <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Flashing HP</h3>
+                                <p style="font-size: 0.85em; color: #8b949e; margin: 0;">Software, bootloop, & reset pola sandi.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-btn-container" style="text-align: center; margin-top: 20px;">
+                        <a href="https://whatsapp.com/channel/0029VbB1wvH2Jl8IEui1pp3Y" target="_blank" class="cta-btn">
+                            <i class="fab fa-whatsapp"></i> Ikuti Channel WA Kami
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snap Keunggulan -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <h2 style="color:#58a6ff; margin-bottom: 25px; font-size: 1.8em;"><i class="fas fa-star" style="color:#ffd700;"></i> KENAPA KAMI?</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="glass-card" style="text-align: center;">
+                            <i class="fas fa-rocket" style="font-size: 1.8em; color: #3fb950; margin-bottom: 10px;"></i>
+                            <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Cepat</h3>
+                            <p style="font-size: 0.8em; color: #8b949e; margin: 0;">Hitungan Detik</p>
+                        </div>
+                        <div class="glass-card" style="text-align: center;">
+                            <i class="fas fa-lock" style="font-size: 1.8em; color: #3fb950; margin-bottom: 10px;"></i>
+                            <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Aman</h3>
+                            <p style="font-size: 0.8em; color: #8b949e; margin: 0;">Privasi Terjaga</p>
+                        </div>
+                        <div class="glass-card" style="text-align: center;">
+                            <i class="fas fa-medal" style="font-size: 1.8em; color: #3fb950; margin-bottom: 10px;"></i>
+                            <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Terpercaya</h3>
+                            <p style="font-size: 0.8em; color: #8b949e; margin: 0;">Review Terbaik</p>
+                        </div>
+                        <div class="glass-card" style="text-align: center;">
+                            <i class="fas fa-wallet" style="font-size: 1.8em; color: #3fb950; margin-bottom: 10px;"></i>
+                            <h3 style="font-size: 1em; color: #fff; margin-bottom: 3px;">Terjangkau</h3>
+                            <p style="font-size: 0.8em; color: #8b949e; margin: 0;">Harga Ramah</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snap Info Layanan -->
+            <div class="snap-box">
+                <div class="container-hero text-left">
+                    <h2 style="color:#58a6ff; margin-bottom: 15px; font-size: 1.8em;"><i class="fas fa-info-circle"></i> INFO LAYANAN</h2>
+                    <p style="margin-bottom: 20px; line-height: 1.6; color:#c9d1d9; font-size: 0.95em;">Berkomitmen memberikan solusi teknologi dan layanan digital terbaik. Dikelola langsung melalui platform <strong>Kuotanya Awan</strong>.</p>
+                    
+                    <div style="background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.3); padding: 15px; border-radius: 15px; display: flex; align-items: center; gap: 15px;">
+                        <i class="far fa-clock" style="color:#58a6ff; font-size: 2em;"></i>
+                        <div>
+                            <strong style="color:#fff; font-size: 1.1em;">Jam Operasional</strong><br>
+                            <span style="color:#8b949e; font-size: 0.9em;">08:00 - 22:00 WIB (Setiap Hari)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 4. KONTAK & SOSMED ================= -->
+        <section id="info">
+            <div class="snap-box">
+                <h2 class="section-title" style="margin-bottom: 20px;">Kontak & Sosmed</h2>
+                <div class="container-hero" style="max-width: 600px; padding: 30px; text-align: left;">
+                    
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <img src="../assets/avatar.png" alt="Firgiawan" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid rgba(88,166,255,0.5); margin-bottom: 10px;">
+                        <h3 style="color:#fff; font-size: 1.3em;">Firgiawan Listianto</h3>
+                        <p style="color:#8b949e; font-size: 0.9em;">Mari terhubung dan berkolaborasi!</p>
+                    </div>
+
+                    <!-- Social Media List -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px;">
+                        <a href="https://wa.me/6285173118500" target="_blank" style="background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(37, 211, 102, 0.2)'" onmouseout="this.style.background='rgba(37, 211, 102, 0.1)'">
+                            <i class="fab fa-whatsapp" style="color: #25D366; font-size: 1.3em;"></i> WhatsApp
+                        </a>
+                        <a href="https://t.me/Iniiawann" target="_blank" style="background: rgba(0, 136, 204, 0.1); border: 1px solid rgba(0, 136, 204, 0.3); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(0, 136, 204, 0.2)'" onmouseout="this.style.background='rgba(0, 136, 204, 0.1)'">
+                            <i class="fab fa-telegram" style="color: #0088cc; font-size: 1.3em;"></i> Telegram
+                        </a>
+                        <a href="https://linkedin.com/in/firgiawann" target="_blank" style="background: rgba(10, 102, 194, 0.1); border: 1px solid rgba(10, 102, 194, 0.3); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(10, 102, 194, 0.2)'" onmouseout="this.style.background='rgba(10, 102, 194, 0.1)'">
+                            <i class="fab fa-linkedin" style="color: #0a66c2; font-size: 1.3em;"></i> LinkedIn
+                        </a>
+                        <a href="https://github.com/firgiawann" target="_blank" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'">
+                            <i class="fab fa-github" style="color: #fff; font-size: 1.3em;"></i> GitHub
+                        </a>
+                        <a href="https://instagram.com/firgiawan.id" target="_blank" style="background: rgba(225, 48, 108, 0.1); border: 1px solid rgba(225, 48, 108, 0.3); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(225, 48, 108, 0.2)'" onmouseout="this.style.background='rgba(225, 48, 108, 0.1)'">
+                            <i class="fab fa-instagram" style="color: #E1306C; font-size: 1.3em;"></i> Instagram
+                        </a>
+                        <a href="https://x.com/iiniawann" target="_blank" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'">
+                            <i class="fab fa-twitter" style="color: #fff; font-size: 1.3em;"></i> X (Twitter)
+                        </a>
+                        <a href="https://facebook.com/firgi.awan.927758" target="_blank" style="background: rgba(24, 119, 242, 0.1); border: 1px solid rgba(24, 119, 242, 0.3); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(24, 119, 242, 0.2)'" onmouseout="this.style.background='rgba(24, 119, 242, 0.1)'">
+                            <i class="fab fa-facebook" style="color: #1877F2; font-size: 1.3em;"></i> Facebook
+                        </a>
+                        <a href="https://discordapp.com/users/716959396755931166" target="_blank" style="background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.3); padding: 12px; border-radius: 12px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(88, 101, 242, 0.2)'" onmouseout="this.style.background='rgba(88, 101, 242, 0.1)'">
+                            <i class="fab fa-discord" style="color: #5865F2; font-size: 1.3em;"></i> Discord
+                        </a>
+                    </div>
+
+                    <!-- Button Kirim Pesan -->
+                    <button onclick="toggleMessageForm()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #58a6ff, #1f6feb); color: white; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 5px 15px rgba(88, 166, 255, 0.3); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <i class="fas fa-envelope"></i> Kirim Pesan Langsung
+                    </button>
+
+                    <!-- Form Kirim Pesan (Hidden by Default) -->
+                    <div id="messageFormBox" style="display: none; margin-top: 20px; background: rgba(13, 17, 23, 0.8); border: 1px solid #58a6ff; border-radius: 15px; padding: 20px; box-shadow: inset 0 0 10px rgba(88,166,255,0.1);">
+                        <h4 style="color:#58a6ff; margin-bottom: 15px; font-size: 1.1em; text-align: center;"><i class="fas fa-envelope"></i> Tulis Pesan</h4>
+                        
+                        <input type="text" id="senderName" placeholder="Nama Anda..." style="width: 100%; box-sizing: border-box; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; outline: none; font-family: inherit;">
+                        
+                        <textarea id="senderMsg" placeholder="Isi Pesan..." rows="4" style="width: 100%; box-sizing: border-box; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; outline: none; font-family: inherit; resize: none;"></textarea>
+                        
+                        <button onclick="sendToTelegram()" style="width: 100%; padding: 12px; background: #3fb950; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#2ea043'" onmouseout="this.style.background='#3fb950'">
+                            <i class="fas fa-paper-plane"></i> Kirim ke Telegram
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="snap-box" style="min-height: 20vh;">
+                <footer>
+                    <p>&copy; 2026 Firgiawan Listianto. All Rights Reserved.</p>
+                </footer>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ================= BOTTOM NAVIGATION (APP TABS) ================= -->
+    <nav class="bottom-nav">
+        <a href="#home" class="nav-item active" onclick="switchTab('home', this, event)">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </a>
+        <a href="#profile" class="nav-item" onclick="switchTab('profile', this, event)">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Profile</span>
+        </a>
+
+        <!-- GIFT BUTTON (center, floating) -->
+        <button class="nav-gift-btn" onclick="openGiftPanel()" title="Hadiah & Bonus">
+            <i class="fas fa-gift"></i>
+        </button>
+
+        <a href="#layanan" class="nav-item" onclick="switchTab('layanan', this, event)">
+            <i class="fas fa-th-large"></i>
+            <span>Layanan</span>
+        </a>
+        <a href="#info" class="nav-item" onclick="switchTab('info', this, event)">
+            <i class="fas fa-info-circle"></i>
+            <span>Info</span>
+        </a>
+    </nav>
+
+    <!-- DESTINY MATRIX MODAL -->
+    <div id="matrixModal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(13, 17, 23, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 2000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;">
+        <div id="matrixModalCard" class="glass-card" style="position: relative; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 30px; transform: scale(0.9) translateY(30px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(255,255,255,0.1); border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2); border-radius: 20px;">
+            <button onclick="closeMatrixModal()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;" onmouseover="this.style.background='rgba(255,60,60,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 style="color:#58a6ff; margin-bottom: 20px; font-size: 1.6em; text-align: center;"><i class="fas fa-gem"></i> DESTINY MATRIX: LIFE PATH 3</h2>
+
+            <p style="color:#c9d1d9; line-height: 1.7; font-size: 0.95em; margin-bottom: 20px;">
+                <strong style="color: #a855f7;"><i class="fas fa-calculator"></i> Usiamu Saat Ini: <span id="currentAgeValue">20</span> Tahun</strong><br><br>
+                Sesuai dengan tanggal lahirmu <strong>(18 April 2006)</strong>, penjumlahan komponen tanggal melahirkan angka <strong>Life Path 3</strong> yang diwakili oleh <strong style="color: #38bdf8;">Energi Sang Permaisuri (The Empress)</strong>.<br>
+                Kamu adalah seorang komunikator alami, kreatif, ekspresif, dan memiliki pesona sosial yang kuat.
+            </p>
+
+            <div id="matrixGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                <div style="background: rgba(37, 211, 102, 0.05); border: 1px solid rgba(37, 211, 102, 0.2); padding: 15px; border-radius: 12px;">
+                    <h4 style="color: #25D366; margin-bottom: 10px; font-size: 1em;"><i class="fas fa-plus-circle"></i> Kelebihan</h4>
+                    <ul style="color: #c9d1d9; font-size: 0.85em; margin-left: 15px; line-height: 1.6;">
+                        <li>Kreativitas tinggi & Inovatif</li>
+                        <li>Pandai berbicara & Memikat</li>
+                        <li>Sangat optimis & Inspiratif</li>
+                        <li>Bakat alami membangun "kerajaan" atau bisnis</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255, 99, 71, 0.05); border: 1px solid rgba(255, 99, 71, 0.2); padding: 15px; border-radius: 12px;">
+                    <h4 style="color: #FF6347; margin-bottom: 10px; font-size: 1em;"><i class="fas fa-minus-circle"></i> Kekurangan</h4>
+                    <ul style="color: #c9d1d9; font-size: 0.85em; margin-left: 15px; line-height: 1.6;">
+                        <li>Sering <i>overthinking</i> berlebihan</li>
+                        <li>Kesulitan fokus (mudah terdistraksi ide baru)</li>
+                        <li>Sensitif terhadap kritik</li>
+                        <li>Kurang terorganisir (butuh struktur/sistem)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="color: #38bdf8; margin-bottom: 15px; font-size: 1.2em;"><i class="fas fa-level-up-alt"></i> Fase Perjalanan (Saat ini: <span id="currentAgeTextValue">20</span> Thn)</h3>
+            <div class="timeline" style="margin-top: 15px; padding-left: 10px;">
+                <div class="timeline-item" style="border-left-color: #a855f7;">
+                    <div class="timeline-year" style="color: #a855f7;">Fase 1 (0 - 28 Tahun)</div>
+                    <div class="timeline-desc" style="color: #c9d1d9; font-size: 0.9em;">
+                        <strong>Pencarian Ekspresi Diri</strong><br>
+                        Di usia <span id="dynamicPhaseAge">20</span> tahun, fokusmu adalah menyerap ilmu dan berani menelurkan ide nyata. Kurangi <i>overthinking</i>, biarkan kreativitasmu terlihat oleh dunia.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">Fase 2 (29 - 56 Tahun)</div>
+                    <div class="timeline-desc" style="color: #c9d1d9; font-size: 0.9em;">
+                        <strong>Puncak Manifestasi</strong><br>
+                        Waktu untuk memanen. Jaringan dan usahamu melahirkan kekayaan mapan. Kamu berada di puncak aura <i>The Empress</i>.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">Fase 3 (57+ Tahun)</div>
+                    <div class="timeline-desc" style="color: #c9d1d9; font-size: 0.9em;">
+                        <strong>Mentor Kebijaksanaan</strong><br>
+                        Tidak lagi mengejar validasi, tapi <i>sharing</i> inspirasi dan jalan hidupmu untuk generasi di bawahmu.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://firgiawann.github.io/#person",
+          "name": "Firgiawan Listianto",
+          "alternateName": "Awan",
+          "description": "Mahasiswa Computer and Informatics Engineering Education di Universitas Negeri Makassar, Web Developer, dan Entrepreneur digital pemilik Kuotanya Awan.",
+          "url": "https://firgiawann.github.io/",
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png"
+          },
+          "birthDate": "2006-04-18",
+          "birthPlace": {
+            "@type": "Place",
+            "name": "Jeneponto, Sulawesi Selatan, Indonesia"
+          },
+          "nationality": "Indonesian",
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Universitas Negeri Makassar"
+          },
+          "sameAs": [
+            "https://github.com/firgiawann",
+            "https://linkedin.com/in/firgiawann",
+            "https://instagram.com/firgiawan.id",
+            "https://x.com/iiniawann",
+            "https://facebook.com/firgi.awan.927758",
+            "https://t.me/Iniiawann"
+          ],
+          "jobTitle": "Web Developer",
+          "knowsAbout": ["Web Development", "Artificial Intelligence", "Digital Entrepreneurship"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://firgiawann.github.io/#website",
+          "url": "https://firgiawann.github.io/",
+          "name": "Kuotanya Awan",
+          "description": "Portfolio dan layanan digital Firgiawan Listianto",
+          "publisher": {
+            "@id": "https://firgiawann.github.io/#person"
+          },
+          "inLanguage": "id"
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://firgiawann.github.io/#business",
+          "name": "Kuotanya Awan",
+          "description": "Layanan digital terpercaya: kuota & pulsa murah, top up e-wallet, listrik, air, BPJS, jasa website, joki tugas, layanan AI, dan flashing HP.",
+          "url": "https://firgiawann.github.io/",
+          "telephone": "+6285173118500",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "Sulawesi Selatan",
+            "addressCountry": "ID"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "08:00",
+            "closes": "22:00"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+6285173118500",
+            "contactType": "customer service",
+            "availableLanguage": "Indonesian"
+          },
+          "sameAs": [
+            "https://wa.me/6285173118500",
+            "https://instagram.com/firgiawan.id"
+          ],
+          "founder": {
+            "@id": "https://firgiawann.github.io/#person"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ================= GIFT PANEL OVERLAY ================= -->
+    <div id="giftPanel" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.85); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); z-index:2100; align-items:center; justify-content:center; opacity:0; transition:opacity 0.4s ease;">
+        <div id="giftPanelCard" style="position:relative; max-width:420px; width:90%; padding:30px; border-radius:24px; background:linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02)); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.22); border-left:1px solid rgba(255,255,255,0.18); box-shadow:0 20px 60px rgba(0,0,0,0.5),inset 0 1px 1px rgba(255,255,255,0.07); transform:scale(0.9) translateY(30px); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
+
+            <!-- Close Button -->
+            <button onclick="closeGiftPanel()" style="position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.1); border:none; color:#fff; width:33px; height:33px; border-radius:50%; font-size:1.1em; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s;" onmouseover="this.style.background='rgba(255,60,60,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-times"></i></button>
+
+            <!-- Header -->
+            <div style="text-align:center; margin-bottom:22px;">
+                <div style="font-size:2.6em; margin-bottom:8px;">🎁</div>
+                <h2 style="color:#ffd700; font-size:1.45em; margin:0 0 6px; text-shadow:0 0 20px rgba(255,215,0,0.4);">Canva Pro Gratis</h2>
+                <p style="color:#c9d1d9; font-size:0.88em; margin:0;">Masa Aktif: <span style="color:#3fb950; font-weight:700;" id="canvaActiveDay">30</span> hari &nbsp;•&nbsp; Akses penuh semua fitur Canva Pro</p>
+            </div>
+
+            <!-- Stock Bar -->
+            <div style="margin-bottom:22px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="color:#8b949e; font-size:0.85em;">Stok tersisa</span>
+                    <span style="color:#ffd700; font-weight:700; font-size:0.9em;" id="stockCount">3</span>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); border-radius:20px; height:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.1);">
+                    <div id="stockBar" style="height:100%; background:linear-gradient(90deg,#ffd700,#ff9500); border-radius:20px; transition:width 0.6s ease;" ></div>
+                </div>
+                <p style="color:#8b949e; font-size:0.78em; margin:6px 0 0; text-align:right;" id="stockLabel">Tersisa 3 dari 10 slot</p>
+            </div>
+
+            <!-- Klaim Button -->
+            <button onclick="openKlaimForm()" id="klaimBtn" style="width:100%; padding:14px; background:linear-gradient(135deg,#3fb950,#2ea043); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:1.05em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(63,185,80,0.35); transition:transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 28px rgba(63,185,80,0.45)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 20px rgba(63,185,80,0.35)'">
+                <i class="fas fa-hand-pointer"></i> Klaim Sekarang
+            </button>
+
+            <!-- Coming Soon Section -->
+            <div style="margin-top:22px; padding:14px 16px; background:rgba(88,166,255,0.06); border:1px dashed rgba(88,166,255,0.25); border-radius:14px; text-align:center;">
+                <p style="color:#8b949e; font-size:0.82em; margin:0 0 4px;">⏳ Segera Hadir</p>
+                <p style="color:#58a6ff; font-size:0.92em; font-weight:600; margin:0;">Tunggu layanan bonus selanjutnya...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= KLAIM CONFIRMATION POPUP ================= -->
+    <div id="klaimModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.88); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); z-index:2200; align-items:center; justify-content:center; opacity:0; transition:opacity 0.4s ease;">
+        <div id="klaimModalCard" style="position:relative; max-width:400px; width:90%; padding:28px; border-radius:22px; background:linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02)); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.22); border-left:1px solid rgba(255,255,255,0.18); box-shadow:0 20px 60px rgba(0,0,0,0.5),inset 0 1px 1px rgba(255,255,255,0.07); transform:scale(0.9) translateY(30px); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
+
+            <button onclick="closeKlaimModal()" style="position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.1); border:none; color:#fff; width:33px; height:33px; border-radius:50%; font-size:1.1em; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s;" onmouseover="this.style.background='rgba(255,60,60,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-times"></i></button>
+
+            <div style="text-align:center; margin-bottom:20px;">
+                <div style="font-size:2em; margin-bottom:8px;">📋</div>
+                <h3 style="color:#ffd700; font-size:1.25em; margin:0 0 5px;">Konfirmasi Klaim</h3>
+                <p style="color:#8b949e; font-size:0.85em; margin:0;">Isi data di bawah untuk mendapatkan akses Canva Pro Gratis</p>
+            </div>
+
+            <input type="text" id="klaimName" placeholder="Nama Anda..." style="width:100%; box-sizing:border-box; padding:12px 14px; margin-bottom:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.35); color:#fff; outline:none; font-family:inherit; font-size:0.95em; transition:border-color 0.3s;" onfocus="this.style.borderColor='rgba(255,215,0,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+
+            <input type="email" id="klaimEmail" placeholder="Email Anda..." style="width:100%; box-sizing:border-box; padding:12px 14px; margin-bottom:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.35); color:#fff; outline:none; font-family:inherit; font-size:0.95em; transition:border-color 0.3s;" onfocus="this.style.borderColor='rgba(255,215,0,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+
+            <button onclick="submitKlaim()" id="submitKlaimBtn" style="width:100%; padding:13px; background:linear-gradient(135deg,#ffd700,#ff9500); color:#0d1117; border:none; border-radius:12px; font-weight:700; font-size:1em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(255,215,0,0.3); transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="fas fa-check-circle"></i> Konfirmasi & Kirim
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= SUCCESS / REDIRECT POPUP ================= -->
+    <div id="claimSuccessModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.9); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:2300; align-items:center; justify-content:center; opacity:0; transition:opacity 0.4s ease;">
+        <div id="claimSuccessCard" style="position:relative; max-width:380px; width:90%; padding:30px; border-radius:22px; background:linear-gradient(135deg,rgba(63,185,80,0.1),rgba(255,255,255,0.03)); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(63,185,80,0.25); border-top:1px solid rgba(255,255,255,0.2); border-left:1px solid rgba(255,255,255,0.15); box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px rgba(63,185,80,0.1),inset 0 1px 1px rgba(255,255,255,0.07); transform:scale(0.9) translateY(30px); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); text-align:center;">
+
+            <div style="font-size:2.8em; margin-bottom:10px;">🎉</div>
+            <h3 style="color:#3fb950; font-size:1.3em; margin:0 0 8px;">Berhasil! Akses Dikirim</h3>
+            <p style="color:#c9d1d9; font-size:0.88em; margin:0 0 20px; line-height:1.6;">Data kamu sudah diterima. Klik tombol di bawah untuk langsung bergabung ke tim Canva Pro!</p>
+
+            <button onclick="openCanvaLink()" id="openCanvaBtn" style="width:100%; padding:14px; background:linear-gradient(135deg,#3fb950,#2ea043); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:1.05em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(63,185,80,0.4); margin-bottom:14px; transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="fas fa-external-link-alt"></i> Klaim Akses Canva Pro
+            </button>
+
+            <p style="color:#8b949e; font-size:0.82em; margin:0;">Link terbuka otomatis dalam <span id="countdownDisplay" style="color:#ffd700; font-weight:700;">10</span> detik</p>
+        </div>
+    </div>
+
+    <!-- Gift Panel + Popup CSS & JS -->
+    <style>
+        /* Gift floating button in bottom nav */
+        .nav-gift-btn {
+            position: relative;
+            bottom: 18px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            border: none;
+            color: #0d1117;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 25px rgba(255, 165, 0, 0.55), 0 0 0 3px rgba(255, 215, 0, 0.15);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            flex-shrink: 0;
+            animation: giftPulse 2.5s infinite;
+        }
+        .nav-gift-btn:hover, .nav-gift-btn:active {
+            transform: scale(1.12) translateY(-4px);
+            box-shadow: 0 10px 35px rgba(255, 165, 0, 0.7), 0 0 0 4px rgba(255, 215, 0, 0.25);
+        }
+        @keyframes giftPulse {
+            0%, 100% { box-shadow: 0 6px 25px rgba(255, 165, 0, 0.55), 0 0 0 3px rgba(255, 215, 0, 0.15); }
+            50%       { box-shadow: 0 6px 25px rgba(255, 165, 0, 0.8), 0 0 0 7px rgba(255, 215, 0, 0.08); }
+        }
+    </style>
+    <script>
+        // =========== GIFT PANEL ===========
+        const CANVA_LINK = "https://www.canva.com/brand/join?token=snxDvxn9rE6yq62gbF8TMg&referrer=team-invite";
+        const STOCK_TOTAL = 10;
+        const STOCK_REMAINING = 3;
+        const MASA_AKTIF_HARI = 30;
+        const COUNTDOWN_SECONDS = 10;
+
+        function openGiftPanel() {
+            // Init stock bar
+            document.getElementById('stockCount').textContent = STOCK_REMAINING;
+            document.getElementById('stockBar').style.width = (STOCK_REMAINING / STOCK_TOTAL * 100) + '%';
+            document.getElementById('stockLabel').textContent = 'Tersisa ' + STOCK_REMAINING + ' dari ' + STOCK_TOTAL + ' slot';
+            document.getElementById('canvaActiveDay').textContent = MASA_AKTIF_HARI;
+
+            const panel = document.getElementById('giftPanel');
+            panel.style.display = 'flex';
+            setTimeout(() => {
+                panel.style.opacity = '1';
+                document.getElementById('giftPanelCard').style.transform = 'scale(1) translateY(0)';
+            }, 10);
+        }
+
+        function closeGiftPanel() {
+            const panel = document.getElementById('giftPanel');
+            panel.style.opacity = '0';
+            document.getElementById('giftPanelCard').style.transform = 'scale(0.9) translateY(30px)';
+            setTimeout(() => { panel.style.display = 'none'; }, 400);
+        }
+
+        // =========== KLAIM FORM ===========
+        function openKlaimForm() {
+            closeGiftPanel();
+            setTimeout(() => {
+                const modal = document.getElementById('klaimModal');
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    document.getElementById('klaimModalCard').style.transform = 'scale(1) translateY(0)';
+                }, 10);
+            }, 420);
+        }
+
+        function closeKlaimModal() {
+            const modal = document.getElementById('klaimModal');
+            modal.style.opacity = '0';
+            document.getElementById('klaimModalCard').style.transform = 'scale(0.9) translateY(30px)';
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+
+        function submitKlaim() {
+            const name = document.getElementById('klaimName').value.trim();
+            const email = document.getElementById('klaimEmail').value.trim();
+
+            if (!name || !email) {
+                alert("Mohon isi Nama dan Email terlebih dahulu!");
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Format email tidak valid!");
+                return;
+            }
+
+            const btn = document.getElementById('submitKlaimBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+            const botToken = "8430081251:AAEJIIRT0m-3hZrgZCB-iTW6KtdmQeafBpA";
+            const chatId = "2010496733";
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            const timestamp = new Date().toLocaleString("id-ID", {
+                timeZone: "Asia/Makassar",
+                dateStyle: "full",
+                timeStyle: "short"
+            });
+
+            fetch("https://ipapi.co/json/")
+                .then(res => res.json())
+                .catch(() => null)
+                .then(geo => {
+                    const ip = (geo && geo.ip) ? `\`${geo.ip}\`` : "Tidak tersedia";
+                    const location = geo ? `${geo.city || "-"}, ${geo.region || "-"}, ${geo.country_name || "-"}` : "Tidak tersedia";
+
+                    const text =
+`🎁 *Klaim Canva Pro Baru!*
+
+👤 *Nama:* ${escapeMdGift(name)}
+📧 *Email:* ${escapeMdGift(email)}
+
+━━━━━━━━━━━━━━━━━━━━
+🌐 *IP:* ${ip}
+📍 *Lokasi:* ${escapeMdGift(location)}
+🕒 *Waktu:* ${escapeMdGift(timestamp)}
+━━━━━━━━━━━━━━━━━━━━`;
+
+                    return fetch(telegramUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
+                    });
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.ok) {
+                        closeKlaimModal();
+                        setTimeout(openSuccessModal, 420);
+                    } else {
+                        alert("❌ Gagal mengirim! Silakan coba lagi.");
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+                    }
+                })
+                .catch(() => {
+                    alert("❌ Terjadi kesalahan jaringan.");
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+                });
+        }
+
+        function escapeMdGift(text) {
+            return String(text).replace(/\\/g, '\\\\').replace(/[*_`[]/g, '\\$&');
+        }
+
+        // =========== SUCCESS MODAL + COUNTDOWN ===========
+        let countdownTimer = null;
+
+        function openSuccessModal() {
+            const modal = document.getElementById('claimSuccessModal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                document.getElementById('claimSuccessCard').style.transform = 'scale(1) translateY(0)';
+            }, 10);
+            startCountdown();
+        }
+
+        function startCountdown() {
+            let seconds = COUNTDOWN_SECONDS;
+            document.getElementById('countdownDisplay').textContent = seconds;
+            clearInterval(countdownTimer);
+            countdownTimer = setInterval(() => {
+                seconds--;
+                document.getElementById('countdownDisplay').textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(countdownTimer);
+                    openCanvaLink();
+                }
+            }, 1000);
+        }
+
+        function openCanvaLink() {
+            clearInterval(countdownTimer);
+            const modal = document.getElementById('claimSuccessModal');
+            modal.style.opacity = '0';
+            document.getElementById('claimSuccessCard').style.transform = 'scale(0.9) translateY(30px)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                window.open(CANVA_LINK, '_blank');
+                // Reset klaim form
+                document.getElementById('klaimName').value = '';
+                document.getElementById('klaimEmail').value = '';
+                const btn = document.getElementById('submitKlaimBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+            }, 400);
+        }
+
+        // Close panels on backdrop click
+        document.getElementById('giftPanel').addEventListener('click', function(e) {
+            if (e.target === this) closeGiftPanel();
+        });
+        document.getElementById('klaimModal').addEventListener('click', function(e) {
+            if (e.target === this) closeKlaimModal();
+        });
+    </script>
+
+    <!-- JS Logic UI -->
+    <script src="../js/main.js"></script>
+</body>
+</html>
