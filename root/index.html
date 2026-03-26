@@ -518,6 +518,58 @@ const CORRECT_PIN = '191205';
 const STOCK_TOTAL = 100;
 const MASA_AKTIF_END = new Date('2026-04-25T23:59:59+08:00');
 
+// ===== FIREBASE CONFIG =====
+// Isi FIREBASE_DB_URL dengan URL yang sama seperti di index.html
+// Contoh: "https://nama-project-default-rtdb.firebaseio.com"
+const FIREBASE_DB_URL = ""; // <-- ISI DI SINI
+
+function fbReady() { return typeof FIREBASE_DB_URL === 'string' && FIREBASE_DB_URL.length > 0; }
+
+function normalizeFirebaseArray(data) {
+    if (Array.isArray(data)) return data;
+    if (data && typeof data === 'object') return Object.values(data).filter(Boolean);
+    return [];
+}
+
+async function fbGet(path) {
+    if (!fbReady()) return null;
+    try {
+        const r = await fetch(`${FIREBASE_DB_URL}/${path}.json`);
+        if (!r.ok) return null;
+        return await r.json();
+    } catch { return null; }
+}
+
+async function fbSet(path, data) {
+    if (!fbReady()) return false;
+    try {
+        const r = await fetch(`${FIREBASE_DB_URL}/${path}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return r.ok;
+    } catch { return false; }
+}
+
+// ===== POLLING =====
+let currentTab = 'dashboard';
+let pollTimer = null;
+
+function startPolling() {
+    stopPolling();
+    pollTimer = setInterval(async () => {
+        if (currentTab === 'dashboard')     renderDashboard();
+        else if (currentTab === 'canva')    renderCanva();
+        else if (currentTab === 'history')  renderHistory();
+        else if (currentTab === 'visitors') renderVisitors();
+    }, 10000);
+}
+
+function stopPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+}
+
 // ===== PIN LOGIC =====
 let pinInput = '';
 function pinPress(digit) {
@@ -568,6 +620,7 @@ document.addEventListener('keydown', function(e) {
 // ===== LOGOUT =====
 function logout() {
     if (!confirm('Yakin keluar dari admin panel?')) return;
+    stopPolling();
     document.getElementById('app').classList.remove('visible');
     document.getElementById('pinScreen').style.display = 'flex';
     document.getElementById('pinScreen').style.opacity = '1';
@@ -587,6 +640,7 @@ updateTime();
 
 // ===== TAB SWITCH =====
 function switchAdminTab(id, btn) {
+    currentTab = id;
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
@@ -599,21 +653,48 @@ function switchAdminTab(id, btn) {
 }
 
 // ===== DATA HELPERS =====
-function getStock()   { const v = parseInt(localStorage.getItem('canva_stock'));   return isNaN(v) ? 99 : Math.max(0, v); }
-function getHistory() { return JSON.parse(localStorage.getItem('canva_history')  || '[]'); }
-function getVisitors(){ return parseInt(localStorage.getItem('visitor_count') || '0'); }
-function getVisitorLog(){ return JSON.parse(localStorage.getItem('visitor_log') || '[]'); }
-function getServices(){ return JSON.parse(localStorage.getItem('admin_services') || '[]'); }
-function saveServices(arr){ localStorage.setItem('admin_services', JSON.stringify(arr)); }
-function getCanvaLink(){ return localStorage.getItem('canva_link') || 'https://www.canva.com/brand/join?token=snxDvxn9rE6yq62gbF8TMg&referrer=team-invite'; }
-function getMasaAktifEnd() {
+async function getStock() {
+    const fb = await fbGet('canva/stock');
+    if (fb !== null && !isNaN(parseInt(fb))) return Math.max(0, parseInt(fb));
+    const v = parseInt(localStorage.getItem('canva_stock'));
+    return isNaN(v) ? 99 : Math.max(0, v);
+}
+async function getHistory() {
+    const fb = await fbGet('canva/history');
+    if (fb !== null) {
+        return normalizeFirebaseArray(fb).sort((a, b) => new Date(b.time) - new Date(a.time));
+    }
+    return JSON.parse(localStorage.getItem('canva_history') || '[]');
+}
+async function getVisitors() {
+    const fb = await fbGet('visitors/count');
+    if (fb !== null && !isNaN(parseInt(fb))) return parseInt(fb);
+    return parseInt(localStorage.getItem('visitor_count') || '0');
+}
+async function getVisitorLog() {
+    const fb = await fbGet('visitors/log');
+    if (fb !== null) {
+        return normalizeFirebaseArray(fb).sort((a, b) => new Date(b.time) - new Date(a.time));
+    }
+    return JSON.parse(localStorage.getItem('visitor_log') || '[]');
+}
+function getServices()      { return JSON.parse(localStorage.getItem('admin_services') || '[]'); }
+function saveServices(arr)  { localStorage.setItem('admin_services', JSON.stringify(arr)); }
+async function getCanvaLink() {
+    const fb = await fbGet('canva/link');
+    if (fb && typeof fb === 'string') return fb;
+    return localStorage.getItem('canva_link') || 'https://www.canva.com/brand/join?token=snxDvxn9rE6yq62gbF8TMg&referrer=team-invite';
+}
+async function getMasaAktifEnd() {
+    const fb = await fbGet('canva/masa_aktif_end');
+    if (fb) { localStorage.setItem('masa_aktif_end', fb); return new Date(fb); }
     const d = localStorage.getItem('masa_aktif_end');
     return d ? new Date(d) : MASA_AKTIF_END;
 }
 
 function getMasaAktifText(date) {
     const now = new Date();
-    const diff = (date || getMasaAktifEnd()) - now;
+    const diff = (date || MASA_AKTIF_END) - now;
     if (diff <= 0) return 'Habis';
     const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -641,11 +722,10 @@ function buildWeeklyLabels() {
     return labels;
 }
 
-function claimsByDay() {
-    const history = getHistory();
+function claimsByDay(history) {
     const counts = Array(7).fill(0);
     const today = new Date(); today.setHours(0,0,0,0);
-    history.forEach(c => {
+    (history || []).forEach(c => {
         const d = new Date(c.time); d.setHours(0,0,0,0);
         const diff = Math.floor((today - d) / 86400000);
         if (diff >= 0 && diff < 7) counts[6 - diff]++;
@@ -653,11 +733,10 @@ function claimsByDay() {
     return counts;
 }
 
-function visitorsByDay() {
-    const log = getVisitorLog();
+function visitorsByDay(log) {
     const counts = Array(7).fill(0);
     const today = new Date(); today.setHours(0,0,0,0);
-    log.forEach(v => {
+    (log || []).forEach(v => {
         const d = new Date(v.time); d.setHours(0,0,0,0);
         const diff = Math.floor((today - d) / 86400000);
         if (diff >= 0 && diff < 7) counts[6 - diff]++;
@@ -675,13 +754,12 @@ const CHART_DEFAULTS = {
 };
 
 // ===== DASHBOARD =====
-function renderDashboard() {
-    const stock   = getStock();
-    const history = getHistory();
-    const claimed = STOCK_TOTAL - stock;
-    const visitors= getVisitors();
+async function renderDashboard() {
+    const [stock, history, visitors, visitorLog, end] = await Promise.all([
+        getStock(), getHistory(), getVisitors(), getVisitorLog(), getMasaAktifEnd()
+    ]);
     const pct     = (stock / STOCK_TOTAL * 100).toFixed(1);
-    const masaAktif = getMasaAktifText();
+    const masaAktif = getMasaAktifText(end);
 
     document.getElementById('dashStock').textContent    = stock;
     document.getElementById('dashClaims').textContent   = history.length;
@@ -714,35 +792,34 @@ function renderDashboard() {
         type: 'bar',
         data: {
             labels,
-            datasets: [{ data: claimsByDay(), backgroundColor: 'rgba(255,215,0,0.25)', borderColor: '#ffd700', borderWidth: 2, borderRadius: 6 }]
+            datasets: [{ data: claimsByDay(history), backgroundColor: 'rgba(255,215,0,0.25)', borderColor: '#ffd700', borderWidth: 2, borderRadius: 6 }]
         },
         options: CHART_DEFAULTS
     });
 
-    const vData = visitorsByDay();
     chartVisInst = destroyChart(chartVisInst);
     chartVisInst = new Chart(document.getElementById('chartVisitors'), {
         type: 'line',
         data: {
             labels,
-            datasets: [{ data: vData, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.1)', borderWidth: 2, tension: 0.4, fill: true, pointBackgroundColor: '#58a6ff', pointRadius: 4 }]
+            datasets: [{ data: visitorsByDay(visitorLog), borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.1)', borderWidth: 2, tension: 0.4, fill: true, pointBackgroundColor: '#58a6ff', pointRadius: 4 }]
         },
         options: CHART_DEFAULTS
     });
 }
 
 // ===== CANVA TAB =====
-function renderCanva() {
-    const stock   = getStock();
-    const history = getHistory();
+async function renderCanva() {
+    const [stock, history, canvaLink, end] = await Promise.all([
+        getStock(), getHistory(), getCanvaLink(), getMasaAktifEnd()
+    ]);
     const claimed = STOCK_TOTAL - stock;
-    const end     = getMasaAktifEnd();
     const diff    = end - new Date();
     const expiry  = end.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     const status  = diff > 0 ? 'Aktif' : 'Habis';
 
     document.getElementById('inpStock').value     = stock;
-    document.getElementById('inpCanvaLink').value = getCanvaLink();
+    document.getElementById('inpCanvaLink').value = canvaLink;
     document.getElementById('inpMasaAktif').value = end.toISOString().slice(0,10);
 
     document.getElementById('summStock').textContent   = stock;
@@ -770,7 +847,7 @@ function renderCanva() {
     ).join('');
 }
 
-function saveCanvaSettings() {
+async function saveCanvaSettings() {
     const stock = parseInt(document.getElementById('inpStock').value);
     const link  = document.getElementById('inpCanvaLink').value.trim();
     const date  = document.getElementById('inpMasaAktif').value;
@@ -778,28 +855,35 @@ function saveCanvaSettings() {
     if (isNaN(stock) || stock < 0 || stock > 100) { alert('Stok harus antara 0–100!'); return; }
     if (!link) { alert('Masukkan link Canva!'); return; }
 
+    const masaAktifISO = new Date(date + 'T23:59:59+08:00').toISOString();
+    await Promise.all([
+        fbSet('canva/stock', stock),
+        fbSet('canva/link', link),
+        fbSet('canva/masa_aktif_end', masaAktifISO)
+    ]);
     localStorage.setItem('canva_stock', stock);
     localStorage.setItem('canva_link', link);
-    localStorage.setItem('masa_aktif_end', new Date(date + 'T23:59:59+08:00').toISOString());
+    localStorage.setItem('masa_aktif_end', masaAktifISO);
 
     alert('✅ Pengaturan tersimpan!');
-    renderCanva();
-    renderDashboard();
+    await Promise.all([renderCanva(), renderDashboard()]);
 }
 
-function resetStock() {
+async function resetStock() {
     if (!confirm('Reset stok kembali ke 100?')) return;
+    await fbSet('canva/stock', 100);
     localStorage.setItem('canva_stock', 100);
     alert('✅ Stok berhasil direset ke 100!');
-    renderCanva(); renderDashboard();
+    await Promise.all([renderCanva(), renderDashboard()]);
 }
 
-function deleteClaim(idx) {
+async function deleteClaim(idx) {
     if (!confirm('Hapus data klaim ini?')) return;
-    const h = getHistory();
+    const h = await getHistory();
     h.splice(idx, 1);
+    await fbSet('canva/history', h);
     localStorage.setItem('canva_history', JSON.stringify(h));
-    renderCanva(); renderHistory(); renderDashboard();
+    await Promise.all([renderCanva(), renderHistory(), renderDashboard()]);
 }
 
 // ===== SERVICES =====
@@ -860,8 +944,8 @@ function deleteService(i) {
 }
 
 // ===== HISTORY =====
-function renderHistory() {
-    const history = getHistory();
+async function renderHistory() {
+    const history = await getHistory();
     const tbody   = document.getElementById('historyBody');
     if (history.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="text-muted" style="text-align:center;padding:24px;">Belum ada history.</td></tr>';
@@ -878,17 +962,17 @@ function renderHistory() {
     ).join('');
 }
 
-function clearHistory() {
+async function clearHistory() {
     if (!confirm('Hapus semua history klaim?')) return;
+    await fbSet('canva/history', null);
     localStorage.removeItem('canva_history');
-    renderHistory(); renderDashboard(); renderCanva();
+    await Promise.all([renderHistory(), renderDashboard(), renderCanva()]);
     alert('✅ History dihapus.');
 }
 
 // ===== VISITORS =====
-function renderVisitors() {
-    const total = getVisitors();
-    const log   = getVisitorLog();
+async function renderVisitors() {
+    const [total, log] = await Promise.all([getVisitors(), getVisitorLog()]);
     const today = new Date().toDateString();
     const todayCount = log.filter(v => new Date(v.time).toDateString() === today).length;
     const mobile  = log.filter(v => /mobile|android|iphone|ipad/i.test(v.ua||'')).length;
@@ -913,7 +997,6 @@ function renderVisitors() {
 
     // Chart
     const labels = buildWeeklyLabels();
-    const vData  = visitorsByDay();
     chartVis2Inst = destroyChart(chartVis2Inst);
     chartVis2Inst = new Chart(document.getElementById('chartVisitors2'), {
         type: 'line',
@@ -921,7 +1004,7 @@ function renderVisitors() {
             labels,
             datasets: [{
                 label: 'Pengunjung',
-                data: vData,
+                data: visitorsByDay(log),
                 borderColor: '#58a6ff',
                 backgroundColor: 'rgba(88,166,255,0.12)',
                 borderWidth: 2, tension: 0.4, fill: true,
@@ -938,8 +1021,9 @@ function esc(str) {
 }
 
 // ===== INIT =====
-function initApp() {
-    renderDashboard();
+async function initApp() {
+    await renderDashboard();
+    startPolling();
 }
 </script>
 </body>
