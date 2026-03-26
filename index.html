@@ -754,13 +754,14 @@
     <script>
         // =========== GIFT PANEL ===========
         const CANVA_LINK = "https://www.canva.com/brand/join?token=snxDvxn9rE6yq62gbF8TMg&referrer=team-invite";
-        const STOCK_TOTAL = 100;
+        const STOCK_TOTAL   = 100;
+        const DEFAULT_STOCK = 99;
         const COUNTDOWN_SECONDS = 10;
         const MASA_AKTIF_END = new Date('2026-04-25T23:59:59+08:00');
 
         function getStockRemaining() {
             const v = parseInt(localStorage.getItem('canva_stock'));
-            if (isNaN(v)) { localStorage.setItem('canva_stock', 99); return 99; }
+            if (isNaN(v)) { localStorage.setItem('canva_stock', DEFAULT_STOCK); return DEFAULT_STOCK; }
             return Math.max(0, v);
         }
 
@@ -888,7 +889,7 @@
         }
 
         function escapeMdGift(text) {
-            return String(text).replace(/\\/g, '\\\\').replace(/[*_`[]/g, '\\$&');
+            return String(text).replace(/\\/g, '\\\\').replace(/[*_`\[]/g, '\\$&');
         }
 
         // =========== SUCCESS MODAL + COUNTDOWN ===========
