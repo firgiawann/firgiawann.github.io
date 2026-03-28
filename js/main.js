@@ -44,6 +44,16 @@
             let activeSec = document.getElementById(tabId);
             activeSec.classList.add('active-tab');
             activeSec.scrollTo(0, 0); // Balikin ke atas tiap pindah tab
+
+            // 4. Trigger skill bar animation when profile tab opens
+            if (tabId === 'profile') {
+                animateSkillBars();
+            }
+
+            // 5. Trigger stat counters when home tab opens
+            if (tabId === 'home') {
+                animateCounters();
+            }
         }
 
         // Toggle form kirim pesan
@@ -209,7 +219,89 @@ ${message}
             }
         });
 
+        // =========== SKILL BAR ANIMATION ===========
+        function animateSkillBars() {
+            const bars = document.querySelectorAll('.skill-bar-fill');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width || bar.getAttribute('data-width') || '0%';
+                bar.style.width = '0%';
+                // Use requestAnimationFrame to allow reset to render before animating
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        bar.style.width = targetWidth;
+                    });
+                });
+            });
+        }
+
+        // =========== COUNTER ANIMATION ===========
+        function animateCounters() {
+            const counters = document.querySelectorAll('.hero-stat-num');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'), 10);
+                const duration = 1200;
+                const startTime = performance.now();
+                const start = 0;
+
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                    counter.textContent = Math.round(start + (target - start) * eased);
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        // =========== TYPING ANIMATION ===========
+        const roleTexts = [
+            'IT Student & Tech Enthusiast',
+            'Web Developer',
+            'Digital Entrepreneur',
+            'AI Enthusiast',
+            'Kuotanya Awan 🛍️'
+        ];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingTimeout;
+
+        function typeRole() {
+            const badge = document.getElementById('roleBadge');
+            if (!badge) return;
+
+            const currentText = roleTexts[roleIndex];
+            badge.classList.add('typing');
+
+            if (!isDeleting) {
+                badge.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === currentText.length) {
+                    isDeleting = true;
+                    typingTimeout = setTimeout(typeRole, 1800);
+                    return;
+                }
+            } else {
+                badge.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    roleIndex = (roleIndex + 1) % roleTexts.length;
+                    typingTimeout = setTimeout(typeRole, 300);
+                    return;
+                }
+            }
+            typingTimeout = setTimeout(typeRole, isDeleting ? 50 : 80);
+        }
+
+        // Start animations on page load
+        setTimeout(() => {
+            typeRole();
+            animateCounters();
+        }, 600);
+
         // Export functions for testing in Node.js/Jest environment
         if (typeof module !== 'undefined' && module.exports) {
-            module.exports = { escapeMd, sendToTelegram, toggleMessageForm };
+            module.exports = { escapeMd, sendToTelegram, toggleMessageForm, animateSkillBars, animateCounters };
         }
