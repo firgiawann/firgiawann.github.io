@@ -303,5 +303,5 @@ ${message}
 
         // Export functions for testing in Node.js/Jest environment
         if (typeof module !== 'undefined' && module.exports) {
-            module.exports = { escapeMd, sendToTelegram, toggleMessageForm, animateSkillBars, animateCounters };
+            module.exports = { escapeMd, sendToTelegram, toggleMessageForm };
         }
