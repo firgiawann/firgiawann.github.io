@@ -7,18 +7,26 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Hai ❤</title>
 	<meta name="author" content="Heryoka">
-	<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/css/komponen.css" />
-	<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/css/animasi.css" />
-	<link rel="stylesheet" href="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/css/style.css">
-	<script src="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/js/modernizr.custom.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/komponen.css" />
+	<link rel="stylesheet" type="text/css" href="css/animasi.css" />
+	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="js/modernizr.custom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js" integrity="sha512-z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
-    <audio id="audio" src="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/audio/audio.mp3"></audio>
+	<audio id="audio" src="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/audio/audio.mp3" preload="none"></audio>
+
+	<!-- Floating hearts background -->
+	<div class="hati-melayang" id="hatiMelayang"></div>
+
 	<div id="ruang-halaman" class="tempat-halaman">
 	    <a href="https://github.com/firgiawann" target="_blank" class="tombolmelayang"><i class="fab fa-github"></i></a>
+
 		<div class="halaman halaman-1">
 			<div class="kotak">
 				<h1 class="ml1">
@@ -29,11 +37,11 @@
 					</span>
 				</h1>
 				<div class="tempat-tombol">
-					<button id="tombolMulaiSekarang" class="mulai-sekarang">Start</button>
-
+					<button id="tombolMulaiSekarang" class="mulai-sekarang">Start ❤</button>
 				</div>
 			</div>
 		</div>
+
 		<div class="halaman halaman-2">
 			<div class="kotak">
 				<h1 class="ml15">
@@ -42,11 +50,13 @@
 				</h1>
 			</div>
 		</div>
+
 		<div class="halaman halaman-3">
 			<div class="kotak">
 				<h1 class="ml16">(Namamu)</h1>
 			</div>
 		</div>
+
 		<div class="halaman halaman-4">
 			<div class="kotak">
 				<h1 class="ml11">
@@ -57,6 +67,7 @@
 				</h1>
 			</div>
 		</div>
+
 		<div class="halaman halaman-5">
 			<div class="kotak">
 				<h1 class="ml9">
@@ -66,6 +77,7 @@
 				</h1>
 			</div>
 		</div>
+
 		<div class="halaman halaman-6">
 			<div class="kotak">
 				<h1 class="ml2">Sebenarnya aku</h1>
@@ -111,19 +123,54 @@
 
 		<div class="halaman halaman-11">
 			<div class="kotak">
-				<img src="gambar/bears-hug-love-you.gif" id="gambar" style="display: none;">
+				<div id="gambar-container" style="display:none;">
+					<span class="heart-anim">🤗❤️</span>
+				</div>
 				<h1 class="ml13">(Nama Seseorang yang kamu suka) ❤</h1>
 			</div>
 		</div>
 	</div>
+
+	<!-- Page progress dots -->
+	<div class="titik-halaman" id="titikHalaman"></div>
+
+	<!-- Click hint -->
+	<p class="petunjuk-klik">Tap / klik untuk mulai ✨</p>
 
 	<div class="pesan-ga-support-animasi">
 		<p>Browser Gak Support CSS! Ganti Browser Dulu Cuy</p>
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/js/transisi.js"></script>
-	<script src="https://raw.githubusercontent.com/firgiawann/id-firgiawan.github.io/main/js/salju.js" type="text/javascript"></script>
+	<script src="js/transisi.js"></script>
+	<script src="js/salju.js" type="text/javascript"></script>
+	<script>
+		// Generate page progress dots
+		(function () {
+			var container = document.getElementById('titikHalaman');
+			var pages = document.querySelectorAll('.halaman');
+			for (var i = 0; i < pages.length; i++) {
+				var dot = document.createElement('div');
+				dot.className = 'titik' + (i === 0 ? ' aktif' : '');
+				container.appendChild(dot);
+			}
+		}());
+
+		// Generate floating hearts
+		(function () {
+			var hearts = ['❤', '💕', '💗', '💓', '💖', '💝'];
+			var container = document.getElementById('hatiMelayang');
+			for (var i = 0; i < 18; i++) {
+				var span = document.createElement('span');
+				span.textContent = hearts[i % hearts.length];
+				span.style.left = (Math.random() * 100) + '%';
+				span.style.animationDuration = (6 + Math.random() * 10) + 's';
+				span.style.animationDelay = (Math.random() * 12) + 's';
+				span.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+				container.appendChild(span);
+			}
+		}());
+	</script>
 </body>
 
 </html>
