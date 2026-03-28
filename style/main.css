@@ -713,3 +713,170 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+
+        /* ================= HERO STATS ================= */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 14px 10px;
+        }
+
+        .hero-stat {
+            flex: 1;
+            text-align: center;
+            font-size: 0.85em;
+            color: #c9d1d9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hero-stat-num {
+            font-size: 1.6em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #58a6ff, #3fb950);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.8em;
+            color: #8b949e;
+            font-weight: 500;
+        }
+
+        .hero-stat-divider {
+            width: 1px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.12);
+            flex-shrink: 0;
+        }
+
+        /* ================= SKILL BAR ANIMATION ================= */
+        .skill-bar-fill {
+            transition: width 1s ease-in-out;
+        }
+
+        /* ================= PROJECT GRID ================= */
+        .project-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .project-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.6), rgba(22, 27, 34, 0.3));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(88, 166, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover {
+            transform: translateX(6px);
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(22, 27, 34, 0.4));
+            border-color: rgba(88, 166, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.15);
+        }
+
+        .project-card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(63, 185, 80, 0.1));
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #58a6ff;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-card-icon {
+            transform: scale(1.1) rotate(-5deg);
+            color: #3fb950;
+            border-color: rgba(63, 185, 80, 0.3);
+        }
+
+        .project-card-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .project-card-body h3 {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .project-card-body p {
+            font-size: 0.8em;
+            color: #8b949e;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .project-card-arrow {
+            color: #58a6ff;
+            font-size: 0.85em;
+            opacity: 0.5;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-card-arrow {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+
+        /* ================= TYPING ANIMATION ================= */
+        @keyframes typingCursor {
+            0%, 100% { border-right-color: #58a6ff; }
+            50% { border-right-color: transparent; }
+        }
+
+        .role-badge.typing {
+            border-right: 2px solid #58a6ff;
+            animation: typingCursor 0.8s steps(1) infinite;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* Light mode project card */
+        body.light-mode .project-card {
+            background: rgba(15, 23, 42, 0.45);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        body.light-mode .project-card:hover {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: rgba(168, 192, 255, 0.4);
+        }
+        body.light-mode .hero-stats {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
