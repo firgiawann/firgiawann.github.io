@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume & Motivation Letter - Firgiawan Listianto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bi-blue: #1e3a8a;
+            --bi-slate: #f8fafc;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: #1a202c;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 0;
+            margin: 20px auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 32%;
+            background-color: #f8fafc;
+            border-right: 1.5px solid #e2e8f0;
+            padding: 40px 25px;
+            position: relative;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#cbd5e1 0.6px, transparent 0.6px);
+            background-size: 18px 18px;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .sidebar-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-content {
+            width: 68%;
+            padding: 40px 40px;
+        }
+
+        .section-title {
+            color: var(--bi-blue);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #f1f5f9, transparent);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -5.5px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--bi-blue);
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px #e2e8f0;
+        }
+
+        .name-header {
+            line-height: 0.85;
+            margin-bottom: 35px;
+        }
+
+        .badge {
+            background: var(--bi-blue);
+            color: white;
+            font-size: 8px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid var(--bi-blue);
+        }
+
+        @media print {
+            @page {
+                margin: 0;
+                size: A4;
+            }
+            body { background: none; padding: 0; }
+            .page { margin: 0; box-shadow: none; page-break-after: always; }
+            .no-print { display: none !important; }
+            .sidebar { background-color: #f8fafc !important; }
+            .hide-on-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="p-0 md:p-6">
+
+    <!-- Print Controls -->
+    <div class="no-print mb-8 flex flex-wrap justify-center gap-4">
+        <button onclick="printOnlyResume()" class="bg-white border-2 border-blue-900 text-blue-900 hover:bg-blue-50 font-bold py-3 px-6 rounded-xl shadow-md transition duration-300 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd" />
+            </svg>
+            Cetak Resume Saja (Halaman 1)
+        </button>
+        <button onclick="printAll()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z" />
+                <path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+            </svg>
+            Cetak Semua (Halaman 1 & 2)
+        </button>
+    </div>
+
+    <!-- PAGE 1: RESUME -->
+    <div class="page" id="page-1">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- Pas Foto -->
+                <div class="w-full aspect-[3/4] bg-white rounded-lg border-2 border-blue-900 mb-10 overflow-hidden shadow-md relative">
+                    <img src="foto.jpg" 
+                         alt="Foto Firgiawan Listianto" 
+                         class="w-full h-full object-cover">
+                    <!-- Placeholder dihapus atau dibiarkan sembunyi agar foto asli yang (mungkin sedang dimuat) tidak digantikan -->
+                    <div class="hidden text-center p-4 h-full flex flex-col justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-100 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <p class="text-[9px] text-gray-300 font-extrabold uppercase tracking-[0.2em] leading-tight">Pas Foto 3x4</p>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="mb-10">
+                    <h2 class="section-title">Contact</h2>
+                    <div class="space-y-4 text-[11px]">
+                        <div>
+                            <p class="font-extrabold text-blue-900 uppercase text-[8px] mb-1 tracking-wider">Alamat</p>
+                            <p class="text-gray-600 leading-snug">Jl. Mamoa 5b No. 19, Makassar</p>
+                        </div>
+                        <div>
+                            <p class="font-extrabold text-blue-900 uppercase text-[8px] mb-1 tracking-wider">Mobile</p>
+                            <p class="text-gray-800 font-bold">+62 851 7311 8500</p>
+                        </div>
+                        <div>
+                            <p class="font-extrabold text-blue-900 uppercase text-[8px] mb-1 tracking-wider">Email</p>
+                            <p class="text-gray-600 break-all text-[10px]">firgiawann.id@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sertifikat -->
+                <div class="mb-10">
+                    <h2 class="section-title">Sertifikat</h2>
+                    <div class="space-y-6 text-[10px]">
+                        <div class="relative pl-3 border-l-2 border-blue-900">
+                            <p class="text-gray-700 leading-relaxed font-medium">
+                                Peserta English Camp 2025 HIMATIK FT-UNM Fakultas Teknik UNM
+                            </p>
+                        </div>
+                        <div class="relative pl-3 border-l-2 border-blue-900">
+                            <p class="text-gray-700 leading-relaxed font-medium">
+                                Peserta Pelatihan Hardskill: Front-End Development & Seni Fotografi (HIMATIK FT-UNM)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interests Section -->
+                <div>
+                    <h2 class="section-title">Interests</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[8px] font-bold text-gray-400 uppercase mb-2 tracking-[0.2em]">Development</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="badge">Web Development</span>
+                                <span class="badge">Mobile Development</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[8px] font-bold text-gray-400 uppercase mb-2 tracking-[0.2em]">Intelligence</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="badge">Artificial Intelligence</span>
+                                <span class="badge">Machine Learning</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[8px] font-bold text-gray-400 uppercase mb-2 tracking-[0.2em]">Others</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="badge">Photography</span>
+                                <span class="badge">Digital Literacy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="name-header">
+                <h1 class="text-6xl font-extrabold text-blue-900 tracking-tighter uppercase">FIRGIAWAN</h1>
+                <h1 class="text-6xl font-light text-blue-800 tracking-tight mb-6 uppercase">LISTIANTO</h1>
+                <div class="flex items-center gap-4">
+                    <div class="h-0.5 w-16 bg-blue-900"></div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.5em]">Curriculum Vitae</p>
+                </div>
+            </header>
+
+            <!-- 1. DATA DIRI -->
+            <section class="mb-12">
+                <h2 class="section-title">Data Diri</h2>
+                <div class="grid grid-cols-2 gap-x-12 gap-y-5 text-[11px]">
+                    <div class="border-b border-gray-100 pb-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Nama Lengkap</span>
+                        <span class="font-bold text-gray-800">Firgiawan Listianto</span>
+                    </div>
+                    <div class="border-b border-gray-100 pb-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Agama</span>
+                        <span class="font-bold text-gray-800">Islam</span>
+                    </div>
+                    <div class="border-b border-gray-100 pb-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Tempat, Tanggal Lahir</span>
+                        <span class="font-bold text-gray-800 uppercase">Kampoa, 18 April 2006</span>
+                    </div>
+                    <div class="border-b border-gray-100 pb-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Jenis Kelamin</span>
+                        <span class="font-bold text-gray-800">Laki-Laki</span>
+                    </div>
+                    <div class="border-b border-gray-100 pb-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Tinggi Badan</span>
+                        <span class="font-bold text-gray-800">152 cm</span>
+                    </div>
+                    <div class="border-b border-gray-100 pb-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Berat Badan</span>
+                        <span class="font-bold text-gray-800">42 kg</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. RIWAYAT PENDIDIKAN -->
+            <section class="mb-12">
+                <h2 class="section-title">Riwayat Pendidikan</h2>
+                <div class="space-y-5 text-[11px]">
+                    <div class="relative pl-6 border-l-2 border-gray-100">
+                        <div class="timeline-dot bg-gray-200"></div>
+                        <div class="flex justify-between items-start">
+                            <p class="font-bold text-gray-900 uppercase tracking-tight">SD Inpress 145 Bungung-Bungung</p>
+                            <span class="font-bold text-gray-400">2012 – 2018</span>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 border-l-2 border-gray-100">
+                        <div class="timeline-dot bg-gray-200"></div>
+                        <div class="flex justify-between items-start">
+                            <p class="font-bold text-gray-900 uppercase tracking-tight">SMP Negeri 7 Tamalatea</p>
+                            <span class="font-bold text-gray-400">2018 – 2021</span>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 border-l-2 border-gray-100">
+                        <div class="timeline-dot bg-gray-200"></div>
+                        <div class="flex justify-between items-start">
+                            <p class="font-bold text-blue-900 uppercase tracking-tight">SMA Negeri 3 Jeneponto (MIPA)</p>
+                            <span class="font-bold text-blue-900">2021 – 2024</span>
+                        </div>
+                    </div>
+                    <div class="relative pl-6 border-l-2 border-blue-900">
+                        <div class="timeline-dot"></div>
+                        <div class="flex justify-between items-start">
+                            <p class="font-extrabold text-blue-900 uppercase leading-tight tracking-tight">Universitas Negeri Makassar</p>
+                            <span class="font-extrabold text-blue-900">2024 – Sekarang</span>
+                        </div>
+                        <p class="text-blue-700 font-bold italic text-[10px] uppercase tracking-wider mt-0.5">Jurusan Teknik Informatika dan Komputer</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. PENGALAMAN & KEGIATAN -->
+            <section>
+                <h2 class="section-title">Pengalaman & Kegiatan</h2>
+                <div class="space-y-6 text-[11px]">
+                    <div class="relative pl-6 border-l-2 border-gray-100">
+                        <div class="timeline-dot bg-gray-200"></div>
+                        <h3 class="font-bold text-gray-900 uppercase tracking-tight">Anggota Gerakan Pramuka</h3>
+                        <p class="text-gray-400 font-bold text-[9px] mb-1 uppercase tracking-widest">SMP Negeri 7 Tamalatea | 2018 – 2021</p>
+                    </div>
+                    <div class="relative pl-6 border-l-2 border-gray-100">
+                        <div class="timeline-dot bg-gray-200"></div>
+                        <h3 class="font-bold text-blue-900 uppercase tracking-tight">Peserta English Camp 2025</h3>
+                        <p class="text-gray-400 font-bold text-[9px] mb-1 uppercase tracking-widest">HIMATIK FT-UNM x Speakable Youth | 2025</p>
+                        <p class="text-gray-600 leading-relaxed text-justify">Pelatihan intensif kemampuan berbicara, tata bahasa, dan simulasi role-play bahasa Inggris untuk meningkatkan kompetensi komunikasi global.</p>
+                    </div>
+                    <div class="relative pl-6 border-l-2 border-gray-100">
+                        <div class="timeline-dot bg-gray-200"></div>
+                        <h3 class="font-bold text-blue-900 uppercase leading-tight tracking-tight">Anggota Aktif GDGoC UNM</h3>
+                        <p class="text-gray-400 font-bold text-[9px] mb-1 uppercase tracking-widest">Universitas Negeri Makassar | 2024 – Sekarang</p>
+                        <p class="text-gray-600 leading-relaxed text-justify">Eksplorasi rutin teknologi Google dengan fokus pada pengembangan Web, Mobile Programming, dan fundamental Machine Learning.</p>
+                    </div>
+                    <div class="relative pl-6 border-l-2 border-blue-900">
+                        <div class="timeline-dot"></div>
+                        <h3 class="font-bold text-blue-900 uppercase leading-tight tracking-tight">Panitia ICE FEST 2025 (Dies Natalis JTIK)</h3>
+                        <p class="text-gray-400 font-bold text-[9px] mb-1 uppercase tracking-widest">Divisi Publikasi & Humas, HIMATIK FT-UNM | 2025</p>
+                        <p class="text-gray-600 leading-relaxed text-justify">Bertanggung jawab penuh dalam pengelolaan media publikasi digital dan koordinasi hubungan masyarakat untuk mensukseskan rangkaian acara Dies Natalis JTIK.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- PAGE 2: MOTIVATION LETTER -->
+    <div class="page flex flex-col px-10 py-8 lg:px-12 lg:py-10" id="page-2">
+        <header class="flex justify-between items-start mb-6 border-b-2 border-blue-900 pb-4">
+            <div>
+                <h1 class="text-4xl font-black text-blue-900 uppercase tracking-tighter">Motivation Letter</h1>
+                <p class="text-[10px] text-gray-400 uppercase tracking-[0.5em] mt-2 font-bold">Firgiawan Listianto | Submission 2026</p>
+            </div>
+            <div class="text-right text-[11px] font-bold text-gray-900">
+                <p class="mb-1">Makassar, 09 April 2026</p>
+                <div class="h-0.5 w-12 bg-blue-900 ml-auto"></div>
+            </div>
+        </header>
+
+        <div class="text-[12px] leading-relaxed space-y-4 text-gray-800 text-justify">
+            <div>
+                <p class="font-bold text-gray-600 text-[10px] uppercase tracking-widest mb-1">Kepada Yth.</p>
+                <p class="font-black text-blue-900 uppercase tracking-wide text-sm leading-tight">Panitia Penyelenggara Seleksi<br>Beasiswa Bank Indonesia 2026</p>
+            </div>
+
+            <p>Perkenalkan, nama saya Firgiawan Listianto, mahasiswa semester empat program studi Pendidikan Teknik Informatika dan Komputer (PTIK) di Universitas Negeri Makassar. Melalui surat ini, saya bermaksud mengajukan permohonan Beasiswa Bank Indonesia sebagai upaya untuk mandiri secara finansial, meringankan beban ekonomi keluarga dalam membiayai studi saya, serta memperluas kontribusi sosial melalui keahlian teknologi yang saya miliki.</p>
+
+            <p>Sebagai lulusan SMA jurusan MIPA, masa awal perkuliahan di PTIK merupakan fase transisi yang menantang. Saya harus berupaya ekstra untuk mengejar ketertinggalan dasar teknis dari rekan-rekan lulusan SMK, mulai dari pemahaman struktur komputer hingga logika pemrograman. Namun, tantangan tersebut saya jawab dengan menjadi pembelajar cepat (<em>fast learner</em>). Saya mendalami basis data SQL dan pemrograman web secara mandiri sejak masa pandemi, hingga kini mulai mengeksplorasi konsep Kecerdasan Buatan (AI). Bagi saya, teknologi bukan sekadar baris kode, melainkan solusi praktis untuk mempermudah aktivitas masyarakat.</p>
+
+            <p>Bukti nyata kegigihan saya ada pada semester ini, saat saya menyelesaikan tugas besar kolaborasi antara mata kuliah Rekayasa Perangkat Lunak (RPL) dan Pemrograman Mobile. Di tengah keterbatasan perangkat dengan spesifikasi rendah (laptop RAM 4GB), saya tetap berkomitmen membangun aplikasi mobile hingga fungsional. Seluruh progres tersebut saya dokumentasikan melalui platform GitHub (firgiawann) sebagai portofolio teknis saya. Semangat pantang menyerah ini juga saya tuangkan dalam penyusunan proposal Program Kreativitas Mahasiswa (PKM). Meski awalnya merupakan tugas mata kuliah yang diajukan ke tahap seleksi internal, proses tersebut memberi saya pelajaran berharga tentang manajemen proyek yang sistematis.</p>
+
+            <p>Sisi pengembangan diri juga saya asah melalui pengalaman kepanitiaan pertama saya di <strong>Dies Natalis JTIK (ICE FEST 2025)</strong>. Sebagai bagian dari divisi <strong>Publikasi & Humas</strong>, saya memilih untuk memaksa diri keluar dari zona nyaman dengan mengelola komunikasi publik dan berinteraksi langsung bersama banyak orang. Langkah ini secara signifikan meningkatkan kepercayaan diri serta kemampuan manajemen waktu saya di tengah padatnya tugas akademik. Selain itu, keaktifan saya di komunitas <strong>GDGoC UNM</strong> dan program <strong>English Camp 2025 oleh HIMATIK FT-UNM</strong> semakin memperkuat kapasitas saya dalam berkolaborasi di lingkungan tim yang dinamis.</p>
+
+            <p>Besar harapan saya untuk dapat bergabung dalam komunitas Generasi Baru Indonesia (GenBI). Saya siap mendedikasikan kemampuan teknis dan pengalaman lapangan saya sebagai <em>"Agent of Change"</em> untuk mendukung program literasi digital Bank Indonesia. Saya ingin membuktikan bahwa mahasiswa dengan kemauan belajar yang tinggi dapat memberikan dampak yang relevan bagi masyarakat jika diberikan wadah yang tepat. Terima kasih atas pertimbangan Bapak/Ibu.</p>
+        </div>
+
+        <div class="mt-10 flex justify-end">
+            <div class="text-center w-64 pt-4">
+                <p class="text-[11px] text-gray-500 mb-12 uppercase tracking-widest font-bold">Hormat saya,</p>
+                <p class="font-black text-blue-900 underline decoration-2 underline-offset-4 uppercase tracking-wider text-sm">Firgiawan Listianto</p>
+                <p class="text-[9px] text-gray-400 font-bold mt-1 uppercase italic leading-none">Mahasiswa JTIK - UNM</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function printOnlyResume() {
+            document.getElementById('page-2').classList.add('hide-on-print');
+            window.print();
+            // Kembalikan tampilan setelah print dialog tertutup
+            setTimeout(() => {
+                document.getElementById('page-2').classList.remove('hide-on-print');
+            }, 500);
+        }
+
+        function printAll() {
+            window.print();
+        }
+    </script>
+
+</body>
+</html>
