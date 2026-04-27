@@ -767,11 +767,11 @@
             const stockCount = document.getElementById('stockCount');
             const stockBar = document.getElementById('stockBar');
             const stockLabel = document.getElementById('stockLabel');
-            let stock;
-            const getStock = () => (stock ??= getStockRemaining());
-            if (stockCount) stockCount.textContent = getStock();
-            if (stockBar) stockBar.style.width = (getStock() / STOCK_TOTAL * 100) + '%';
-            if (stockLabel) stockLabel.textContent = 'Tersisa ' + getStock() + ' dari ' + STOCK_TOTAL + ' slot';
+            const hasStockUi = stockCount || stockBar || stockLabel;
+            const stock = hasStockUi ? getStockRemaining() : 0;
+            if (stockCount) stockCount.textContent = stock;
+            if (stockBar) stockBar.style.width = (stock / STOCK_TOTAL * 100) + '%';
+            if (stockLabel) stockLabel.textContent = 'Tersisa ' + stock + ' dari ' + STOCK_TOTAL + ' slot';
 
             const canvaCountdown = document.getElementById('canvaCountdown');
             if (canvaCountdown) canvaCountdown.textContent = getMasaAktifText();
