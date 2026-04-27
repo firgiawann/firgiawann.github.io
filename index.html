@@ -764,13 +764,15 @@
         }
 
         function openGiftPanel() {
-            const stock = getStockRemaining();
             const stockCount = document.getElementById('stockCount');
             const stockBar = document.getElementById('stockBar');
             const stockLabel = document.getElementById('stockLabel');
-            if (stockCount) stockCount.textContent = stock;
-            if (stockBar) stockBar.style.width = (stock / STOCK_TOTAL * 100) + '%';
-            if (stockLabel) stockLabel.textContent = 'Tersisa ' + stock + ' dari ' + STOCK_TOTAL + ' slot';
+            if (stockCount || stockBar || stockLabel) {
+                const stock = getStockRemaining();
+                if (stockCount) stockCount.textContent = stock;
+                if (stockBar) stockBar.style.width = (stock / STOCK_TOTAL * 100) + '%';
+                if (stockLabel) stockLabel.textContent = 'Tersisa ' + stock + ' dari ' + STOCK_TOTAL + ' slot';
+            }
 
             const canvaCountdown = document.getElementById('canvaCountdown');
             if (canvaCountdown) canvaCountdown.textContent = getMasaAktifText();
