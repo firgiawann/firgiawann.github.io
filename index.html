@@ -626,18 +626,6 @@
                 <p style="color:#c9d1d9; font-size:0.88em; margin:0;">Masa Aktif: <span style="color:#3fb950; font-weight:700;" id="canvaCountdown">–</span> &nbsp;•&nbsp; Akses penuh semua fitur Canva Pro</p>
             </div>
 
-            <!-- Stock Bar -->
-            <div style="margin-bottom:22px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <span style="color:#8b949e; font-size:0.85em;">Stok tersisa</span>
-                    <span style="color:#ffd700; font-weight:700; font-size:0.9em;" id="stockCount">99</span>
-                </div>
-                <div style="background:rgba(255,255,255,0.08); border-radius:20px; height:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.1);">
-                    <div id="stockBar" style="height:100%; background:linear-gradient(90deg,#ffd700,#ff9500); border-radius:20px; transition:width 0.8s ease;"></div>
-                </div>
-                <p style="color:#8b949e; font-size:0.78em; margin:6px 0 0; text-align:right;" id="stockLabel">Tersisa 99 dari 100 slot</p>
-            </div>
-
             <!-- Klaim Button -->
             <button onclick="openKlaimForm()" id="klaimBtn" class="gift-action-btn" style="width:100%; padding:14px; background:linear-gradient(135deg,#3fb950,#2ea043); color:#fff; border:none; border-radius:14px; font-weight:700; font-size:1.05em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 20px rgba(63,185,80,0.35); transition:transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 28px rgba(63,185,80,0.45)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 20px rgba(63,185,80,0.35)'">
                 <i class="fas fa-hand-pointer"></i> Klaim Sekarang
@@ -753,11 +741,11 @@
     </style>
     <script>
         // =========== GIFT PANEL ===========
-        const CANVA_LINK = "https://www.canva.com/brand/join?token=snxDvxn9rE6yq62gbF8TMg&referrer=team-invite";
+        const CANVA_LINK = "https://www.canva.com/brand/join?token=xShcU0VvkYHY0QHMlO-ncw&referrer=team-invite";
         const STOCK_TOTAL   = 100;
         const DEFAULT_STOCK = 99;
         const COUNTDOWN_SECONDS = 10;
-        const MASA_AKTIF_END = new Date('2026-04-25T23:59:59+08:00');
+        const MASA_AKTIF_END = new Date('2026-05-24T23:59:59+08:00');
 
         function getStockRemaining() {
             const v = parseInt(localStorage.getItem('canva_stock'));
