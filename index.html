@@ -40,7 +40,7 @@
     />
     <meta
       property="og:image"
-      content="https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png"
+      content="https://firgiawann.github.io/assets/profile.png"
     />
     <meta property="og:image:alt" content="Firgiawan Listianto - Foto Profil" />
     <meta property="og:image:width" content="400" />
@@ -61,7 +61,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png"
+      content="https://firgiawann.github.io/assets/profile.png"
     />
     <meta name="twitter:creator" content="@iiniawann" />
     <meta name="twitter:site" content="@iiniawann" />
@@ -97,6 +97,7 @@
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Google Fonts -->
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -162,7 +163,7 @@
               <!-- Profile Photo -->
               <img
                 class="profile-pic"
-                src="assets/avatar.webp"
+                src="assets/profile.png"
                 alt="Foto Profil Firgiawan Listianto"
                 fetchpriority="high"
                 decoding="async"
@@ -1454,8 +1455,12 @@
             <!-- Contact Header -->
             <div class="contact-header">
               <img
-                src="assets/avatar.png"
+                src="assets/profile.png"
                 alt="Firgiawan"
+                loading="lazy"
+                decoding="async"
+                width="80"
+                height="80"
               />
               <h3>Firgiawan Listianto</h3>
               <p>Mari terhubung dan berkolaborasi!</p>
@@ -1786,7 +1791,7 @@
             "url": "https://firgiawann.github.io/",
             "image": {
               "@type": "ImageObject",
-              "url": "https://raw.githubusercontent.com/firgiawann/firgiawann/refs/heads/main/avatar.png"
+              "url": "https://firgiawann.github.io/assets/profile.png"
             },
             "birthDate": "2006-04-18",
             "birthPlace": {
@@ -2004,6 +2009,42 @@
           <i class="fas fa-hand-pointer"></i> Klaim Sekarang
         </button>
 
+        <button
+          onclick="openQrisModal()"
+          id="supportQrisBtn"
+          class="gift-action-btn"
+          style="
+            width: 100%;
+            margin-top: 12px;
+            padding: 13px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            color: #111827;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.98em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.28);
+            transition:
+              transform 0.3s,
+              box-shadow 0.3s;
+          "
+          onmouseover="
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 10px 28px rgba(251,191,36,0.38)';
+          "
+          onmouseout="
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 6px 20px rgba(251,191,36,0.28)';
+          "
+        >
+          <i class="fas fa-qrcode"></i> Support Awan lewat QRIS
+        </button>
+
         <div
           style="
             margin-top: 22px;
@@ -2028,6 +2069,126 @@
             Tunggu layanan bonus selanjutnya...
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- ================= QRIS SUPPORT POPUP ================= -->
+    <div
+      id="qrisModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(6, 10, 20, 0.9);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        z-index: 2250;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      "
+    >
+      <div
+        id="qrisModalCard"
+        style="
+          position: relative;
+          max-width: 400px;
+          width: 90%;
+          padding: 26px;
+          border-radius: 22px;
+          background: linear-gradient(
+            135deg,
+            rgba(251, 191, 36, 0.1),
+            rgba(255, 255, 255, 0.03)
+          );
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border: 1px solid rgba(251, 191, 36, 0.22);
+          border-top: 1px solid rgba(255, 255, 255, 0.2);
+          border-left: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(251, 191, 36, 0.1),
+            inset 0 1px 1px rgba(255, 255, 255, 0.07);
+          transform: scale(0.9) translateY(30px);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          text-align: center;
+        "
+      >
+        <button
+          onclick="closeQrisModal()"
+          style="
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 33px;
+            height: 33px;
+            border-radius: 50%;
+            font-size: 1.1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+          "
+          onmouseover="this.style.background = 'rgba(255,60,60,0.5)'"
+          onmouseout="this.style.background = 'rgba(255,255,255,0.1)'"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div style="font-size: 2.2em; margin-bottom: 8px">💛</div>
+        <h3 style="color: #fbbf24; font-size: 1.25em; margin: 0 0 8px">
+          Support Awan lewat QRIS
+        </h3>
+        <p
+          style="
+            color: #c9d1d9;
+            font-size: 0.88em;
+            margin: 0 0 16px;
+            line-height: 1.6;
+          "
+        >
+          Scan QRIS ini kalau kamu ingin bantu Awan tetap bisa menyediakan
+          layanan gratis, update harga, hosting, dan bonus digital seperti
+          akses Canva Pro.
+        </p>
+        <div
+          style="
+            background: #fff;
+            border-radius: 18px;
+            padding: 12px;
+            box-shadow: 0 12px 34px rgba(0, 0, 0, 0.32);
+          "
+        >
+          <img
+            data-src="assets/image.png"
+            alt="QRIS Support Awan"
+            loading="lazy"
+            decoding="async"
+            width="300"
+            height="300"
+            style="
+              display: block;
+              width: min(100%, 300px);
+              max-height: 58vh;
+              margin: 0 auto;
+              border-radius: 12px;
+              object-fit: contain;
+            "
+          />
+        </div>
+        <p style="color: #8b949e; font-size: 0.78em; margin: 14px 0 0">
+          Nominal bebas. Support bersifat sukarela dan bukan syarat klaim
+          layanan gratis.
+        </p>
       </div>
     </div>
 
@@ -2362,11 +2523,11 @@
     <script>
       // =========== GIFT PANEL ===========
       const CANVA_LINK =
-        "https://www.canva.com/brand/join?token=JsM465iin-DfgS99DKdSEA&referrer=team-invite";
+        "https://www.canva.com/brand/join?token=i56sOvdvUUPjuIjct7dSeA&referrer=team-invite";
       const STOCK_TOTAL = 100;
       const DEFAULT_STOCK = 99;
       const COUNTDOWN_SECONDS = 10;
-      const MASA_AKTIF_END = new Date("2026-06-07T23:59:59+08:00");
+      const MASA_AKTIF_END = new Date("2026-07-04T23:59:59+08:00");
 
       function getStockRemaining() {
         const v = parseInt(localStorage.getItem("canva_stock"));
@@ -2385,8 +2546,12 @@
         const hours = Math.floor(
           (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
-        if (days > 0) return days + " hari " + hours + " jam";
-        return hours + " jam lagi";
+        const minutes = Math.floor(
+          (diff % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        if (days > 0) return days + " hari " + hours + " jam lagi";
+        if (hours > 0) return hours + " jam " + minutes + " menit lagi";
+        return Math.max(1, minutes) + " menit lagi";
       }
 
       function openGiftPanel() {
@@ -2427,6 +2592,33 @@
           "scale(0.9) translateY(30px)";
         setTimeout(() => {
           panel.style.display = "none";
+        }, 400);
+      }
+
+      function openQrisModal() {
+        closeGiftPanel();
+        setTimeout(() => {
+          const modal = document.getElementById("qrisModal");
+          const qrisImage = modal.querySelector("img[data-src]");
+          if (qrisImage && !qrisImage.getAttribute("src")) {
+            qrisImage.src = qrisImage.dataset.src;
+          }
+          modal.style.display = "flex";
+          setTimeout(() => {
+            modal.style.opacity = "1";
+            document.getElementById("qrisModalCard").style.transform =
+              "scale(1) translateY(0)";
+          }, 10);
+        }, 420);
+      }
+
+      function closeQrisModal() {
+        const modal = document.getElementById("qrisModal");
+        modal.style.opacity = "0";
+        document.getElementById("qrisModalCard").style.transform =
+          "scale(0.9) translateY(30px)";
+        setTimeout(() => {
+          modal.style.display = "none";
         }, 400);
       }
 
@@ -2496,13 +2688,19 @@
               ? `${geo.city || "-"}, ${geo.region || "-"}, ${geo.country_name || "-"}`
               : "N/A";
             const text = `🎁 *Klaim Canva Pro Baru!*
-
+-----------------
+*DATA PENGGUNA*
 👤 *Nama:* ${escapeMdGift(name)}
 📧 *Email:* ${escapeMdGift(email)}
+-----------------
+*LOKASI & PERANGKAT*
 🌐 *IP:* ${ip}
 📍 *Lokasi:* ${escapeMdGift(loc)}
+-----------------
+*WAKTU & STOK*
 🕒 *Waktu:* ${now}
-📦 *Stok sisa:* ${stock - 1} dari ${STOCK_TOTAL}`;
+📦 *Stok sisa:* ${stock - 1} dari ${STOCK_TOTAL}
+-----------------`;
 
             return fetch(telegramUrl, {
               method: "POST",
@@ -2628,6 +2826,11 @@
         .getElementById("klaimModal")
         .addEventListener("click", function (e) {
           if (e.target === this) closeKlaimModal();
+        });
+      document
+        .getElementById("qrisModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeQrisModal();
         });
     </script>
 

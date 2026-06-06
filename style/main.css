@@ -18,6 +18,7 @@
   --emerald-400: #34d399;
   --emerald-500: #10b981;
   --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
 
   --dark-900: #060a14;
   --dark-800: #0a1020;
@@ -26,7 +27,7 @@
 
   --text-primary: #f1f5f9;
   --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
+  --text-muted: #94a3b8;
 
   --nav-height: 66px;
   --nav-offset: 18px;
@@ -206,6 +207,8 @@ section {
     opacity 0.4s ease,
     transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     visibility 0s 0.4s;
+  content-visibility: hidden;
+  contain: layout paint style;
 }
 section.active-tab {
   opacity: 1;
@@ -216,6 +219,7 @@ section.active-tab {
     opacity 0.4s ease,
     transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     visibility 0s 0s;
+  content-visibility: auto;
 }
 
 /* ── Snap boxes ── */
@@ -1756,6 +1760,9 @@ footer {
    LIGHT MODE
    ═══════════════════════════════════════════════════════════════ */
 body.light-mode {
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #475569;
   background-color: #f0f7ff;
   color: #0f172a;
 }
@@ -1802,7 +1809,7 @@ body.light-mode .container-hero h1 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-body.light-mode .nickname { color: #64748b; -webkit-text-fill-color: #64748b; }
+body.light-mode .nickname { color: #475569; -webkit-text-fill-color: #475569; }
 body.light-mode .bio { color: #334155; }
 body.light-mode .about-text { color: #334155; }
 body.light-mode .about-text strong { color: #1e293b; }
@@ -1844,8 +1851,8 @@ body.light-mode .stat-item {
   background: rgba(37, 99, 235, 0.05);
   border-color: rgba(37, 99, 235, 0.12);
 }
-body.light-mode .stat-label { color: #64748b; }
-body.light-mode .location-badge { color: #64748b; }
+body.light-mode .stat-label { color: #475569; }
+body.light-mode .location-badge { color: #475569; }
 body.light-mode .location-badge i { color: var(--blue-600); }
 
 body.light-mode .section-label {
@@ -1881,7 +1888,7 @@ body.light-mode .hobby-card:hover {
   border-color: rgba(139, 92, 246, 0.2);
 }
 body.light-mode .hobby-name { color: #334155; }
-body.light-mode .hobby-level { color: #64748b; }
+body.light-mode .hobby-level { color: #475569; }
 
 /* Light personality */
 body.light-mode .personality-card {
@@ -2019,7 +2026,7 @@ body.light-mode .section-subtitle { color: #475569; }
 
 /* Light contact */
 body.light-mode .contact-header h3 { color: #1e293b !important; }
-body.light-mode .contact-header p { color: #64748b; }
+body.light-mode .contact-header p { color: #475569; }
 body.light-mode .contact-header img {
   border-color: rgba(99, 102, 241, 0.3);
 }
@@ -2608,15 +2615,25 @@ body.light-mode .msg-input:focus {
    PRICELIST LIGHT MODE STYLING OVERRIDES
    =============================================================== */
 body.light-mode .wip-banner {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.03));
-  border-color: rgba(245, 158, 11, 0.18);
-  border-top-color: rgba(251, 191, 36, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(254, 252, 232, 0.7));
+  border-color: rgba(180, 83, 9, 0.32);
+  border-top-color: rgba(245, 158, 11, 0.75);
+  box-shadow: 0 10px 28px rgba(180, 83, 9, 0.08);
+}
+body.light-mode .wip-title {
+  color: #b45309;
 }
 body.light-mode .wip-desc {
+  color: #334155;
+}
+body.light-mode .wip-desc strong {
+  color: #0f172a;
+}
+body.light-mode .progress-label {
   color: #475569;
 }
 body.light-mode .progress-bar {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(15, 23, 42, 0.08);
 }
 
 body.light-mode .channel-card {
@@ -2628,7 +2645,7 @@ body.light-mode .channel-title {
   color: #0f172a;
 }
 body.light-mode .channel-sub {
-  color: #64748b;
+  color: #475569;
 }
 
 body.light-mode .wa-card {
@@ -2637,7 +2654,7 @@ body.light-mode .wa-card {
   border-top-color: rgba(37, 211, 102, 0.22);
 }
 body.light-mode .wa-sub {
-  color: #64748b;
+  color: #475569;
 }
 
 body.light-mode .tab-btn {
@@ -2766,4 +2783,15 @@ body.light-mode .scroll-hint {
 }
 body.light-mode .scroll-hint:hover {
   color: var(--blue-600);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
 }
