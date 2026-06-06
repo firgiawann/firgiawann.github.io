@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuotanya Awan — Pricelist & Info</title>
+  <meta name="description" content="Portal Kuotanya Awan sedang dalam pengembangan. Lihat pricelist terbaru dan hubungi kami via WhatsApp." />
+  <meta name="robots" content="noindex" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:           #070b14;
+      --bg-card:      rgba(12, 18, 35, 0.75);
+      --border:       rgba(59, 130, 246, 0.14);
+      --border-top:   rgba(96, 165, 250, 0.28);
+      --blue-400:     #60a5fa;
+      --blue-500:     #3b82f6;
+      --blue-600:     #2563eb;
+      --purple-400:   #a78bfa;
+      --purple-500:   #8b5cf6;
+      --emerald-400:  #34d399;
+      --emerald-500:  #10b981;
+      --amber-400:    #fbbf24;
+      --amber-500:    #f59e0b;
+      --red-400:      #f87171;
+      --text-1:       #f1f5f9;
+      --text-2:       #cbd5e1;
+      --text-3:       #64748b;
+      --accent-grad:  linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Background FX ── */
+    .bg-fx {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    }
+    .bg-fx::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 15% 10%, rgba(37,99,235,.22) 0%, transparent 100%),
+        radial-gradient(ellipse 60% 50% at 85% 85%, rgba(139,92,246,.16) 0%, transparent 100%),
+        radial-gradient(ellipse 45% 40% at 55% 50%, rgba(16,185,129,.06) 0%, transparent 100%);
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(70px);
+      animation: floatOrb 16s infinite alternate ease-in-out;
+      pointer-events: none;
+    }
+    .orb-a { width:320px; height:320px; top:5%;  left:2%;  background:rgba(37,99,235,.16);  animation-delay:0s; }
+    .orb-b { width:380px; height:380px; bottom:3%; right:0%; background:rgba(139,92,246,.12); animation-delay:-6s; }
+    .orb-c { width:240px; height:240px; top:45%; right:12%; background:rgba(16,185,129,.08); filter:blur(80px); animation-delay:-3s; }
+    @keyframes floatOrb {
+      from { transform: translateY(0) scale(1); }
+      to   { transform: translateY(-48px) scale(1.1); }
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 640px; margin: 0 auto; padding: 32px 16px 60px; }
+
+    /* ── Back Arrow ── */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--text-3); font-size: .82rem; text-decoration: none;
+      margin-bottom: 28px;
+      transition: color .25s;
+    }
+    .back-link:hover { color: var(--blue-400); }
+
+    /* ── WIP Banner ── */
+    .wip-banner {
+      background: linear-gradient(135deg, rgba(245,158,11,.1), rgba(251,191,36,.06));
+      border: 1px solid rgba(245,158,11,.28);
+      border-top-color: rgba(251,191,36,.4);
+      border-radius: 18px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .wip-banner::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber-400), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+    @keyframes shimmer {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .wip-icon { font-size: 2.6rem; margin-bottom: 12px; display: block;
+                animation: wrench 3s ease-in-out infinite; }
+    @keyframes wrench {
+      0%,100% { transform: rotate(0); }
+      15%     { transform: rotate(-18deg); }
+      30%     { transform: rotate(18deg); }
+      45%     { transform: rotate(-10deg); }
+      60%     { transform: rotate(10deg); }
+      75%     { transform: rotate(0); }
+    }
+    .wip-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--amber-400);
+      margin-bottom: 8px;
+    }
+    .wip-desc {
+      font-size: .88rem; color: var(--text-2); line-height: 1.6;
+    }
+    .wip-desc strong { color: var(--text-1); }
+
+    /* Progress bar */
+    .progress-wrap {
+      margin-top: 18px; text-align: left;
+    }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: .75rem; color: var(--text-3); margin-bottom: 6px;
+    }
+    .progress-bar {
+      width: 100%; height: 6px;
+      background: rgba(255,255,255,.07); border-radius: 999px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--amber-500), var(--amber-400));
+      border-radius: 999px;
+      box-shadow: 0 0 8px rgba(251,191,36,.45);
+      transition: width 1.4s cubic-bezier(.22,.61,.36,1);
+    }
+
+    /* ── Channel CTA ── */
+    .channel-card {
+      background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(16,185,129,.05));
+      border: 1px solid rgba(16,185,129,.25);
+      border-radius: 18px;
+      padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px;
+      text-decoration: none; color: inherit;
+      margin-bottom: 24px;
+      transition: all .3s ease;
+      position: relative; overflow: hidden;
+    }
+    .channel-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(52,211,153,.5);
+      box-shadow: 0 10px 32px rgba(16,185,129,.18);
+    }
+    .channel-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.05) 50%, transparent 70%);
+      transform: translateX(-100%); transition: transform .5s ease;
+      pointer-events: none;
+    }
+    .channel-card:hover::after { transform: translateX(100%); }
+    .channel-icon {
+      width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+      background: rgba(52,211,153,.15); border: 1px solid rgba(52,211,153,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--emerald-400);
+    }
+    .channel-info { flex: 1; }
+    .channel-label { font-size: .72rem; font-weight: 600; color: var(--emerald-400);
+                     text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+    .channel-title { font-size: .98rem; font-weight: 700; color: var(--text-1); }
+    .channel-sub   { font-size: .78rem; color: var(--text-3); margin-top: 2px; }
+    .channel-arrow { color: var(--emerald-400); font-size: .9rem;
+                     transition: transform .3s; }
+    .channel-card:hover .channel-arrow { transform: translateX(5px); }
+
+    /* WA contact */
+    .wa-card {
+      background: rgba(37,211,102,.08); border: 1px solid rgba(37,211,102,.2);
+      border-radius: 14px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none; color: inherit;
+      margin-bottom: 28px;
+      transition: all .3s;
+    }
+    .wa-card:hover { background: rgba(37,211,102,.15); transform: translateY(-2px); }
+    .wa-card i { color: #25d366; font-size: 1.6rem; flex-shrink: 0; }
+    .wa-label { font-size: .72rem; color: var(--text-3); }
+    .wa-num   { font-size: 1rem; font-weight: 700; color: #25d366; }
+    .wa-sub   { font-size: .78rem; color: var(--text-3); }
+
+    /* ── Pricelist Section ── */
+    .section-label {
+      font-size: .72rem; font-weight: 700; color: var(--purple-400);
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before {
+      content: ''; display: inline-block;
+      width: 20px; height: 2px;
+      background: var(--accent-grad); border-radius: 2px;
+    }
+
+    .operator-block { margin-bottom: 28px; }
+
+    .operator-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 14px;
+    }
+    .op-badge {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .88rem; flex-shrink: 0;
+      letter-spacing: -.5px;
+    }
+    .op-badge--xl     { background: rgba(59,130,246,.15);  color: var(--blue-400);    border: 1px solid rgba(59,130,246,.25); }
+    .op-badge--tri    { background: rgba(139,92,246,.15);  color: var(--purple-400);  border: 1px solid rgba(139,92,246,.25); }
+    .op-badge--im3    { background: rgba(251,191,36,.12);  color: var(--amber-400);   border: 1px solid rgba(251,191,36,.22); }
+    .op-badge--promo  { background: rgba(52,211,153,.12);  color: var(--emerald-400); border: 1px solid rgba(52,211,153,.22); }
+
+    .op-name  { font-size: 1rem; font-weight: 700; color: var(--text-1); }
+    .op-sub   { font-size: .76rem; color: var(--text-3); margin-top: 1px; }
+
+    /* Sub-section within operator */
+    .subsection-title {
+      font-size: .74rem; font-weight: 600; color: var(--text-3);
+      text-transform: uppercase; letter-spacing: .06em;
+      margin: 14px 0 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .subsection-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(255,255,255,.06);
+    }
+
+    /* Price list items */
+    .price-list { display: flex; flex-direction: column; gap: 7px; }
+
+    @media (min-width: 480px) {
+      .price-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .divider {
+        grid-column: span 2;
+      }
+    }
+
+    .price-item {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(12, 18, 35, 0.7);
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 12px;
+      padding: 11px 14px;
+      transition: all .25s;
+      position: relative;
+    }
+    .price-item:hover {
+      border-color: var(--border-top);
+      background: rgba(59,130,246,.06);
+      transform: translateX(3px);
+    }
+    .price-item.sold-out {
+      opacity: .4;
+    }
+    .price-item.sold-out .price-quota,
+    .price-item.sold-out .price-rp {
+      text-decoration: line-through;
+    }
+    .price-item.promo-item {
+      border-color: rgba(52,211,153,.15);
+      background: rgba(52,211,153,.04);
+    }
+    .price-item.bestseller {
+      border-color: rgba(251,191,36,.25);
+      background: rgba(251,191,36,.05);
+    }
+
+    .price-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .price-dot--xl    { background: var(--blue-400); box-shadow: 0 0 6px rgba(96,165,250,.5); }
+    .price-dot--tri   { background: var(--purple-400); box-shadow: 0 0 6px rgba(167,139,250,.5); }
+    .price-dot--im3   { background: var(--amber-400); box-shadow: 0 0 6px rgba(251,191,36,.5); }
+    .price-dot--promo { background: var(--emerald-400); box-shadow: 0 0 6px rgba(52,211,153,.5); }
+    .price-dot--gray  { background: var(--text-3); }
+
+    .price-main { flex: 1; }
+    .price-quota {
+      font-size: .92rem; font-weight: 600; color: var(--text-1);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .price-duration {
+      font-size: .74rem; color: var(--text-3); font-weight: 400;
+    }
+    .price-rp {
+      font-size: .98rem; font-weight: 700;
+      color: var(--blue-400);
+      white-space: nowrap;
+    }
+    .price-rp--promo { color: var(--emerald-400); }
+    .price-rp--gold  { color: var(--amber-400); }
+
+    /* Badge chips on items */
+    .chip {
+      font-size: .66rem; font-weight: 700; padding: 2px 7px;
+      border-radius: 999px; white-space: nowrap; flex-shrink: 0;
+    }
+    .chip--new  { background: rgba(52,211,153,.15); color: var(--emerald-400); border: 1px solid rgba(52,211,153,.25); }
+    .chip--hot  { background: rgba(251,191,36,.12); color: var(--amber-400);   border: 1px solid rgba(251,191,36,.2);  }
+    .chip--sold { background: rgba(248,113,113,.12); color: var(--red-400);    border: 1px solid rgba(248,113,113,.2); }
+    .chip--promo { background: rgba(139,92,246,.12); color: var(--purple-400);  border: 1px solid rgba(139,92,246,.2); }
+
+    /* Note box */
+    .note-box {
+      background: rgba(59,130,246,.06);
+      border: 1px solid rgba(59,130,246,.14);
+      border-radius: 12px; padding: 12px 14px;
+      font-size: .8rem; color: var(--text-3); line-height: 1.6;
+      margin-top: 8px;
+    }
+    .note-box i { color: var(--blue-400); margin-right: 4px; }
+
+    /* Payment methods */
+    .payment-row {
+      display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px;
+    }
+    .pay-chip {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      padding: 4px 12px; border-radius: 999px;
+      font-size: .74rem; color: var(--text-2);
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px; background: rgba(255,255,255,.05); margin: 20px 0;
+    }
+
+    /* Glass card wrapper */
+    .glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+      border: 1px solid var(--border);
+      border-top-color: var(--border-top);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Tab Switcher ── */
+    .tab-container {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      padding: 6px 2px 14px;
+      margin-bottom: 12px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE/Edge */
+    }
+    .tab-container::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tab-btn svg {
+      flex-shrink: 0;
+      transition: transform 0.22s;
+    }
+    
+    /* Active State */
+    .tab-btn.active {
+      background: rgba(59, 130, 246, 0.14);
+      border-color: rgba(96, 165, 250, 0.4);
+      color: var(--text-1);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+    }
+    .tab-btn.active svg {
+      transform: scale(1.1);
+    }
+    
+    /* Inactive Hover */
+    .tab-btn:not(.active):hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.14);
+      color: var(--text-1);
+      transform: translateY(-1px);
+    }
+
+    /* Operator block tabs active control */
+    .operator-block {
+      display: none;
+      animation: fadeInTab 0.35s ease forwards;
+    }
+    .operator-block.active {
+      display: block;
+    }
+    
+    @keyframes fadeInTab {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      text-align: center; padding: 20px 0 0;
+      font-size: .78rem; color: var(--text-3);
+    }
+    .page-footer a { color: var(--blue-400); text-decoration: none; }
+    .page-footer .heart { color: #f87171; animation: hb 2s ease-in-out infinite; }
+    @keyframes hb {
+      0%,100% { transform: scale(1); }
+      15%      { transform: scale(1.25); }
+      30%      { transform: scale(1); }
+      45%      { transform: scale(1.15); }
+      60%      { transform: scale(1); }
+    }
+
+    /* ── Scroll top btn ── */
+    .scroll-top {
+      position: fixed; bottom: 24px; right: 20px;
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(59,130,246,.15);
+      border: 1px solid rgba(96,165,250,.25);
+      color: var(--blue-400); font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; text-decoration: none;
+      opacity: 0; pointer-events: none;
+      transition: all .3s;
+      backdrop-filter: blur(12px);
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { background: rgba(59,130,246,.28); transform: translateY(-3px); }
+  </style>
+</head>
+<body>
+
+<!-- Background FX -->
+<div class="bg-fx">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+</div>
+
+<div class="page">
+
+  <!-- Back link -->
+  <a href="https://firgiawann.github.io/" class="back-link">
+    <i class="fas fa-arrow-left"></i> Kembali ke Profil
+  </a>
+
+  <!-- ── WIP Banner ── -->
+  <div class="wip-banner">
+    <span class="wip-icon">🔧</span>
+    <div class="wip-title">Portal Sedang Dikembangkan</div>
+    <p class="wip-desc">
+      Hai! Portal belanja otomatis <strong>Kuotanya Awan</strong> sedang dalam proses pengembangan untuk pengalaman yang lebih baik.
+      Sementara itu, kamu tetap bisa order lewat <strong>WhatsApp</strong> atau pantau update terbaru di <strong>Saluran WA</strong> kami.
+    </p>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Progress pengembangan</span>
+        <span>68%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Channel CTA ── -->
+  <p class="section-label">Cek Dulu Sebelum Order</p>
+
+  <a
+    href="https://whatsapp.com/channel/0029VbB1wvH2Jl8IEui1pp3Y"
+    target="_blank"
+    rel="noopener"
+    class="channel-card"
+  >
+    <div class="channel-icon">
+      <i class="fas fa-bullhorn"></i>
+    </div>
+    <div class="channel-info">
+      <div class="channel-label">Update Terbaru</div>
+      <div class="channel-title">Saluran WhatsApp Kuotanya Awan</div>
+      <div class="channel-sub">Promo, stok, & info terbaru selalu dipost di sini</div>
+    </div>
+    <i class="fas fa-chevron-right channel-arrow"></i>
+  </a>
+
+  <!-- WA Contact -->
+  <a
+    href="https://wa.me/6285173118500?text=Halo%20Awan,%20saya%20mau%20order%20kuota"
+    target="_blank"
+    rel="noopener"
+    class="wa-card"
+  >
+    <i class="fab fa-whatsapp"></i>
+    <div style="flex:1">
+      <div class="wa-label">Chat langsung untuk order</div>
+      <div class="wa-num">0851-7311-8500 (Awan)</div>
+      <div class="wa-sub">Jam operasional: 08.00 – 22.00 WIB</div>
+    </div>
+    <i class="fas fa-external-link-alt" style="color:var(--text-3);font-size:.85rem"></i>
+  </a>
+
+  <!-- ══════════════════ PRICELIST ══════════════════ -->
+  <p class="section-label" style="margin-top:8px">Pricelist Saat Ini</p>
+
+  <!-- Tab Switcher Buttons (Capsule Glass Style with SVGs) -->
+  <div class="tab-container">
+    <button class="tab-btn active" data-tab="akrab">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 12L12 22L22 12L12 2Z" fill="#00529C"/>
+        <path d="M12 5L5 12L12 19L19 12L12 5Z" fill="#00A5DF"/>
+        <path d="M12 8L8 12L12 16L16 12L12 8Z" fill="#FFF200"/>
+      </svg>
+      Akrab XL/Axis
+    </button>
+    <button class="tab-btn" data-tab="promo">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff4500" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+      </svg>
+      Promo Indosat/Tri
+    </button>
+    <button class="tab-btn" data-tab="im3">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="#FFD100"/>
+        <path d="M7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17C9.24 17 7 14.76 7 12Z" fill="#E60012"/>
+        <circle cx="12" cy="12" r="2.5" fill="#FFF"/>
+      </svg>
+      Indosat
+    </button>
+    <button class="tab-btn" data-tab="tri">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" rx="5" fill="#111"/>
+        <path d="M7 6H15V8.5L11.5 12L15 15.5V18H7V15.5H12L9 12.5V11.5L12 8.5H7V6Z" fill="#FF007F"/>
+      </svg>
+      Three
+    </button>
+    <button class="tab-btn" data-tab="xl-flex">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 12L12 22L22 12L12 2Z" fill="#00529C"/>
+        <path d="M12 5L5 12L12 19L19 12L12 5Z" fill="#00A5DF"/>
+        <path d="M12 8L8 12L12 16L16 12L12 8Z" fill="#FFF200"/>
+      </svg>
+      XL Flex
+    </button>
+  </div>
+
+  <!-- ── PROMO INDOSAT & TRI ── -->
+  <div class="glass operator-block" data-tab-content="promo">
+    <div class="operator-header">
+      <div class="op-badge op-badge--promo">🔥</div>
+      <div>
+        <div class="op-name">Promo Indosat & Tri</div>
+        <div class="op-sub">Kuota Gede, Full Utama, Harga Ramah di Kantong!</div>
+      </div>
+    </div>
+
+    <div class="price-list">
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--promo"></div>
+        <div class="price-main">
+          <div class="price-quota">20 GB <span class="price-duration">• 3 Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp price-rp--promo">Rp 20.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--promo"></div>
+        <div class="price-main">
+          <div class="price-quota">30 GB <span class="price-duration">• 5 Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp price-rp--promo">Rp 30.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--promo"></div>
+        <div class="price-main">
+          <div class="price-quota">75 GB <span class="price-duration">• 7 Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp price-rp--promo">Rp 50.000</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">Indosat 150 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <span class="chip chip--hot">🔥 HOT</span>
+        <div class="price-rp price-rp--gold">Rp 135.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">Indosat 300 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp price-rp--gold">Rp 185.000</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main">
+          <div class="price-quota">Tri 65 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 95.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main">
+          <div class="price-quota">Tri 150 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 140.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── XL-AXIS AKRAB ── -->
+  <div class="glass operator-block active" data-tab-content="akrab">
+    <div class="operator-header">
+      <div class="op-badge op-badge--xl">XL</div>
+      <div>
+        <div class="op-name">Akrab XL/Axis</div>
+        <div class="op-sub">Cocok untuk Area 4 Paket Akrab</div>
+      </div>
+    </div>
+
+    <!-- Notice ketersediaan -->
+    <div class="note-box" style="margin-top: 0; margin-bottom: 14px; background: rgba(59,130,246,.04); border-color: rgba(59,130,246,.15);">
+      <i class="fas fa-info-circle"></i> Silakan tanya admin atau cek saluran terkait ketersediaan stok.
+    </div>
+
+    <div class="subsection-title">Akrab XL/Axis</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">31 GB</div></div>
+        <div class="price-rp">Rp 55.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">50 GB</div></div>
+        <div class="price-rp">Rp 65.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">56 GB</div></div>
+        <div class="price-rp">Rp 70.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">69 GB</div></div>
+        <div class="price-rp">Rp 80.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">73 GB</div></div>
+        <div class="price-rp">Rp 85.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">82 GB</div></div>
+        <div class="price-rp">Rp 93.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">88 GB</div></div>
+        <div class="price-rp">Rp 95.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">125 GB</div></div>
+        <div class="price-rp">Rp 105.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">105 GB</div></div>
+        <div class="price-rp">Rp 115.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:16px">Akrab XL/Axis (Stok Khusus)</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">85 GB</div></div>
+        <div class="price-rp">Rp 90.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">105 GB</div></div>
+        <div class="price-rp">Rp 95.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">145 GB</div></div>
+        <div class="price-rp">Rp 115.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">165 GB</div></div>
+        <div class="price-rp">Rp 125.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── XL FLEX (GABUNG MINI & MAX) ── -->
+  <div class="glass operator-block" data-tab-content="xl-flex">
+    <div class="operator-header">
+      <div class="op-badge op-badge--xl">XL</div>
+      <div>
+        <div class="op-name">XL Flex (Mini & Max)</div>
+        <div class="op-sub">Bisa semua area, kuota reguler tidak terbagi-bagi</div>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-top: 0; margin-bottom: 14px; background: rgba(59,130,246,.04); border-color: rgba(59,130,246,.15);">
+      <i class="fas fa-check-circle"></i> Cocok untuk semua area, termasuk nomor di luar Area 4 Paket Akrab.
+    </div>
+
+    <!-- Mini di atas -->
+    <div class="subsection-title">XL Flex Mini</div>
+    
+    <div class="subsection-title" style="margin-top:10px; font-size: 0.7rem; color: var(--text-3); text-transform: none; letter-spacing: 0;">Masa Aktif 1 Hari</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">3 GB</div></div>
+        <div class="price-rp">Rp 10.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">10 GB</div></div>
+        <div class="price-rp">Rp 15.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:14px; font-size: 0.7rem; color: var(--text-3); text-transform: none; letter-spacing: 0;">Masa Aktif 3 Hari</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">3.5 GB</div></div>
+        <div class="price-rp">Rp 16.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">4 GB</div></div>
+        <div class="price-rp">Rp 18.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">6 GB</div></div>
+        <div class="price-rp">Rp 20.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">20 GB</div></div>
+        <div class="price-rp">Rp 25.000</div>
+      </div>
+    </div>
+    <div class="subsection-title" style="margin-top:14px; font-size: 0.7rem; color: var(--text-3); text-transform: none; letter-spacing: 0;">Masa Aktif 7 Hari</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">4 GB</div></div>
+        <div class="price-rp">Rp 20.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">6 GB</div></div>
+        <div class="price-rp">Rp 24.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">10 GB</div></div>
+        <div class="price-rp">Rp 28.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">15 GB</div></div>
+        <div class="price-rp">Rp 34.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">20 GB</div></div>
+        <div class="price-rp">Rp 36.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">40 GB</div></div>
+        <div class="price-rp">Rp 45.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">75 GB</div></div>
+        <div class="price-rp">Rp 55.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:14px; font-size: 0.7rem; color: var(--text-3); text-transform: none; letter-spacing: 0;">Masa Aktif 14 Hari</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">8 GB</div></div>
+        <div class="price-rp">Rp 34.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">15 GB</div></div>
+        <div class="price-rp">Rp 43.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">30 GB</div></div>
+        <div class="price-rp">Rp 54.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">75 GB</div></div>
+        <div class="price-rp">Rp 75.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main"><div class="price-quota">150 GB</div></div>
+        <div class="price-rp">Rp 105.000</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Max di bawah -->
+    <div class="subsection-title">XL Reguler & Flex Max</div>
+    <div class="subsection-title" style="margin-top:10px; font-size: 0.7rem; color: var(--text-3); text-transform: none; letter-spacing: 0;">XL Reguler</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">50 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 90.000</div>
+      </div>
+      <div class="price-item bestseller">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">56 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <span class="chip chip--hot">🔥 HOT</span>
+        <div class="price-rp price-rp--gold">Rp 100.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">65 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 102.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">80 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 125.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">150 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 150.000</div>
+      </div>
+      <div class="price-item bestseller">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">168 GB <span class="price-duration">• 28 Hari</span></div>
+        </div>
+        <span class="chip chip--hot">🔥 HOT</span>
+        <div class="price-rp price-rp--gold">Rp 180.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:14px; font-size: 0.7rem; color: var(--text-3); text-transform: none; letter-spacing: 0;">XL Flex Max</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">10 GB Reguler*</div>
+        </div>
+        <div class="price-rp">Rp 40.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">15 GB Reguler*</div>
+        </div>
+        <div class="price-rp">Rp 50.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">20 GB Reguler*</div>
+        </div>
+        <div class="price-rp">Rp 54.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">25 GB Reguler*</div>
+        </div>
+        <div class="price-rp">Rp 63.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--xl"></div>
+        <div class="price-main">
+          <div class="price-quota">37 GB Reguler*</div>
+        </div>
+        <div class="price-rp">Rp 78.000</div>
+      </div>
+    </div>
+    <div style="font-size: 0.72rem; color: var(--text-3); margin-top: 8px; font-style: italic;">
+      * Catatan: Tidak semua nomor bisa untuk paket Flex Max.
+    </div>
+  </div>
+
+  <!-- ── TRI ── -->
+  <div class="glass operator-block" data-tab-content="tri">
+    <div class="operator-header">
+      <div class="op-badge op-badge--tri">3</div>
+      <div>
+        <div class="op-name">Tri / Three</div>
+        <div class="op-sub">Masa aktif bulanan & promo harian limit</div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Tri Bulanan (28 Hari)</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">20 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 55.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">30 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 65.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">38 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 82.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">42 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 85.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">65 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 100.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">100 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 126.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">150 GB</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 140.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:16px">Tri Promo Harian Limit (30 Hari)</div>
+    <div class="price-list">
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main">
+          <div class="price-quota">30 GB <span class="price-duration">• 1GB/Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 60.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main">
+          <div class="price-quota">60 GB <span class="price-duration">• 2GB/Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 92.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main">
+          <div class="price-quota">90 GB <span class="price-duration">• 3GB/Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 123.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main">
+          <div class="price-quota">150 GB <span class="price-duration">• 5GB/Hari</span></div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 138.000</div>
+      </div>
+    </div>
+    <div style="font-size: 0.72rem; color: var(--text-3); margin-top: 8px; font-style: italic; line-height: 1.4;">
+      Catatan Paket Gift (Harian Limit): Tiap hari ada batas pemakaian. Jika sudah sampai batas, kuota utama baru bisa dilanjut besoknya sampai masa aktif habis.
+    </div>
+
+    <div class="subsection-title" style="margin-top:16px">Masa Aktif Kartu Tri</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--tri"></div>
+        <div class="price-main"><div class="price-quota">Masa Aktif 4 Bulan</div></div>
+        <div class="price-rp" style="color:var(--purple-400)">Rp 15.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── IM3 ── -->
+  <div class="glass operator-block" data-tab-content="im3">
+    <div class="operator-header">
+      <div class="op-badge op-badge--im3">IM3</div>
+      <div>
+        <div class="op-name">IM3 / Indosat</div>
+        <div class="op-sub">Best seller bulanan & paket harian</div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Best Seller (28 Hari)</div>
+    <div class="price-list">
+      <div class="price-item bestseller">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">100 GB</div></div>
+        <span class="chip chip--hot">🔥 BEST</span>
+        <div class="price-rp price-rp--gold">Rp 130.000</div>
+      </div>
+      <div class="price-item promo-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">150 GB</div>
+        </div>
+        <span class="chip chip--promo">PROMO</span>
+        <div class="price-rp price-rp--promo">Rp 135.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:16px">Harian IM3</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">5 GB <span class="price-duration">• 2 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 12.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">5 GB <span class="price-duration">• 3 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 17.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">6 GB <span class="price-duration">• 5 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 20.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">7 GB <span class="price-duration">• 5 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 25.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">7 GB <span class="price-duration">• 7 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 28.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main">
+          <div class="price-quota">15 GB <span class="price-duration">• 7 Hari</span></div>
+        </div>
+        <div class="price-rp">Rp 32.000</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:16px">IM3 Bulanan (28 Hari)</div>
+    <div class="price-list">
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">30 GB</div></div>
+        <div class="price-rp">Rp 65.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">42 GB</div></div>
+        <div class="price-rp">Rp 90.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">50 GB</div></div>
+        <div class="price-rp">Rp 97.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">65 GB</div></div>
+        <div class="price-rp">Rp 117.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">80 GB</div></div>
+        <div class="price-rp">Rp 128.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">100 GB</div></div>
+        <div class="price-rp">Rp 135.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">150 GB</div></div>
+        <div class="price-rp">Rp 145.000</div>
+      </div>
+      <div class="price-item">
+        <div class="price-dot price-dot--im3"></div>
+        <div class="price-main"><div class="price-quota">250 GB</div></div>
+        <div class="price-rp">Rp 185.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Note & Payment ── -->
+  <div class="note-box">
+    <i class="fas fa-info-circle"></i>
+    <strong>Catatan:</strong> Stok & harga dapat berubah sewaktu-waktu. Cek saluran WhatsApp kami untuk update terbaru.
+    Paket lain (Flex Mini, Indosat bulanan, Tri bulanan, dll.) tersedia — hubungi admin untuk info lengkap.
+    <div class="payment-row" style="margin-top:10px">
+      <span class="pay-chip">💳 Dana</span>
+      <span class="pay-chip">Gopay</span>
+      <span class="pay-chip">ShopeePay</span>
+      <span class="pay-chip">BNI</span>
+      <span class="pay-chip">Seabank</span>
+      <span class="pay-chip">Jago</span>
+      <span class="pay-chip">QRIS</span>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="page-footer" style="margin-top:32px">
+    <p>
+      &copy; 2026 <a href="https://firgiawann.github.io/">Firgiawan Listianto</a> — Kuotanya Awan
+    </p>
+    <p style="margin-top:4px">
+      Made with <span class="heart">♥</span> from Makassar
+    </p>
+  </div>
+
+</div><!-- /page -->
+
+<!-- Scroll to top -->
+<a href="#" class="scroll-top" id="scrollTopBtn" aria-label="Scroll ke atas">
+  <i class="fas fa-chevron-up"></i>
+</a>
+
+<script>
+  // Progress bar animate on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('progressFill').style.width = '68%';
+    }, 300);
+  });
+
+  // Scroll top button
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 300);
+  });
+  scrollBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Tab Switcher Logic
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.operator-block');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabTarget = btn.getAttribute('data-tab');
+
+      // Update active button
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Update active content block
+      tabContents.forEach(content => {
+        if (content.getAttribute('data-tab-content') === tabTarget) {
+          content.classList.add('active');
+        } else {
+          content.classList.remove('active');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
