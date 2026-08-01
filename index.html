@@ -2652,12 +2652,27 @@
         updateStockDisplay(getStockRemaining());
       }
 
-      // Ambil Canva Link & Live Stock dari API saat load
+      let MASA_AKTIF_END = new Date("2026-08-05T23:59:59+08:00");
+
+      async function fetchLiveExpiry() {
+        try {
+          const r = await fetch("https://api-telegram.vercel.app/api/canva-expiry");
+          const d = await r.json();
+          if (d && d.ok && d.expiry) {
+            MASA_AKTIF_END = new Date(d.expiry);
+            const canvaCountdown = document.getElementById("canvaCountdown");
+            if (canvaCountdown) canvaCountdown.textContent = getMasaAktifText();
+          }
+        } catch (e) {}
+      }
+
+      // Ambil Canva Link, Live Stock & Dynamic Expiry Date dari API saat load
       (async () => {
         try {
-          const [resLink, resStock] = await Promise.all([
+          const [resLink, resStock, resExpiry] = await Promise.all([
             fetch("https://api-telegram.vercel.app/api/canva-link").then((r) => r.json()).catch(() => null),
             fetch("https://api-telegram.vercel.app/api/canva-stock").then((r) => r.json()).catch(() => null),
+            fetch("https://api-telegram.vercel.app/api/canva-expiry").then((r) => r.json()).catch(() => null),
           ]);
           if (resLink && resLink.ok && resLink.link) CANVA_LINK = resLink.link;
           if (resStock && resStock.ok && typeof resStock.stock === "number") {
@@ -2665,6 +2680,11 @@
             updateStockDisplay(resStock.stock);
           } else {
             updateStockDisplay(getStockRemaining());
+          }
+          if (resExpiry && resExpiry.ok && resExpiry.expiry) {
+            MASA_AKTIF_END = new Date(resExpiry.expiry);
+            const canvaCountdown = document.getElementById("canvaCountdown");
+            if (canvaCountdown) canvaCountdown.textContent = getMasaAktifText();
           }
         } catch (e) {
           updateStockDisplay(getStockRemaining());
@@ -2689,6 +2709,7 @@
 
       function openGiftPanel() {
         fetchLiveStock();
+        fetchLiveExpiry();
 
         const canvaCountdown = document.getElementById("canvaCountdown");
         if (canvaCountdown) canvaCountdown.textContent = getMasaAktifText();
