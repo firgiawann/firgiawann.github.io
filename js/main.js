@@ -153,9 +153,7 @@ function sendToTelegram() {
         return;
     }
 
-    const botToken = "8430081251:===REDACTED===";
-    const chatId = "2010496733";
-    const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    const apiUrl = "https://api-telegram.vercel.app/api/send-message";
 
     const userAgent = navigator.userAgent;
     const platform = navigator.platform || "Unknown Platform";
@@ -204,11 +202,11 @@ ${message}
 🕒 *Waktu:* ${timestamp}
 ━━━━━━━━━━━━━━━━━━━━`;
 
-            return fetch(telegramUrl, {
+            return fetch(apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    chat_id: chatId,
+
                     text: textContent,
                     parse_mode: "Markdown"
                 })

