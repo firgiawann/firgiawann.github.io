@@ -1,3 +1,11 @@
+// =========== PRODUCTION CONSOLE LOG GUARD ===========
+if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    console.log = function () {};
+    console.debug = function () {};
+    console.info = function () {};
+    console.warn = function () {};
+}
+
 // =========== THEME ===========
 if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
@@ -175,7 +183,7 @@ function sendToTelegram() {
 
     return fetch("https://ipapi.co/json/")
         .then(res => res.json())
-        .catch((err) => { console.warn("IP lookup failed:", err); return null; })
+        .catch(() => null)
         .then(geo => {
             const ip = (geo && geo.ip) ? `\`${geo.ip}\`` : "Tidak tersedia";
             const location = geo
@@ -224,7 +232,6 @@ ${message}
             }
         })
         .catch(error => {
-            console.error("Error:", error);
             alert("❌ Terjadi kesalahan jaringan.");
         });
 }
