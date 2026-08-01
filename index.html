@@ -280,6 +280,7 @@
                   <i class="fas fa-shopping-bag"></i> Beli Kuota
                 </a>
                 <button
+                  type="button"
                   onclick="openGiftPanel()"
                   class="cta-btn cta-btn--gold"
                   style="border: none; display: inline-flex; align-items: center; gap: 8px;"
@@ -2829,21 +2830,24 @@
         }
 
         const panel = document.getElementById("giftPanel");
-        panel.style.display = "flex";
-        setTimeout(() => {
+        const card = document.getElementById("giftPanelCard");
+        if (panel) {
+          panel.style.display = "flex";
+          void panel.offsetHeight; // force reflow
           panel.style.opacity = "1";
-          document.getElementById("giftPanelCard").style.transform =
-            "scale(1) translateY(0)";
-        }, 10);
+        }
+        if (card) {
+          card.style.transform = "scale(1) translateY(0)";
+        }
       }
 
       function closeGiftPanel() {
         const panel = document.getElementById("giftPanel");
-        panel.style.opacity = "0";
-        document.getElementById("giftPanelCard").style.transform =
-          "scale(0.9) translateY(30px)";
+        const card = document.getElementById("giftPanelCard");
+        if (panel) panel.style.opacity = "0";
+        if (card) card.style.transform = "scale(0.9) translateY(30px)";
         setTimeout(() => {
-          panel.style.display = "none";
+          if (panel) panel.style.display = "none";
         }, 400);
       }
 
@@ -2851,26 +2855,29 @@
         closeGiftPanel();
         setTimeout(() => {
           const modal = document.getElementById("qrisModal");
-          const qrisImage = modal.querySelector("img[data-src]");
+          const card = document.getElementById("qrisModalCard");
+          const qrisImage = modal ? modal.querySelector("img[data-src]") : null;
           if (qrisImage && !qrisImage.getAttribute("src")) {
             qrisImage.src = qrisImage.dataset.src;
           }
-          modal.style.display = "flex";
-          setTimeout(() => {
+          if (modal) {
+            modal.style.display = "flex";
+            void modal.offsetHeight;
             modal.style.opacity = "1";
-            document.getElementById("qrisModalCard").style.transform =
-              "scale(1) translateY(0)";
-          }, 10);
+          }
+          if (card) {
+            card.style.transform = "scale(1) translateY(0)";
+          }
         }, 420);
       }
 
       function closeQrisModal() {
         const modal = document.getElementById("qrisModal");
-        modal.style.opacity = "0";
-        document.getElementById("qrisModalCard").style.transform =
-          "scale(0.9) translateY(30px)";
+        const card = document.getElementById("qrisModalCard");
+        if (modal) modal.style.opacity = "0";
+        if (card) card.style.transform = "scale(0.9) translateY(30px)";
         setTimeout(() => {
-          modal.style.display = "none";
+          if (modal) modal.style.display = "none";
         }, 400);
       }
 
@@ -2879,12 +2886,15 @@
         closeGiftPanel();
         setTimeout(() => {
           const modal = document.getElementById("klaimModal");
-          modal.style.display = "flex";
-          setTimeout(() => {
+          const card = document.getElementById("klaimModalCard");
+          if (modal) {
+            modal.style.display = "flex";
+            void modal.offsetHeight;
             modal.style.opacity = "1";
-            document.getElementById("klaimModalCard").style.transform =
-              "scale(1) translateY(0)";
-          }, 10);
+          }
+          if (card) {
+            card.style.transform = "scale(1) translateY(0)";
+          }
         }, 420);
       }
 
@@ -3008,12 +3018,15 @@
             'Membuka otomatis dalam <span id="countdownDisplay" style="color: #fbbf24; font-weight: 700">10</span> detik...';
         }
         const modal = document.getElementById("claimSuccessModal");
-        modal.style.display = "flex";
-        setTimeout(() => {
+        const card = document.getElementById("claimSuccessCard");
+        if (modal) {
+          modal.style.display = "flex";
+          void modal.offsetHeight; // force reflow
           modal.style.opacity = "1";
-          document.getElementById("claimSuccessCard").style.transform =
-            "scale(1) translateY(0)";
-        }, 10);
+        }
+        if (card) {
+          card.style.transform = "scale(1) translateY(0)";
+        }
         startCountdown();
       }
 
