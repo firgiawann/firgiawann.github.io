@@ -2812,6 +2812,7 @@
       }
 
       function openGiftPanel() {
+        updateStockDisplay(getStockRemaining());
         fetchLiveStock();
         fetchLiveExpiry();
 
