@@ -2697,7 +2697,7 @@
       const STOCK_TOTAL = 100;
       const DEFAULT_STOCK = 99;
       const COUNTDOWN_SECONDS = 10;
-      const MASA_AKTIF_END = new Date("2026-08-05T23:59:59+08:00");
+      let MASA_AKTIF_END = new Date("2026-08-05T23:59:59+08:00");
 
       function getStockRemaining() {
         const v = parseInt(localStorage.getItem("canva_stock"));
@@ -2756,8 +2756,6 @@
         } catch (e) {}
         updateStockDisplay(getStockRemaining());
       }
-
-      let MASA_AKTIF_END = new Date("2026-08-05T23:59:59+08:00");
 
       async function fetchLiveExpiry() {
         try {
