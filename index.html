@@ -285,9 +285,6 @@
                   style="border: none; display: inline-flex; align-items: center; gap: 8px;"
                 >
                   <i class="fas fa-gift"></i> Canva Gratis
-                  <span id="heroStockBadge" style="background: rgba(13, 17, 23, 0.45); color: #fbbf24; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 1px solid rgba(251, 191, 36, 0.35);">
-                    Stok: <span id="heroStockCount">--</span>
-                  </span>
                 </button>
                 <a
                   href="https://wa.me/6285173118500?text=Halo%20Awan,%20saya%20tertarik%20dengan%20layanan%20Kuotanya%20Awan"
@@ -2405,51 +2402,75 @@
         id="claimSuccessCard"
         style="
           position: relative;
-          max-width: 380px;
+          max-width: 440px;
           width: 90%;
-          padding: 30px;
-          border-radius: 22px;
+          padding: 28px 24px;
+          border-radius: 24px;
           background: linear-gradient(
             135deg,
-            rgba(52, 211, 153, 0.1),
-            rgba(255, 255, 255, 0.03)
+            rgba(52, 211, 153, 0.12),
+            rgba(13, 17, 23, 0.95)
           );
           backdrop-filter: blur(30px);
           -webkit-backdrop-filter: blur(30px);
-          border: 1px solid rgba(52, 211, 153, 0.25);
+          border: 1px solid rgba(52, 211, 153, 0.3);
           border-top: 1px solid rgba(255, 255, 255, 0.2);
           border-left: 1px solid rgba(255, 255, 255, 0.15);
           box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.5),
-            0 0 30px rgba(52, 211, 153, 0.1),
-            inset 0 1px 1px rgba(255, 255, 255, 0.07);
+            0 20px 60px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(52, 211, 153, 0.15);
           transform: scale(0.9) translateY(30px);
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           text-align: center;
         "
       >
+        <button
+          onclick="closeSuccessModal()"
+          style="
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #8b949e;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            z-index: 10;
+          "
+          onmouseover="this.style.color='#fff'; this.style.background='rgba(255,255,255,0.2)'"
+          onmouseout="this.style.color='#8b949e'; this.style.background='rgba(255,255,255,0.08)'"
+        >
+          &times;
+        </button>
+
         <div
           style="
-            font-size: 2.8em;
-            margin-bottom: 10px;
+            font-size: 2.6em;
+            margin-bottom: 8px;
             animation: giftBounce 1s ease-out;
           "
         >
           🎉
         </div>
-        <h3 style="color: #34d399; font-size: 1.3em; margin: 0 0 8px">
+        <h3 style="color: #34d399; font-size: 1.3em; margin: 0 0 6px; font-weight: 800;">
           Berhasil! Akses Dikirim
         </h3>
         <p
           style="
             color: #c9d1d9;
-            font-size: 0.88em;
-            margin: 0 0 20px;
-            line-height: 1.6;
+            font-size: 0.85em;
+            margin: 0 0 16px;
+            line-height: 1.5;
           "
         >
-          Data kamu sudah diterima. Klik tombol di bawah untuk langsung
-          bergabung ke tim Canva Pro!
+          Data kamu sudah diterima. Klik tombol di bawah jika tab Canva Pro belum terbuka secara otomatis.
         </p>
 
         <button
@@ -2458,35 +2479,118 @@
           class="gift-action-btn"
           style="
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background: linear-gradient(135deg, #34d399, #059669);
             color: #fff;
             border: none;
             border-radius: 14px;
             font-weight: 700;
-            font-size: 1.05em;
+            font-size: 1em;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             box-shadow: 0 6px 20px rgba(52, 211, 153, 0.4);
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             transition: transform 0.3s;
           "
           onmouseover="this.style.transform = 'translateY(-2px)'"
           onmouseout="this.style.transform = 'translateY(0)'"
         >
-          <i class="fas fa-external-link-alt"></i> Klaim Akses Canva Pro
+          <i class="fas fa-external-link-alt"></i> Buka Link Canva Pro (Tab Baru)
         </button>
 
-        <p style="color: #8b949e; font-size: 0.82em; margin: 0">
-          Link terbuka otomatis dalam
-          <span id="countdownDisplay" style="color: #fbbf24; font-weight: 700"
-            >10</span
-          >
-          detik
+        <p id="countdownStatusText" style="color: #8b949e; font-size: 0.8em; margin: 0 0 18px">
+          Membuka otomatis dalam <span id="countdownDisplay" style="color: #fbbf24; font-weight: 700">10</span> detik...
         </p>
+
+        <!-- BANNER PROMOSI PAKET & SUPPORT -->
+        <div
+          style="
+            padding: 14px 16px;
+            background: rgba(13, 17, 23, 0.7);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 16px;
+            text-align: left;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 8px; color: #fbbf24; font-weight: 700; font-size: 0.88em; margin-bottom: 6px;">
+            <i class="fas fa-fire-alt"></i> Promo Paket Kuota & Support
+          </div>
+          <p style="color: #9ca3af; font-size: 0.8em; margin: 0 0 12px; line-height: 1.45;">
+            Dapatkan paket data internet murah & cepat dengan proses otomatis! Butuh bantuan atau pertanyaan?
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a
+              href="#kuota"
+              onclick="closeSuccessModal(); switchTab('kuota', document.querySelector('a[href=\'#kuota\']'), event);"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: #fff;
+                padding: 10px;
+                border-radius: 10px;
+                font-weight: 700;
+                font-size: 0.85em;
+                text-decoration: none;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+              "
+            >
+              <i class="fas fa-shopping-bag"></i> Beli Paket Kuota Murah
+            </a>
+
+            <div style="display: flex; gap: 8px;">
+              <a
+                href="https://wa.me/6285173118500?text=Halo%20Awan,%20saya%20sudah%20klaim%20Canva%20Pro%20dan%20ingin%20tanya%20layanan"
+                target="_blank"
+                style="
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 6px;
+                  background: rgba(34, 197, 94, 0.15);
+                  color: #4ade80;
+                  border: 1px solid rgba(34, 197, 94, 0.35);
+                  padding: 8px;
+                  border-radius: 10px;
+                  font-size: 0.78em;
+                  font-weight: 600;
+                  text-decoration: none;
+                "
+              >
+                <i class="fab fa-whatsapp"></i> Support WA
+              </a>
+              <a
+                href="https://whatsapp.com/channel/0029VbB1wvH2Jl8IEui1pp3Y"
+                target="_blank"
+                style="
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 6px;
+                  background: rgba(168, 85, 247, 0.15);
+                  color: #c084fc;
+                  border: 1px solid rgba(168, 85, 247, 0.35);
+                  padding: 8px;
+                  border-radius: 10px;
+                  font-size: 0.78em;
+                  font-weight: 600;
+                  text-decoration: none;
+                "
+              >
+                <i class="fas fa-bullhorn"></i> Saluran Info
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2893,8 +2997,15 @@
 
       // =========== SUCCESS MODAL + COUNTDOWN ===========
       let countdownTimer = null;
+      let canvaOpened = false;
 
       function openSuccessModal() {
+        canvaOpened = false;
+        const statusEl = document.getElementById("countdownStatusText");
+        if (statusEl) {
+          statusEl.innerHTML =
+            'Membuka otomatis dalam <span id="countdownDisplay" style="color: #fbbf24; font-weight: 700">10</span> detik...';
+        }
         const modal = document.getElementById("claimSuccessModal");
         modal.style.display = "flex";
         setTimeout(() => {
@@ -2907,11 +3018,13 @@
 
       function startCountdown() {
         let seconds = COUNTDOWN_SECONDS;
-        document.getElementById("countdownDisplay").textContent = seconds;
+        const display = document.getElementById("countdownDisplay");
+        if (display) display.textContent = seconds;
         clearInterval(countdownTimer);
         countdownTimer = setInterval(() => {
           seconds--;
-          document.getElementById("countdownDisplay").textContent = seconds;
+          const el = document.getElementById("countdownDisplay");
+          if (el) el.textContent = seconds;
           if (seconds <= 0) {
             clearInterval(countdownTimer);
             openCanvaLink();
@@ -2921,19 +3034,34 @@
 
       function openCanvaLink() {
         clearInterval(countdownTimer);
-        const modal = document.getElementById("claimSuccessModal");
-        modal.style.opacity = "0";
-        document.getElementById("claimSuccessCard").style.transform =
-          "scale(0.9) translateY(30px)";
-        setTimeout(() => {
-          modal.style.display = "none";
+        if (!canvaOpened && CANVA_LINK) {
+          canvaOpened = true;
           window.open(CANVA_LINK, "_blank");
-          document.getElementById("klaimName").value = "";
-          document.getElementById("klaimEmail").value = "";
-          const btn = document.getElementById("submitKlaimBtn");
+        }
+        const statusEl = document.getElementById("countdownStatusText");
+        if (statusEl) {
+          statusEl.innerHTML =
+            '<span style="color: #34d399; font-weight: 700;"><i class="fas fa-check-circle"></i> Tab Canva Pro berhasil dibuka di tab baru!</span>';
+        }
+        document.getElementById("klaimName").value = "";
+        document.getElementById("klaimEmail").value = "";
+        const btn = document.getElementById("submitKlaimBtn");
+        if (btn) {
           btn.disabled = false;
           btn.innerHTML =
             '<i class="fas fa-check-circle"></i> Konfirmasi & Kirim';
+        }
+      }
+
+      function closeSuccessModal() {
+        clearInterval(countdownTimer);
+        const modal = document.getElementById("claimSuccessModal");
+        if (!modal) return;
+        modal.style.opacity = "0";
+        const card = document.getElementById("claimSuccessCard");
+        if (card) card.style.transform = "scale(0.9) translateY(30px)";
+        setTimeout(() => {
+          modal.style.display = "none";
         }, 400);
       }
 
@@ -2968,6 +3096,11 @@
         .getElementById("qrisModal")
         .addEventListener("click", function (e) {
           if (e.target === this) closeQrisModal();
+        });
+      document
+        .getElementById("claimSuccessModal")
+        ?.addEventListener("click", function (e) {
+          if (e.target === this) closeSuccessModal();
         });
     </script>
 
