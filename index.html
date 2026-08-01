@@ -282,9 +282,12 @@
                 <button
                   onclick="openGiftPanel()"
                   class="cta-btn cta-btn--gold"
-                  style="border: none"
+                  style="border: none; display: inline-flex; align-items: center; gap: 8px;"
                 >
                   <i class="fas fa-gift"></i> Canva Gratis
+                  <span id="heroStockBadge" style="background: rgba(13, 17, 23, 0.45); color: #fbbf24; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 1px solid rgba(251, 191, 36, 0.35);">
+                    Stok: <span id="heroStockCount">--</span>
+                  </span>
                 </button>
                 <a
                   href="https://wa.me/6285173118500?text=Halo%20Awan,%20saya%20tertarik%20dengan%20layanan%20Kuotanya%20Awan"
@@ -2022,6 +2025,21 @@
           </p>
         </div>
 
+        <!-- Kartu Indikator Sisa Stok -->
+        <div style="margin: 16px 0 20px; padding: 14px 16px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.22); border-radius: 16px; text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 0.84em; color: #9ca3af; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+              <i class="fas fa-boxes-stacked" style="color: #34d399;"></i> Sisa Stok Canva Pro
+            </span>
+            <span style="font-size: 0.88em; color: #34d399; font-weight: 700;" id="stockLabel">
+              Tersisa <strong id="stockCount" style="font-size: 1.1em; color: #fbbf24;">--</strong> dari 100 slot
+            </span>
+          </div>
+          <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; position: relative;">
+            <div id="stockBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #34d399, #059669); border-radius: 99px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+          </div>
+        </div>
+
         <button
           onclick="openKlaimForm()"
           id="klaimBtn"
@@ -2569,18 +2587,8 @@
       }
     </style>
     <script>
-      // =========== GIFT PANEL ===========
+      // =========== GIFT PANEL & STOCK ===========
       let CANVA_LINK = "";
-      // Ambil link aktif dari API (fallback ke link lama kalau API mati)
-      (async () => {
-        try {
-          const r = await fetch("https://api-telegram.vercel.app/api/canva-link");
-          const d = await r.json();
-          if (d.ok && d.link) CANVA_LINK = d.link;
-        } catch (e) {
-          // fallback: pakai link lama
-        }
-      })();
       const STOCK_TOTAL = 100;
       const DEFAULT_STOCK = 99;
       const COUNTDOWN_SECONDS = 10;
@@ -2594,6 +2602,74 @@
         }
         return Math.max(0, v);
       }
+
+      function updateStockDisplay(stock) {
+        const stockVal = Math.max(0, parseInt(stock) || 0);
+        const total = STOCK_TOTAL;
+
+        // Update Hero Badge
+        const heroStockCount = document.getElementById("heroStockCount");
+        if (heroStockCount) heroStockCount.textContent = stockVal;
+
+        // Update Gift Modal Elements
+        const stockCount = document.getElementById("stockCount");
+        const stockBar = document.getElementById("stockBar");
+        const stockLabel = document.getElementById("stockLabel");
+
+        if (stockCount) stockCount.textContent = stockVal;
+        if (stockBar) stockBar.style.width = Math.min(100, (stockVal / total) * 100) + "%";
+        if (stockLabel) {
+          stockLabel.innerHTML = 'Tersisa <strong id="stockCount" style="font-size: 1.1em; color: #fbbf24;">' + stockVal + '</strong> dari ' + total + ' slot';
+        }
+
+        // Disable klaim button jika stok habis
+        const klaimBtn = document.getElementById("klaimBtn");
+        if (klaimBtn) {
+          if (stockVal <= 0) {
+            klaimBtn.disabled = true;
+            klaimBtn.style.opacity = "0.6";
+            klaimBtn.style.cursor = "not-allowed";
+            klaimBtn.innerHTML = '<i class="fas fa-ban"></i> Stok Habis';
+          } else {
+            klaimBtn.disabled = false;
+            klaimBtn.style.opacity = "1";
+            klaimBtn.style.cursor = "pointer";
+            klaimBtn.innerHTML = '<i class="fas fa-hand-pointer"></i> Klaim Sekarang';
+          }
+        }
+      }
+
+      async function fetchLiveStock() {
+        try {
+          const r = await fetch("https://api-telegram.vercel.app/api/canva-stock");
+          const d = await r.json();
+          if (d && d.ok && typeof d.stock === "number") {
+            localStorage.setItem("canva_stock", d.stock);
+            updateStockDisplay(d.stock);
+            return d.stock;
+          }
+        } catch (e) {}
+        updateStockDisplay(getStockRemaining());
+      }
+
+      // Ambil Canva Link & Live Stock dari API saat load
+      (async () => {
+        try {
+          const [resLink, resStock] = await Promise.all([
+            fetch("https://api-telegram.vercel.app/api/canva-link").then((r) => r.json()).catch(() => null),
+            fetch("https://api-telegram.vercel.app/api/canva-stock").then((r) => r.json()).catch(() => null),
+          ]);
+          if (resLink && resLink.ok && resLink.link) CANVA_LINK = resLink.link;
+          if (resStock && resStock.ok && typeof resStock.stock === "number") {
+            localStorage.setItem("canva_stock", resStock.stock);
+            updateStockDisplay(resStock.stock);
+          } else {
+            updateStockDisplay(getStockRemaining());
+          }
+        } catch (e) {
+          updateStockDisplay(getStockRemaining());
+        }
+      })();
 
       function getMasaAktifText() {
         const now = new Date();
@@ -2612,26 +2688,19 @@
       }
 
       function openGiftPanel() {
-        const stockCount = document.getElementById("stockCount");
-        const stockBar = document.getElementById("stockBar");
-        const stockLabel = document.getElementById("stockLabel");
-        const hasStockUi = stockCount || stockBar || stockLabel;
-        const stock = hasStockUi ? getStockRemaining() : 0;
-        if (stockCount) stockCount.textContent = stock;
-        if (stockBar) stockBar.style.width = (stock / STOCK_TOTAL) * 100 + "%";
-        if (stockLabel)
-          stockLabel.textContent =
-            "Tersisa " + stock + " dari " + STOCK_TOTAL + " slot";
+        fetchLiveStock();
 
         const canvaCountdown = document.getElementById("canvaCountdown");
         if (canvaCountdown) canvaCountdown.textContent = getMasaAktifText();
 
         const emoji = document.getElementById("giftEmoji");
-        emoji.style.animation = "none";
-        setTimeout(() => {
-          emoji.style.animation =
-            "giftShake 0.6s ease, giftBounce 0.6s ease 0.6s";
-        }, 10);
+        if (emoji) {
+          emoji.style.animation = "none";
+          setTimeout(() => {
+            emoji.style.animation =
+              "giftShake 0.6s ease, giftBounce 0.6s ease 0.6s";
+          }, 10);
+        }
 
         const panel = document.getElementById("giftPanel");
         panel.style.display = "flex";
@@ -2763,6 +2832,7 @@
                   ? data.stock
                   : Math.max(0, getStockRemaining() - 1);
               localStorage.setItem("canva_stock", newStock);
+              updateStockDisplay(newStock);
               const history = JSON.parse(
                 localStorage.getItem("canva_history") || "[]",
               );
