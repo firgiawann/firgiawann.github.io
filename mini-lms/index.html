@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-LMS API Tester — Kelompok 4</title>
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--tx:#e6edf3;--dim:#8b949e;--grn:#7ee787;--red:#ff7b72;--acc:#79c0ff}
+  *{box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);margin:0;padding:16px;max-width:860px;margin-inline:auto}
+  h1{font-size:20px;margin:8px 0 4px}
+  p.sub{color:var(--dim);font-size:14px;margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+  .card h2{font-size:15px;margin:0 0 10px}
+  label{font-size:13px;color:var(--dim);display:block;margin:8px 0 4px}
+  input,select,textarea{width:100%;background:#0d1117;border:1px solid var(--line);color:var(--tx);border-radius:6px;padding:8px;font-size:14px}
+  button{background:#238636;color:#fff;border:0;border-radius:6px;padding:9px 14px;font-size:14px;cursor:pointer;margin-top:10px}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--tx)}
+  button.warn{background:#9e6a03}
+  button + button{margin-left:8px}
+  #out{background:#010409;border:1px solid var(--line);border-radius:10px;padding:14px;min-height:120px;white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:13px;overflow-x:auto}
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px}
+  .ok{background:#1a4d2e;color:var(--grn)} .err{background:#5a1f1f;color:var(--red)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:560px){.row{grid-template-columns:1fr}}
+  .note{font-size:12px;color:var(--dim);margin-top:8px}
+  a{color:var(--acc)}
+</style>
+</head>
+<body>
+<h1>Mini-LMS API Tester</h1>
+<p class="sub">Kelompok 4 · Sistem Terdistribusi – Pilihan C · Pertemuan 6 (File Service)</p>
+
+<div class="card">
+  <h2>1 · Server</h2>
+  <label>Base URL API</label>
+  <input id="baseUrl" value="https://bseub-2a04-4e41-8-868e--2ec3-868e.free.pinggy.net">
+  <button onclick="cek()">Cek koneksi</button>
+  <button class="ghost" onclick="ping()">GET /api/assignments</button>
+  <p class="note">URL di atas tunnel sementara (±60 menit). Kalau mati, ganti dengan URL server PHP yang baru.</p>
+</div>
+
+<div class="card">
+  <h2>2 · Buat submission <span style="color:var(--dim);font-weight:400">(POST /api/submissions)</span></h2>
+  <div class="row">
+    <div><label>assignment_id</label><input id="f_assign" value="tugas-01"></div>
+    <div><label>student_id *</label><input id="f_sid" value="240209501100"></div>
+  </div>
+  <div class="row">
+    <div><label>student_name</label><input id="f_sname" value="Firgiawan Listianto"></div>
+    <div><label>notes</label><input id="f_notes" value="Tes via web"></div>
+  </div>
+  <button onclick="buat()">Buat submission</button>
+</div>
+
+<div class="card">
+  <h2>3 · Upload file <span style="color:var(--dim);font-weight:400">(POST /api/submissions/{id}/file)</span></h2>
+  <label>submission id</label>
+  <input id="f_sub" placeholder="sub_... (terisi otomatis setelah no. 2)">
+  <label>file</label>
+  <input type="file" id="f_file">
+  <button onclick="upload()">Upload</button>
+</div>
+
+<div class="card">
+  <h2>4 · Detail &amp; unduh</h2>
+  <div class="row">
+    <div><label>submission id</label><input id="f_sub2" placeholder="sub_..."></div>
+    <div><label>file id</label><input id="f_fid" placeholder="file_..."></div>
+  </div>
+  <button onclick="detail()">Detail submission</button>
+  <button class="ghost" onclick="unduh()">Unduh file</button>
+</div>
+
+<div class="card">
+  <h2>5 · Tes error</h2>
+  <button class="warn" onclick="e404()">Assignment 404</button>
+  <button class="warn" onclick="e400()">Input 400</button>
+  <button class="warn" onclick="e415()">Tipe 415</button>
+  <button class="warn" onclick="e413()">File 413 (generate 6MB)</button>
+  <p class="note">Tes 415 &amp; 413 otomatis membuat submission baru dulu (satu submission = satu file).</p>
+</div>
+
+<div class="card">
+  <h2>Hasil</h2>
+  <div id="out">Belum ada request. Mulai dari “Cek koneksi”.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const base = () => $('baseUrl').value.replace(/\/+$/, '');
+try { const s = localStorage.getItem('minilms_base'); if (s) $('baseUrl').value = s; } catch(e){}
+$('baseUrl').addEventListener('change', () => { try{localStorage.setItem('minilms_base', $('baseUrl').value);}catch(e){} });
+
+function show(status, data) {
+  const ok = status >= 200 && status < 300;
+  let txt = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+  $('out').innerHTML = '<span class="badge ' + (ok ? 'ok' : 'err') + '">HTTP ' + status + '</span>\n' +
+    txt.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  $('out').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+async function call(method, path, body) {
+  try {
+    const r = await fetch(base() + path, {
+      method, headers: {'Content-Type': 'application/json'},
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const t = await r.text();
+    let j; try { j = JSON.parse(t); } catch(e){ j = t; }
+    show(r.status, j);
+    return {status: r.status, json: j};
+  } catch(e) { show(0, 'Gagal: ' + e.message + '\nPeriksa Base URL / koneksi server.'); return null; }
+}
+const cek = () => call('GET', '/');
+const ping = () => call('GET', '/api/assignments');
+
+async function buat() {
+  const r = await call('POST', '/api/submissions', {
+    assignment_id: $('f_assign').value, student_id: $('f_sid').value,
+    student_name: $('f_sname').value, notes: $('f_notes').value
+  });
+  if (r && r.json && r.json.id) { $('f_sub').value = r.json.id; $('f_sub2').value = r.json.id; }
+}
+function fileToB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});}
+async function upload() {
+  const id = $('f_sub').value.trim();
+  const f = $('f_file').files[0];
+  if (!id) return show(0, 'Isi submission id dulu.');
+  if (!f) return show(0, 'Pilih file dulu.');
+  show(0, 'Membaca file...');
+  const b64 = await fileToB64(f);
+  const r = await call('POST', '/api/submissions/' + encodeURIComponent(id) + '/file',
+    {file_name: f.name, content_base64: b64});
+  if (r && r.json && r.json.file_id) $('f_fid').value = r.json.file_id;
+}
+const detail = () => { const id = $('f_sub2').value.trim(); if(!id) return show(0,'Isi submission id dulu.'); call('GET','/api/submissions/'+encodeURIComponent(id)); };
+function unduh() {
+  const id = $('f_fid').value.trim();
+  if (!id) return show(0, 'Isi file id dulu.');
+  const a = document.createElement('a');
+  a.href = base() + '/api/files/' + encodeURIComponent(id);
+  a.click();
+  show(200, 'Unduhan dimulai: ' + a.href);
+}
+const e404 = () => call('POST', '/api/submissions', {assignment_id: 'tugas-999', student_id: '240209501100'});
+const e400 = () => call('POST', '/api/submissions', {assignment_id: 'tugas-01'});
+async function subBaru() {
+  const r = await call('POST', '/api/submissions', {assignment_id: 'tugas-01', student_id: '240209501100'});
+  return (r && r.json && r.json.id) ? r.json.id : null;
+}
+async function e415() {
+  const id = await subBaru(); if (!id) return;
+  call('POST', '/api/submissions/' + id + '/file', {file_name: 'virus.exe', content_base64: 'TVqQAAMAAAA='});
+}
+function genB64(mb){const n=mb*1024*1024,u8=new Uint8Array(n).fill(122);let s='';const C=32768;for(let i=0;i<n;i+=C){s+=String.fromCharCode.apply(null,u8.subarray(i,Math.min(i+C,n)));}return btoa(s);}
+async function e413() {
+  const id = await subBaru(); if (!id) return;
+  show(0, 'Membuat file 6MB di browser...');
+  setTimeout(() => call('POST', '/api/submissions/' + id + '/file',
+    {file_name: 'besar.pdf', content_base64: genB64(6)}), 50);
+}
+</script>
+</body>
+</html>
