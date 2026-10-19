@@ -2014,64 +2014,89 @@
           >
             Canva Pro Gratis
           </h2>
-          <p style="color: #c9d1d9; font-size: 0.88em; margin: 0">
-            Masa Aktif:
-            <span style="color: #34d399; font-weight: 700" id="canvaCountdown"
-              >–</span
-            >
-            &nbsp;•&nbsp; Akses penuh semua fitur Canva Pro
+          <p
+            style="color: #c9d1d9; font-size: 0.88em; margin: 0; line-height: 1.6"
+          >
+            &#128308; Sedang
+            <strong style="color: #f87171">tutup sementara</strong> — stok
+            kosong.<br />Tunggu kabar selanjutnya ya, atau chat WhatsApp untuk
+            tanya-tanya &#128071;
           </p>
         </div>
 
-        <!-- Kartu Indikator Sisa Stok -->
-        <div style="margin: 16px 0 20px; padding: 14px 16px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.22); border-radius: 16px; text-align: left;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <!-- Kartu Status Stok (Tutup Sementara) -->
+        <div style="margin: 16px 0 20px; padding: 14px 16px; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.25); border-radius: 16px; text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.84em; color: #9ca3af; font-weight: 500; display: flex; align-items: center; gap: 6px;">
-              <i class="fas fa-boxes-stacked" style="color: #34d399;"></i> Sisa Stok Canva Pro
+              <i class="fas fa-boxes-stacked" style="color: #f87171;"></i> Stok Canva Pro
             </span>
-            <span style="font-size: 0.88em; color: #34d399; font-weight: 700;" id="stockLabel">
-              Tersisa <strong id="stockCount" style="font-size: 1.1em; color: #fbbf24;">--</strong> dari 100 slot
+            <span style="font-size: 0.88em; color: #f87171; font-weight: 700;" id="stockLabel">
+              Kosong
             </span>
-          </div>
-          <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; position: relative;">
-            <div id="stockBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #34d399, #059669); border-radius: 99px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);"></div>
           </div>
         </div>
 
         <button
-          onclick="openKlaimForm()"
           id="klaimBtn"
           class="gift-action-btn"
+          disabled
           style="
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #34d399, #059669);
+            background: rgba(255, 255, 255, 0.06);
+            color: #8b949e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.05em;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0.8;
+          "
+        >
+          <i class="fas fa-lock"></i> Tutup Sementara
+        </button>
+
+        <a
+          href="https://wa.me/6285173118500?text=Halo%20Awan%2C%20saya%20mau%20tanya%20tentang%20Canva%20Pro%20Gratis"
+          target="_blank"
+          rel="noopener"
+          class="gift-action-btn"
+          style="
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
             color: #fff;
             border: none;
             border-radius: 14px;
             font-weight: 700;
-            font-size: 1.05em;
+            font-size: 1.02em;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 6px 20px rgba(52, 211, 153, 0.35);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            text-decoration: none;
             transition:
               transform 0.3s,
               box-shadow 0.3s;
           "
           onmouseover="
             this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 10px 28px rgba(52,211,153,0.45)';
+            this.style.boxShadow = '0 10px 28px rgba(37,211,102,0.4)';
           "
           onmouseout="
             this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 6px 20px rgba(52,211,153,0.35)';
+            this.style.boxShadow = '0 6px 20px rgba(37,211,102,0.3)';
           "
         >
-          <i class="fas fa-hand-pointer"></i> Klaim Sekarang
-        </button>
+          <i class="fab fa-whatsapp"></i> Tanya via WhatsApp
+        </a>
 
         <button
           onclick="openQrisModal()"
@@ -2120,7 +2145,7 @@
           "
         >
           <p style="color: #8b949e; font-size: 0.82em; margin: 0 0 4px">
-            ⏳ Segera Hadir
+            ⏳ Tunggu Kabar Selanjutnya
           </p>
           <p
             style="
@@ -2130,7 +2155,7 @@
               margin: 0;
             "
           >
-            Tunggu layanan bonus selanjutnya...
+            Begitu stok Canva Pro dibuka lagi, infonya langsung diupdate di sini 🙏
           </p>
         </div>
       </div>
@@ -2693,6 +2718,8 @@
     </style>
     <script>
       // =========== GIFT PANEL & STOCK ===========
+      // Set ke false untuk membuka kembali gift Canva Pro
+      const GIFT_CLOSED = true;
       let CANVA_LINK = "";
       const STOCK_TOTAL = 100;
       const DEFAULT_STOCK = 99;
@@ -2709,6 +2736,21 @@
       }
 
       function updateStockDisplay(stock) {
+        // Mode tutup sementara: paksa tampilan kosong & kunci tombol klaim
+        if (GIFT_CLOSED) {
+          const stockLabel = document.getElementById("stockLabel");
+          if (stockLabel) {
+            stockLabel.innerHTML = 'Stok <strong id="stockCount" style="font-size: 1.1em; color: #f87171;">0</strong> &mdash; <span style="color: #f87171;">Kosong</span>';
+          }
+          const klaimBtn = document.getElementById("klaimBtn");
+          if (klaimBtn) {
+            klaimBtn.disabled = true;
+            klaimBtn.style.opacity = "0.8";
+            klaimBtn.style.cursor = "not-allowed";
+            klaimBtn.innerHTML = '<i class="fas fa-lock"></i> Tutup Sementara';
+          }
+          return;
+        }
         const stockVal = Math.max(0, parseInt(stock) || 0);
         const total = STOCK_TOTAL;
 
