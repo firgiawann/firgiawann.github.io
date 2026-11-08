@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Karya &amp; Solusi Digital — Firgiawan Listianto</title>
+    <meta
+      name="description"
+      content="Portofolio karya teknologi dan layanan digital oleh Firgiawan Listianto: Kuotanya Awan Web & Bot, Mini-LMS API Tester, Jasa Website, dan Layanan AI."
+    />
+    <link rel="icon" type="image/webp" href="assets/maskot.webp" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link rel="stylesheet" href="style/tokens.css" />
+    <link rel="stylesheet" href="style/main.css" />
+  </head>
+
+  <body>
+    <!-- Top Navbar -->
+    <header class="site-header">
+      <div class="header-container">
+        <a href="index.html" class="brand-link">
+          <img src="assets/maskot.webp" alt="Maskot Kuotanya Awan" class="mascot-float" />
+          <div>
+            <div class="brand-title">Firgiawan Listianto</div>
+            <div class="brand-sub">Founder Kuotanya Awan • Web Developer</div>
+          </div>
+        </a>
+
+        <nav class="nav-links desktop-only">
+          <a href="index.html" class="nav-link">Beranda</a>
+          <a href="profile.html" class="nav-link">Profil &amp; CV</a>
+          <a href="proyek.html" class="nav-link active">Karya &amp; Solusi</a>
+          <a href="kontak.html" class="nav-link">Kontak</a>
+          <button type="button" onclick="openGiftPanel()" class="nav-link gift-btn">
+            <i class="fas fa-gift"></i> Canva Gratis
+          </button>
+          <a
+            href="https://kuota.firgiawan.id"
+            target="_blank"
+            rel="noopener"
+            class="nav-link highlight"
+          >
+            <i class="fas fa-bolt"></i> Beli Kuota
+          </a>
+        </nav>
+
+        <!-- Mobile Top Actions: 3 Menu Utama + Tombol Sidebar Drawer -->
+        <div class="mobile-top-actions">
+          <a href="index.html" class="m-top-link">Beranda</a>
+          <button type="button" onclick="openGiftPanel()" class="m-top-link gift">
+            <i class="fas fa-gift"></i> Canva
+          </button>
+          <a
+            href="https://kuota.firgiawan.id"
+            target="_blank"
+            rel="noopener"
+            class="m-top-link kuota"
+          >
+            <i class="fas fa-bolt"></i> Kuota
+          </a>
+          <button
+            type="button"
+            onclick="toggleSidebar()"
+            class="sidebar-toggle-btn"
+            aria-label="Buka Menu"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar Drawer (Sisa Menu Navigasi) -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+    <aside id="mobileSidebar" class="mobile-sidebar" aria-label="Menu Samping">
+      <div>
+        <div class="sidebar-header">
+          <div class="sidebar-brand">
+            <img src="assets/maskot.webp" alt="Maskot" />
+            <span>Menu Navigasi</span>
+          </div>
+          <button
+            type="button"
+            onclick="closeSidebar()"
+            class="sidebar-close"
+            aria-label="Tutup Menu"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-menu">
+          <a href="index.html" class="sidebar-item">
+            <i class="fas fa-home"></i> Beranda Utama
+          </a>
+          <a href="profile.html" class="sidebar-item">
+            <i class="fas fa-user-astronaut"></i> Profil, CV &amp; Pendidikan
+          </a>
+          <a href="proyek.html" class="sidebar-item active">
+            <i class="fas fa-laptop-code"></i> Karya &amp; Solusi Digital
+          </a>
+          <a href="kontak.html" class="sidebar-item">
+            <i class="fas fa-paper-plane"></i> Kontak &amp; Telegram DM
+          </a>
+          <button
+            type="button"
+            onclick="closeSidebar(); openGiftPanel();"
+            class="sidebar-item"
+            style="width: 100%; text-align: left; font-family: inherit; cursor: pointer; background-color: var(--amber-100); border-color: var(--amber-400);"
+          >
+            <i class="fas fa-gift" style="color: var(--amber-600);"></i> Klaim Canva Pro Gratis
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <a
+          href="https://kuota.firgiawan.id"
+          target="_blank"
+          rel="noopener"
+          class="btn-primary"
+          style="width: 100%; font-size: 0.86rem; padding: 10px 14px;"
+        >
+          <i class="fas fa-bolt"></i> Web Transaksi Kuota ↗
+        </a>
+        <a
+          href="https://kuota.firgiawan.id/cek-area"
+          target="_blank"
+          rel="noopener"
+          class="btn-secondary"
+          style="width: 100%; font-size: 0.84rem; padding: 9px 14px;"
+        >
+          <i class="fas fa-map-marker-alt"></i> Cek Area XL Akrab
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-wrapper">
+      <!-- 1. PORTOFOLIO PROYEK TEKNOLOGI -->
+      <section class="cloud-card" style="padding: 32px;">
+        <div class="page-intro-banner" style="border: none; box-shadow: none; padding: 0; margin-bottom: 12px;">
+          <div>
+            <div class="section-badge">Portofolio &amp; Kreasi</div>
+            <h1 class="section-title">Karya &amp; Proyek Teknologi</h1>
+            <p class="section-desc">
+              Daftar aplikasi, platform produksi, dan modul teknis yang telah saya rancang dan kembangkan untuk menghadirkan solusi otomatis yang nyata:
+            </p>
+          </div>
+          <img
+            src="assets/maskot-coding.png"
+            alt="Maskot Coding Kuotanya Awan"
+            class="page-intro-mascot mascot-float"
+          />
+        </div>
+
+        <div class="projects-grid">
+          <!-- Proyek 1: Kuotanya Awan Web & Payment Bridge -->
+          <div class="project-card">
+            <div class="project-top">
+              <div class="project-icon" style="background: var(--sky-100); color: var(--sky-700);">
+                <i class="fas fa-cloud"></i>
+              </div>
+              <div>
+                <div class="project-title">Web Transaksi Kuotanya Awan &amp; Payment Bridge</div>
+                <div class="project-desc">
+                  Platform belanja paket data otomatis tanpa registrasi akun yang terhubung dengan daemon (`systemd`) pemantau mutasi QRIS realtime, cek zona area Akrab, pelacakan invoice, dan bot admin Telegram.
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">Python</span>
+                  <span class="project-tag">FastAPI</span>
+                  <span class="project-tag">SQLite</span>
+                  <span class="project-tag">QRIS Instan</span>
+                  <span class="project-tag">Telegram Bot API</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://kuota.firgiawan.id" target="_blank" rel="noopener" class="btn-primary" style="font-size: 0.88rem; padding: 10px 16px;">
+              <i class="fas fa-external-link-alt"></i> Buka Web Production (kuota.firgiawan.id)
+            </a>
+          </div>
+
+          <!-- Proyek 2: Catet Uang (Flutter Mobile & Web) -->
+          <div class="project-card">
+            <div class="project-top">
+              <div class="project-icon" style="background: var(--emerald-100); color: var(--emerald-700);">
+                <i class="fas fa-wallet"></i>
+              </div>
+              <div>
+                <div class="project-title">Catet Uang: Offline-First Personal Finance App</div>
+                <div class="project-desc">
+                  Aplikasi pencatat keuangan pribadi bebas iklan untuk Android dan Web dengan 8 tema visual, Donut Chart interaktif, sistem gamifikasi 16 lencana hemat, serta rilis APK teroptimasi R8/Proguard.
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">Flutter</span>
+                  <span class="project-tag">Dart</span>
+                  <span class="project-tag">Offline-First</span>
+                  <span class="project-tag">Android APK</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="https://firgiawan.id/catat-uang/" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fas fa-external-link-alt"></i> Buka Web App
+              </a>
+              <a href="https://github.com/firgiawann/catat-uang" target="_blank" rel="noopener" class="btn-secondary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fab fa-github"></i> Repo &amp; APK
+              </a>
+            </div>
+          </div>
+
+          <!-- Proyek 3: pop-scholar-search -->
+          <div class="project-card">
+            <div class="project-top">
+              <div class="project-icon" style="background: var(--sky-100); color: var(--sky-800);">
+                <i class="fas fa-search"></i>
+              </div>
+              <div>
+                <div class="project-title">pop-scholar-search: Academic Literature CLI &amp; Skill</div>
+                <div class="project-desc">
+                  Mesin kueri literatur akademik bergaya Publish or Perish 8 berbasis Python murni tanpa dependensi untuk Google Scholar, Crossref, OpenAlex, PubMed, Semantic Scholar, Lens, Scopus, dan Web of Science.
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">Python</span>
+                  <span class="project-tag">Zero-Dependency CLI</span>
+                  <span class="project-tag">Bibliometrics</span>
+                  <span class="project-tag">Agent Skill</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://github.com/firgiawann/pop-scholar-search" target="_blank" rel="noopener" class="btn-secondary" style="font-size: 0.88rem; padding: 10px 16px;">
+              <i class="fab fa-github"></i> Buka Repositori pop-scholar-search
+            </a>
+          </div>
+
+          <!-- Proyek 4: Ruang Kognisi & PTIK Mentoring -->
+          <div class="project-card">
+            <div class="project-top">
+              <div class="project-icon" style="background: var(--sky-100); color: var(--sky-700);">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div>
+                <div class="project-title">Ruang Kognisi &amp; PTIK D1 Mentoring Platform</div>
+                <div class="project-desc">
+                  Web multimedia pembelajaran interaktif berbasis Web Speech API (Mayer Lab) serta prototipe PWA manajemen mentoring mahasiswa dengan presensi QR dinamis yang berotasi setiap 15 detik.
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">TypeScript</span>
+                  <span class="project-tag">JavaScript</span>
+                  <span class="project-tag">Web Speech API</span>
+                  <span class="project-tag">PWA</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="https://firgiawan.id/ruang-kognisi/" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fas fa-external-link-alt"></i> Ruang Kognisi
+              </a>
+              <a href="https://firgiawan.id/mentoring/" target="_blank" rel="noopener" class="btn-secondary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fas fa-external-link-alt"></i> Mentoring PWA
+              </a>
+            </div>
+          </div>
+
+          <!-- Proyek 5: Mini-LMS & Assignment Microservice -->
+          <div class="project-card">
+            <div class="project-top">
+              <div class="project-icon" style="background: var(--amber-100); color: var(--amber-800);">
+                <i class="fas fa-network-wired"></i>
+              </div>
+              <div>
+                <div class="project-title">Mini-LMS &amp; Assignment Service (Sistem Terdistribusi)</div>
+                <div class="project-desc">
+                  Layanan microservice REST API pengelolaan tugas &amp; pengumpulan file mahasiswa (`uts-sister`) beserta antarmuka web pengujian endpoint interaktif (`/mini-lms/`).
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">PHP Native</span>
+                  <span class="project-tag">REST API</span>
+                  <span class="project-tag">Microservices</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="/mini-lms/" class="btn-secondary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fas fa-vial"></i> Tester Mini-LMS
+              </a>
+              <a href="https://github.com/firgiawann/uts-sister" target="_blank" rel="noopener" class="btn-secondary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fab fa-github"></i> Repo Service
+              </a>
+            </div>
+          </div>
+
+          <!-- Proyek 6: LunaCaffe POS & SAKO (Java Desktop OOP) -->
+          <div class="project-card">
+            <div class="project-top">
+              <div class="project-icon" style="background: var(--rose-100); color: var(--rose-700);">
+                <i class="fas fa-desktop"></i>
+              </div>
+              <div>
+                <div class="project-title">LunaCaffe POS &amp; SAKO (Java Desktop OOP)</div>
+                <div class="project-desc">
+                  Aplikasi desktop Point of Sales kafe dan Sistem Antrian Kantin Otomatis berbasis Java 17, GUI Swing dengan FlatLaf, arsitektur MVC/DAO, serta penyimpanan lokal SQLite.
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">Java 17</span>
+                  <span class="project-tag">Swing FlatLaf</span>
+                  <span class="project-tag">MVC &amp; DAO</span>
+                  <span class="project-tag">SQLite</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="https://github.com/firgiawann/lunacaffe" target="_blank" rel="noopener" class="btn-secondary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fab fa-github"></i> LunaCaffe POS
+              </a>
+              <a href="https://github.com/firgiawann/sako" target="_blank" rel="noopener" class="btn-secondary" style="flex: 1; font-size: 0.84rem; padding: 10px 12px;">
+                <i class="fab fa-github"></i> SAKO Antrian
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. LAYANAN DIGITAL & SOLUSI -->
+      <section class="cloud-card" style="padding: 32px;">
+        <div class="section-badge">Layanan Profesional</div>
+        <h2 class="section-title">Layanan &amp; Solusi Digital</h2>
+        <p class="section-desc">
+          Selain produk utama Kuotanya Awan, saya juga menyediakan layanan pengembangan web dan solusi digital yang dapat disesuaikan dengan kebutuhan Anda:
+        </p>
+
+        <div class="gateway-grid" style="margin-top: 22px;">
+          <div class="gateway-card">
+            <div class="gateway-icon" style="background: var(--emerald-100); color: var(--emerald-600);">
+              <i class="fas fa-wifi"></i>
+            </div>
+            <div>
+              <div class="gateway-card-title">Paket Data &amp; Pulsa All Operator</div>
+              <div class="gateway-card-desc">
+                Penyedia kuota XL Akrab, XL Flex, Indosat, Tri, Axis, dan pulsa reguler dengan harga hemat dan proses instan otomatis.
+              </div>
+            </div>
+          </div>
+
+          <div class="gateway-card">
+            <div class="gateway-icon" style="background: var(--sky-100); color: var(--sky-600);">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <div>
+              <div class="gateway-card-title">Top Up E-Wallet &amp; Tagihan</div>
+              <div class="gateway-card-desc">
+                Layanan isi saldo DANA, GoPay, OVO, ShopeePay, token listrik PLN, dan pembayaran tagihan digital harian.
+              </div>
+            </div>
+          </div>
+
+          <div class="gateway-card">
+            <div class="gateway-icon" style="background: #f3e8ff; color: #7c3aed;">
+              <i class="fas fa-code"></i>
+            </div>
+            <div>
+              <div class="gateway-card-title">Jasa Pembuatan Website</div>
+              <div class="gateway-card-desc">
+                Pembuatan Landing Page UMKM, Web Portofolio Personal, Company Profile, hingga Web App kustom yang responsif &amp; cepat.
+              </div>
+            </div>
+          </div>
+
+          <div class="gateway-card">
+            <div class="gateway-icon" style="background: var(--amber-100); color: #d97706;">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div>
+              <div class="gateway-card-title">Integrasi Bot &amp; Layanan AI</div>
+              <div class="gateway-card-desc">
+                Pembuatan Bot Telegram otomatis, integrasi notifikasi API, serta akses dan konsultasi penggunaan tools AI produktivitas.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keunggulan Layanan -->
+        <div style="margin-top: 28px; padding-top: 24px; border-top: 2px dashed var(--sky-200);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; text-align: center;">
+            <div style="padding: 16px; background: var(--sky-50); border-radius: 18px; border: 1.5px solid var(--sky-200);">
+              <i class="fas fa-bolt" style="font-size: 1.5rem; color: var(--sky-600); margin-bottom: 6px;"></i>
+              <div style="font-weight: 800; color: var(--slate-900);">Proses Instan</div>
+              <div style="font-size: 0.8rem; color: var(--slate-600);">Otomatisasi 24 Jam</div>
+            </div>
+            <div style="padding: 16px; background: var(--sky-50); border-radius: 18px; border: 1.5px solid var(--sky-200);">
+              <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: var(--emerald-600); margin-bottom: 6px;"></i>
+              <div style="font-weight: 800; color: var(--slate-900);">Aman &amp; Transparan</div>
+              <div style="font-size: 0.8rem; color: var(--slate-600);">Privasi &amp; Garansi Terjaga</div>
+            </div>
+            <div style="padding: 16px; background: var(--sky-50); border-radius: 18px; border: 1.5px solid var(--sky-200);">
+              <i class="fas fa-hand-holding-usd" style="font-size: 1.5rem; color: #d97706; margin-bottom: 6px;"></i>
+              <div style="font-weight: 800; color: var(--slate-900);">Harga Bersahabat</div>
+              <div style="font-size: 0.8rem; color: var(--slate-600);">Cocok untuk Pelajar &amp; Umum</div>
+            </div>
+            <div style="padding: 16px; background: var(--sky-50); border-radius: 18px; border: 1.5px solid var(--sky-200);">
+              <i class="fas fa-headset" style="font-size: 1.5rem; color: #7c3aed; margin-bottom: 6px;"></i>
+              <div style="font-weight: 800; color: var(--slate-900);">Support Responsif</div>
+              <div style="font-size: 0.8rem; color: var(--slate-600);">08:00 – 22:00 WITA</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= GLOBAL MODALS: CANVA PRO GRATIS & QRIS SUPPORT ================= -->
+    <div id="giftPanel" class="cloud-modal-backdrop">
+      <div id="giftPanelCard" class="cloud-modal-card">
+        <button onclick="closeGiftPanel()" class="cloud-modal-close" aria-label="Tutup">
+          <i class="fas fa-times"></i>
+        </button>
+        <div style="text-align: center; margin-bottom: 18px;">
+          <div id="giftEmoji" style="font-size: 2.8rem; display: inline-block; margin-bottom: 4px;">🎁</div>
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--slate-900);">Canva Pro Gratis</h2>
+          <p style="font-size: 0.88rem; color: var(--slate-600); margin-top: 4px;">
+            🔴 Sedang <strong style="color: #e11d48;">tutup sementara</strong> — stok saat ini sedang kosong.<br />
+            Pantau terus atau chat WhatsApp untuk info pembukaan batch berikutnya!
+          </p>
+        </div>
+        <div style="padding: 14px 16px; background: var(--rose-100); border: 2px solid #fecdd3; border-radius: 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.85rem; font-weight: 800; color: #be123c; display: flex; align-items: center; gap: 6px;">
+            <i class="fas fa-boxes-stacked"></i> Status Slot Canva
+          </span>
+          <span id="stockLabel" style="font-size: 0.86rem; font-weight: 800; color: #e11d48;">Kosong</span>
+        </div>
+        <button id="klaimBtn" onclick="openKlaimForm()" disabled class="btn-secondary" style="width: 100%; margin-bottom: 10px; opacity: 0.75; cursor: not-allowed;">
+          <i class="fas fa-lock"></i> Tutup Sementara
+        </button>
+        <a href="https://wa.me/6285173118500?text=Halo%20Awan%2C%20saya%20mau%20tanya%20tentang%20Canva%20Pro%20Gratis" target="_blank" rel="noopener" class="btn-primary btn-wa" style="width: 100%; margin-bottom: 10px;">
+          <i class="fab fa-whatsapp"></i> Tanya via WhatsApp
+        </a>
+        <button type="button" onclick="openQrisModal()" class="btn-gold" style="width: 100%;">
+          <i class="fas fa-qrcode"></i> Support Awan lewat QRIS
+        </button>
+      </div>
+    </div>
+
+    <div id="qrisModal" class="cloud-modal-backdrop">
+      <div id="qrisModalCard" class="cloud-modal-card" style="text-align: center;">
+        <button onclick="closeQrisModal()" class="cloud-modal-close" aria-label="Tutup">
+          <i class="fas fa-times"></i>
+        </button>
+        <div style="font-size: 2.2rem; margin-bottom: 4px;">💛</div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--slate-900); margin-bottom: 6px;">Support Awan lewat QRIS</h3>
+        <p style="font-size: 0.86rem; color: var(--slate-600); margin-bottom: 16px;">
+          Scan QRIS ini jika kamu ingin mendukung Awan agar terus bisa berbagi layanan gratis &amp; inovasi digital.
+        </p>
+        <div style="background: var(--sky-50); border: 2px solid var(--sky-200); border-radius: 20px; padding: 14px; display: inline-block;">
+          <img data-src="assets/image.png" alt="QRIS Support Awan" style="width: min(100%, 260px); border-radius: 12px; margin: 0 auto;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Quick Buttons -->
+    <aside class="quick-floating" aria-label="Kontak Cepat">
+      <a href="https://whatsapp.com/channel/0029VbB1wvH2Jl8IEui1pp3Y" target="_blank" rel="noopener" class="floating-pill floating-channel">
+        <span>📢</span><span>Channel WhatsApp</span>
+      </a>
+      <a href="https://wa.me/6285173118500?text=Halo%20Awan,%20saya%20mau%20tanya%20seputar%20paket%20data%20atau%20proyek" target="_blank" rel="noopener" class="floating-pill floating-wa">
+        <span>💬</span><span>Chat ke Awan</span>
+      </a>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <img src="assets/maskot.webp" alt="Maskot" />
+            <span>Firgiawan Listianto &amp; Kuotanya Awan</span>
+          </div>
+          <div class="footer-links">
+            <a href="index.html">Beranda</a>
+            <a href="profile.html">Profil &amp; CV</a>
+            <a href="proyek.html">Karya &amp; Solusi</a>
+            <a href="kontak.html">Kontak</a>
+            <a href="https://kuota.firgiawan.id" target="_blank" rel="noopener">Portal Kuota ↗</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div>Platform web resmi Firgiawan Listianto — Selaras dengan ekosistem Kuotanya Awan.</div>
+          <div>&copy; 2026 Firgiawan Listianto. All Rights Reserved.</div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
+

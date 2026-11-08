@@ -1,0 +1,94 @@
+/* ==========================================================================
+   TOKENS.CSS — Ekstraksi Token Resmi dari Proyek kuotanya-awan
+   Sumber: kuotanya-awan/app/templates/base.html & index.html
+   Digunakan bersama oleh firgiawan.id dan unit usaha berikutnya.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('../assets/Baloo2.ttf') format('truetype');
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+:root {
+  /* 1. Tipografi (Terkunci dari base.html kuotanya-awan) */
+  --font-brand: 'Baloo 2', system-ui, -apple-system, sans-serif;
+  --font-body: 'Baloo 2', system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* 2. Latar & Permukaan (Sky & White dari base.html) */
+  --sky-50: #f0f9ff;
+  --sky-100: #e0f2fe;
+  --sky-200: #bae6fd;
+  --sky-300: #7dd3fc;
+  --sky-400: #38bdf8;
+  --sky-500: #0ea5e9;
+  --sky-600: #0284c7;
+  --sky-700: #0369a1;
+  --sky-800: #075985;
+  --sky-900: #0c4a6e;
+  --blue-600: #2563eb;
+
+  /* 3. Netral & Tombol Utama Hitam-Navy (Slate dari index.html) */
+  --white: #ffffff;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+
+  /* 4. Aksen Hangat / Promo (Dari banner promo index.html: rose-500 -> pink-600 -> amber-500) */
+  --rose-50: #fff1f2;
+  --rose-100: #ffe4e6;
+  --rose-200: #fecdd3;
+  --rose-500: #f43f5e;
+  --rose-600: #e11d48;
+  --rose-700: #be123c;
+  --rose-800: #9f1239;
+  --pink-600: #db2777;
+  --amber-100: #fef3c7;
+  --amber-300: #fcd34d;
+  --amber-500: #f59e0b;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
+  --gradient-promo: linear-gradient(90deg, #f43f5e 0%, #db2777 50%, #f59e0b 100%);
+
+  /* 5. Warna Status (Khusus status READY / HABIS & aksi WA, bukan dekorasi) */
+  --emerald-100: #d1fae5;
+  --emerald-400: #34d399;
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --emerald-700: #047857;
+  --emerald-800: #065f46;
+
+  /* 6. Peran Semantik (Sesuai DESIGN.md) */
+  --bg-sky-canvas: linear-gradient(180deg, var(--sky-100) 0%, var(--sky-50) 65%, var(--white) 100%);
+  --bg-section-light: var(--sky-50);
+  --bg-section-white: var(--white);
+  --text-primary: var(--slate-900);
+  --text-secondary: var(--slate-600);
+  --text-accent: var(--sky-700);
+  --action-primary-bg: var(--slate-900);
+  --action-primary-hover: var(--sky-600);
+  --action-blue-bg: var(--sky-600);
+  --action-blue-hover: var(--sky-700);
+  --border-cloud: var(--sky-200);
+  --border-cloud-strong: var(--sky-300);
+
+  /* 7. Sudut Membulat & Bayangan Halus (Tanpa offset tebal) */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+  --shadow-cloud: 0 10px 25px -5px rgba(14, 165, 233, 0.12);
+  --shadow-elevated: 0 18px 36px -8px rgba(15, 23, 42, 0.14);
+}
+
